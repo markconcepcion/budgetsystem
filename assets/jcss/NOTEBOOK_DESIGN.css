@@ -1,0 +1,358 @@
+*
+{
+    margin: 0px;
+    padding: 0px;
+    font-family: sans-serif;
+}
+
+body
+{
+    margin: 0;
+    padding: 0;
+    background: #FFFFFF;
+    background-size: cover;
+    background-position: center;
+    font-family: Arial Black;
+}
+
+.bar
+{
+    width: 100%;
+    height: 10%;
+    border: 1px solid #080808;
+    background: linear-gradient(top, #3c3c3c 0%, #222222 100%);
+    background: -webkit-linear-gradient(top, #3c3c3c 0%, #222222 100%);
+}
+
+.logo
+{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    border-radius: 50%;
+    left: 5%;
+    top: 10px;
+}
+h1
+{
+    font-size: 15px;
+    margin-left: 10%;
+    color: white;
+    margin-top: 35px;
+}
+.profile
+{
+    width: 30px;
+    position: absolute;
+    margin-left: 90%;
+    margin-top: 2%;
+}
+
+.settings
+{
+    width: 30px;
+    position: absolute;
+    margin-left: 93%;
+    margin-top: 2%;
+}
+
+.profile:hover
+{
+    cursor: pointer;
+    background: orange;
+}
+
+.settings:hover
+{
+    cursor: pointer;
+    background: orange;
+}
+
+#sidebar
+{
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    background: linear-gradient(top, #DEDADA 0%, #E0E0E0 100%);
+    background: -webkit-linear-gradient(top, #DEDADA 0%, #E0E0E0 100%);
+}
+
+
+#sidebar ul li
+{
+    
+    list-style: none;
+    padding: 15px 10px;
+    border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+}
+
+#sidebar ul a
+{
+    text-decoration: none;
+    color: black;
+}
+
+#sidebar ul li:hover
+{
+    cursor: pointer;
+    color: white;
+    background: orange;
+}
+
+#pointer
+{
+    background: orange;
+    color: white;
+}
+
+.search-container
+{
+    float: right;
+    margin-right: 250px;
+    margin-top: -25px;
+}
+
+.search-container button
+{
+    height: 25px;
+    width: 80px;
+    background: orange;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    top: -25px;
+  }
+
+  .search-container input
+  {
+    height: 25px;
+    width: 200px;
+    font-size: 15px;
+    border: none;
+    top: -10px;
+  }
+
+
+
+
+  /* -------------------PARA SA PAGE----------------------- */
+  /* ------------------------------------------------------ */
+
+  #page
+  {
+      height: 10%;
+      width: 80%;
+      margin-left: 15%;
+      margin-top: 3%;
+  }
+
+  .header
+  {
+    text-align: left;
+    color: black;
+    font-size: 23pt;    
+    font-weight: bold;
+    margin-left: 50px;
+  }
+
+  /* ---------------------DROP DOWN------------------------- */
+
+  .dropbtn
+  {
+    background-color: #A3A3A3;
+    color: white;
+    padding: 16px;
+    font-size: 15px;
+    width: 180px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropbtn:hover, .dropbtn:focus
+  {
+    background-color: #FFBB40;
+  }
+  
+  #myInput
+  {
+    background-image: url('searchicon.png');
+    background-position: 14px 12px;
+    background-repeat: no-repeat;
+    font-size: 16px;
+    padding: 14px 20px 12px 45px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  #myInput:focus
+  {
+      outline: 3px solid #ddd;
+  }
+  
+  .dropdown
+  {
+    position: relative;
+    display: inline-block;
+    margin-left: 83%;
+    margin-top: -4%;
+  }
+  
+  .dropdown-content
+  {
+    display: none;
+    position: absolute;
+    background-color: #f6f6f6;
+    min-width: 200px;
+    overflow: auto;
+    border: 1px solid #ddd;
+    z-index: 1;
+    height: 500px;
+  }
+  
+  .dropdown-content a
+  {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown a:hover
+  {
+      background-color: #ddd;
+  }
+  
+  .show
+  {
+      display: block;
+  }
+
+
+  /* -------------------------PREV/NEXT BUTTON------------------------------- */
+
+  .prev
+  {
+    position: relative;
+    display: inline-block;
+    margin-left: 6%;
+  }
+
+  .prevbutton
+  {
+    height: 30px;
+    width: 30px;
+    font-size: 25pt;
+    margin-top: 15px;
+    border: none;
+    color: white;
+    background-color: orange;
+  }
+
+  .prevbutton:hover
+  {
+    cursor: pointer;
+    color: gray;
+  }
+
+  .next
+  {
+    position: relative;
+    display: inline-block;
+    margin-left: 93%;
+  }
+
+  .nextbutton
+  {
+    height: 30px;
+    width: 30px;
+    font-size: 25pt;
+    border-radius: 50px;
+    margin-top: -30px;
+    background-color: orange;
+    border: none;
+    color: white;
+    margin-left: 94%;
+  }
+
+  .nextbutton:hover
+  {
+    cursor: pointer;
+    color: gray;
+  }
+
+
+
+  /* ------------------------------FORM/TABLE-------------------------------------- */
+
+
+
+  #header
+  {
+      background-color: orange;
+      font-size: 15pt;
+      border: 1px solid orange;
+      padding: 10px;
+  }
+  
+  #div1
+  {
+      height: 15%;
+      width: 75%;
+      background-color: darkgray;
+      border: 1px solid gray;
+      margin-left: 280px;
+      margin-top: -20px;
+  }
+  
+  #table1
+  {
+      text-align: center;
+      font-family: Arial;
+      font-size: 13pt;
+      width: 100%;
+      color: white;
+  }
+  
+  table th, td
+  {
+      width: 12.5%;
+      height: 40px;
+  }
+
+  #div2
+  {
+      height: 350px;
+      width: 75%;
+      overflow: auto;
+      overflow-x: hidden;
+      border: 1px solid gray;
+      margin-left: 280px;
+  }
+  
+  #table2
+  {
+      text-align: center;
+      font-family: Arial;
+      font-size: 15pt;
+      width: 100%;
+      color: black;
+      height: 100%;
+  }
+  
+  #table2 tr:nth-child(even)
+  {
+      background-color: #e8e8e8;
+  }
+  
+  #table2 tr:nth-child(odd)
+  {
+      background-color: white;
+  }
+
+  #table2 tr:hover
+  {
+      background-color: lightgray;
+      cursor: pointer;
+      color: black;
+  }

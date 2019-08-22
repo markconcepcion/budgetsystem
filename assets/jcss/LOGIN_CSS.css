@@ -1,0 +1,127 @@
+body
+{
+    margin: 0 !important;
+    padding: 0 !important;
+    background: linear-gradient(top, #3c3c3c 0%, #222222 100%) !important;
+    background: -webkit-linear-gradient(top, #3c3c3c 0%, #222222 100%) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    font-family: sans-serif !important;
+}
+
+.loginbox
+{
+    width: 320px !important;
+    height: 400px !important;
+    background: rgba(29, 28, 30, 0.50) !important;
+    color: #FFFFFF !important;
+    top: 25% !important;
+    left: 40% !important;
+    position: absolute !important;
+    box-sizing: border-box !important;
+    padding: 70px 30px !important;
+}
+
+.avatar
+{
+    width: 110px !important;
+    height: 110px !important;
+    position: absolute !important;
+    top: -50px !important;
+    left: calc(50% - 50px) !important;
+    border-radius: 50% !important;
+}
+
+h1
+{
+    margin: 0px !important;
+    padding: 0 0 20px !important;
+    text-align: center !important;
+    font-size: 22px !important;
+    color: white;
+}
+
+.loginbox p
+{
+    margin: 0 !important;
+    padding: 0 !important;
+    font-weight: bold !important;
+
+}
+
+.loginbox input
+{
+    width: 100% !important;
+    margin-bottom: 20px !important;
+}
+
+.loginbox input[type="text"], input[type="password"]
+{
+    border: none !important;
+    border-bottom: 1px solid #000000 !important;
+    background: transparent !important;
+    outline: none !important;
+    height: 40px !important;
+    color: #B1B1B1 !important;
+    font-size: 16px !important;
+}
+
+.loginbox input[type="submit"]
+{
+    border: none !important;
+    outline: none !important;
+    height: 40px !important;
+    background: #fe850d !important;
+    color: #FFFFFF !important;
+    font-size: 18px !important;
+    border-radius: 20px !important;
+
+}
+
+.loginbox input[type="submit"]:hover
+{
+    cursor: pointer !important;
+    background: #ffc107 !important;
+    color: #000000 !important;
+}
+
+.loginbox a
+{
+    text-decoration: none !important;
+    font-size: 12px !important;
+    line-height: 30px !important;
+    color: #DBD9D9 !important;
+}
+
+.loginbox a:hover
+{
+    color: #ffc107 !important;
+}
+
+.dropbtn
+{
+    background-color: #A3A3A3;
+    color: white;
+    padding: 12px;
+    font-size: 15px;
+    width: 180px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus
+{
+    background-color: #FFBB40;
+    color: white;
+}
+
+#sidebar { background: -webkit-linear-gradient(top, #DEDADA 0%, #E0E0E0 100%); }
+
+.bar
+{
+    width: 100%;
+    height: 10%;
+    border: 1px solid #080808;
+    background: linear-gradient(top, #3c3c3c 0%, #222222 100%);
+    background: -webkit-linear-gradient(top, #3c3c3c 0%, #222222 100%);
+}
