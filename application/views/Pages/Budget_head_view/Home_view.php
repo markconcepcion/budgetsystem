@@ -1,19 +1,25 @@
 <style>
-    .nav-link.text-blue{ border-radius: 0; border-bottom: 0; }
-    .nav-link.text-blue.active.show, .nav-link.active {
+    .nav-link.text-blue{ 
+        border-radius: 0; border-bottom: 0; 
+    }
+    .nav-link.text-blue.active.show, .nav-link.active{
         border-radius: 0; border-bottom: 1.5px solid #ff9900;
         background-color: #ff9900 !important;
         color: white !important;
     }
-    .notif{ background: #dddddd; }
-    .notif > td { padding: 0;}
+    .notif{ 
+        background: #dddddd; 
+    }
+    .notif > td{ 
+        padding: 0;
+    }
 </style>
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
         <div class="min-height-200px">
 			<div class="pd-20 bg-white border-radius-4 box-shadow mb-30 primaryscroll">
                 <div class="row">
-				    <h4 class="col-sm-12 col-md-5" style="padding-top:10px;"><i class="fa fa-sticky-note" aria-hidden="true"></i>&nbsp;While you were away!&nbsp;<i class="icon-copy fa fa-smile-o" aria-hidden="true"></i></h4>
+				    <h4 class="col-sm-12 col-md-5" style="padding-top:10px;"><i class="fa fa-sticky-note" aria-hidden="true"></i>&nbsp;Recent Activities</h4>
                     <ul class="nav nav-pills justify-content-end col-sm-12 col-md-7" role="tablist" style="padding-right:17px;">
                         <li class="nav-item">
                             <a class="nav-link text-blue" data-toggle="tab" href="#propose" role="tab" aria-selected="true">Proposed LBP2</a>
@@ -31,8 +37,7 @@
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="all" role="tabpanel">
-                        <table class="table table-bordered table-sm">
-                            <thead class="bar"><tr style="border: 2px solid #3c3c3c;"><th></th></tr></thead>
+                        <table class="table table-bordered table-sm" style="border-top:2px solid black;">
                             <tbody>
                                 <?php foreach ($obrs as $obr) { 
                                     if ($obr['OBR_STATUS'] === "PENDING") { ?>
@@ -61,8 +66,7 @@
                         </table>
                     </div>
                     <div class="tab-pane fade" id="pending" role="tabpanel">
-                        <table class="table table-bordered table-sm">
-                            <thead class="bar"><tr style="border: 2px solid #3c3c3c;"><th></th></tr></thead>
+                        <table class="table table-bordered table-sm" style="border-top:2px solid black;">
                             <tbody>
                                 <?php foreach ($obrs as $obr) { 
                                     if ($obr['OBR_STATUS'] === "PENDING") { ?>
@@ -77,8 +81,7 @@
                         </table>
                     </div>
                     <div class="tab-pane fade" id="check" role="tabpanel">
-                        <table class="table table-bordered table-sm">
-                            <thead class="bar"><tr style="border: 2px solid #3c3c3c;"><th></th></tr></thead>
+                        <table class="table table-bordered table-sm" style="border-top:2px solid black;">
                             <tbody>
                                 <?php foreach ($obrs as $obr) { 
                                     if ($obr['OBR_STATUS'] === "CHECKED") { 
@@ -97,8 +100,7 @@
                         </table>
                     </div>
                     <div class="tab-pane fade" id="propose" role="tabpanel">
-                        <table class="table table-bordered table-sm">
-                            <thead class="bar"><tr style="border: 2px solid #3c3c3c;"><th></th></tr></thead>
+                        <table class="table table-bordered table-sm" style="border-top:2px solid black;">
                             <tbody>
                                 <?php foreach ($lbps as $lbp) { ?>
                                     <tr class="notif">

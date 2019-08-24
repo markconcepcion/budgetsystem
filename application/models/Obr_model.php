@@ -115,9 +115,12 @@
 
         public function updateObr($obr_id)
         { // FIRST PHASE IN OBR PROCESS
-            $data = array( 'OBR_NO' => $this->input->post('obr_no'),
-                'OBR_STATUS' => $this->input->post('obr_check_btn')
-            ); $this->db->where('OBR_ID', $obr_id);
+            $data = array( 
+                'OBR_NO' => $this->input->post('obr_no'),
+                'OBR_STATUS' => $this->input->post('obr_check_btn'),
+                'OBR_APPROVED_DATE' => date('Y-m-d', strtotime($this->input->post('obr_checked_date') ) )
+            ); 
+            $this->db->where('OBR_ID', $obr_id);
             return $this->db->update('obligation_request', $data);
         }
 

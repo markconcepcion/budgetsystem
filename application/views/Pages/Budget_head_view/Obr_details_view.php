@@ -155,7 +155,7 @@
                                 </div>
                                 <label class="col-md-1 col-sm-12 label-input">Date</label>
                                 <div class="col-md-4 col-sm-12">
-                                    <input type="text" class="line-input" value="<?php echo date('F-d-Y') ?>">
+                                    <input type="date" class="line-input" name="obr_checked_date">
                                 </div>
                             </div>
                         </div>
