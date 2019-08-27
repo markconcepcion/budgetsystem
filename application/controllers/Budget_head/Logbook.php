@@ -5,6 +5,8 @@
 			
 			if(!$this->session->userdata('logged_in')) {
                 $this->load->view('Pages/Login');
+            } if($this->session->userdata('level') != "BUDGET HEAD") {
+                redirect('Login/Logout');
             }
 	    }
 

@@ -12,26 +12,29 @@
 
         public function index()
 		{
-            $data['content'] = "Pages/Department_head_view/Notebook_view";
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['bhprofile'] = $this->ui_model->getBH();
 
             //GETTING EXPENDITURE AND EXPEDITURES CLASS IN THE LBP2
             $currYr = $this->input->post('currYr'); // GET YEAR FROM INPUT
             if($currYr === NULL){ $currYr = date('Y'); } // SET YEAR TP CURRENT YEAR IF NULL
-
             $Lbp_id = $this->lbp_model->readLbp2_id($this->session->userdata('dept'), $currYr); //GET LBP2 ID
-            
-            $data['Lbp_exps'] = $this->lbp_model->readLbp2($Lbp_id); // GET EXPENDITURES USING LBP2 ID
 
-            $Exp_id = ""; // SET A NULL VALUE
-            foreach ($data['Lbp_exps'] as $ids) { $Exp_id = $Exp_id.$ids['EXPENDITURE_EXPENDITURE_id'].','; } // COMPILE ALL EXP ID THAT CORRESPONDS WITH LBP_EXP
-            $Exps_id = substr_replace($Exp_id ,"",-1); // REMOVE LAST COMMNA 
-            
-            $data['Exp_classes'] = $this->exp_class_model->readExpClasses($Exps_id); //USE COMPLIDE IDS TO GET EXPENDITURES CLASS
-            $data['Exps'] = $this->exp_model->readExps($Exps_id); //USE COMPLIDE IDS TO GET EXPENDITURES CLASS
-        
-            $this->load->view('Pages/Department_head_view/deskapp/layout', $data);
+            if ($Lbp_id > 0) {
+                $data['Lbp_exps'] = $this->lbp_model->readLbp2($Lbp_id); // GET EXPENDITURES USING LBP2 ID
+                $Exp_id = ""; // SET A NULL VALUE
+                foreach ($data['Lbp_exps'] as $ids) { $Exp_id = $Exp_id.$ids['EXPENDITURE_EXPENDITURE_id'].','; } // COMPILE ALL EXP ID THAT CORRESPONDS WITH LBP_EXP
+                $Exps_id = substr_replace($Exp_id ,"",-1); // REMOVE LAST COMMNA 
+                $data['Exp_classes'] = $this->exp_class_model->readExpClasses($Exps_id); //USE COMPLIDE IDS TO GET EXPENDITURES CLASS
+                $data['Exps'] = $this->exp_model->readExps($Exps_id); //USE COMPLIDE IDS TO GET EXPENDITURES CLASS
+
+                $data['content'] = "Pages/Department_head_view/Notebook_view";
+                $this->load->view('Pages/Department_head_view/deskapp/layout', $data);
+            } else {
+                $data['message'] = "You still haven't submitted an LBP Proposal..<br>Please submit one first.";
+                $data['content'] = "Pages/blank_view";
+                $this->load->view('Pages/Department_head_view/deskapp/layout', $data);
+            }
         }
         
         public function Notebook_Exp($d_code)

@@ -14,87 +14,6 @@
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
 
-<script>
-	$('document').ready(function(){
-		$('.data-table').DataTable({
-			scrollCollapse: true,
-			autoWidth: false,
-			responsive: true,
-			columnDefs: [{
-				targets: "datatable-nosort",
-				orderable: false,
-			}],
-			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-			"language": {
-				"info": "_START_-_END_ of _TOTAL_ entries",
-				searchPlaceholder: "Search"
-			},
-		});
-	});
-</script>
-
-<script>
-	$(function () {
-
-		<?php $class1 = 0; $class2 = 0; $class3 = 0;
-		foreach ($exp_actual_budget as $eab) { ?>
-			$('#act<?php echo $eab['EXPENDITURE_EXPENDITURE_id'] ?>').text(<?php echo $eab['LBP_EXP_AMOUNT'] ?>);
-			$('#t_act<?php echo $eab['EXPENDITURE_EXPENDITURE_id'] ?>').text(<?php echo $eab['LBP_EXP_AMOUNT'] ?>);
-		<?php if ($eab['EXPENDITURE_CLASS_EXPCLASS_ID'] == 1) {
-				$class1 += $eab['LBP_EXP_AMOUNT'];
-			} elseif ($eab['EXPENDITURE_CLASS_EXPCLASS_ID'] == 2) {
-				$class2 += $eab['LBP_EXP_AMOUNT'];
-			} elseif ($eab['EXPENDITURE_CLASS_EXPCLASS_ID'] == 3) {
-				$class3 += $eab['LBP_EXP_AMOUNT'];
-			} else {
-
-			} } ?>
-
-		<?php $bclass1 = 0; $bclass2 = 0; $bclass3 = 0;
-			foreach ($exp_obligated as $obr) { ?>
-			$('#obr<?php echo $obr['EXPENDITURE_id'] ?>').text(<?php echo $obr['PART_AMOUNT'] ?>);
-			$('#t_obr<?php echo $obr['EXPENDITURE_id'] ?>').text(<?php echo $obr['PART_AMOUNT'] ?>);
-		<?php if ($obr['EXPENDITURE_CLASS_EXPCLASS_ID'] == 1) {
-				$bclass1 += $obr['PART_AMOUNT'];
-			} elseif ($obr['EXPENDITURE_CLASS_EXPCLASS_ID'] == 2) {
-				$bclass2 += $obr['PART_AMOUNT'];
-			} elseif ($obr['EXPENDITURE_CLASS_EXPCLASS_ID'] == 3) {
-				$bclass3 += $obr['PART_AMOUNT'];
-			} else {
-
-			} } ?>
-
-		<?php foreach ($expenditures as $exp1) { ?>
-			$act = $('#t_act<?php echo $exp1['EXPENDITURE_id']; ?>').text();
-			$obr = $('#t_obr<?php echo $exp1['EXPENDITURE_id']; ?>').text();
-			$temp = $act - $obr;
-
-			if(isNaN($temp)){
-				$temp = $act;
-			}
-
-			$('#unobr<?php echo $exp1['EXPENDITURE_id']; ?>').text($temp);
-		<?php } ?>
-		
-		$('#ps_sub').text(<?php echo $class1; ?>);
-		$('#ma_sub').text(<?php echo $class2; ?>);
-		$('#co_sub').text(<?php echo $class3; ?>);
-
-		$('#ps_sub5').text(<?php echo $class1; ?>);
-		$('#ma_sub5').text(<?php echo $class2; ?>);
-		$('#co_sub5').text(<?php echo $class3; ?>);
-
-		$('#ps_sub6').text(<?php echo $bclass1; ?>);
-		$('#ma_sub6').text(<?php echo $bclass2; ?>);
-		$('#co_sub6').text(<?php echo $bclass3; ?>);
-
-		$('#ps_sub10').text($('#ps_sub').text() - $('#ps_sub6').val());
-		$('#ma_sub10').text($('#ma_sub').text() - $('#ma_sub6').val());
-		$('#co_sub10').text($('#co_sub').text() - $('#co_sub6').val());
-	});	
-
-</script>
-
 <!-- FOR NOTEBOOK SCRIPT @ Selecting Expenditures by Class -->
 <script>
 	$(function(){
@@ -107,106 +26,123 @@
 		});
 	});
 </script>
-<script>
+<script> // EDIT PROFILE AND TOGGLE SIDEBAR 
+	//EDIT PROFILE
+	$(function () {
+		$('#edit_profile').on('click', function(){
+			$('#edit_profile').hide();
+			$('#change_password').hide();
+			$('#submit_changes').show();
+			$('.editable').removeAttr("readonly");
+		});
+	});
+	//TOGGLE SIDEBAR
 	$(function(){
-		$('#accept').hide();
-		$('#reject').hide();
+		$('.s-right').on('click', function(){
+			$('.s-right').hide();
+			$('.s-left').show();
+			$('.left-side-bar').show();
+			$('.main-container').removeClass("enlarge");
+		});
+		$('.s-left').on('click', function(){
+			$('.s-left').hide();
+			$('.s-right').show();
+			$('.left-side-bar').hide();
+			$('.main-container').addClass("enlarge");
+		});
+	});
+</script>
 
-		$('#exp_class').on('change', function(){
-			var exp_id = $(this).val();
-			var amt_approp = 0;
-			var total_rel = 0;
+<script> // THIS SCRIPT IS FOR OBR DETAILS CHECKING
+	$(function(){
+		//FOR OBR CHECKING
+		$('#exp-class').on('change', function() {
+			var exclass_id = $(this).val();
+			$('.idExC').hide();
+			$('.'+exclass_id).show();
+		});
+	});
+	
+	$(function() { // COMPUTING ALL MBO REQUIREMENTS
+		$('#exp').on('change', function() {
+			var ex_id = $(this).val();
+			var real_amt_approp = $('#real-amt-approp'+ex_id).val();
+			var real_ltc = $('#real-ltc').val();
+			var quarter = $('#quarter').val();
+			var ltc = $('#ltc').val();
+			var ex_name = $('#'+ex_id).text();
+			var amt_approp = $('#amt-approp'+ex_id).val();
+			var total_rel = $('#total-rel'+ex_id).val();
+			var prev_allot = (amt_approp/4)*(quarter-1);
+			var qtr_allot = (amt_approp/4);
+			var total_allot = prev_allot+qtr_allot;
+			var rem_bal = total_allot-total_rel;
+			var bal_approp = rem_bal-ltc;
 
-			<?php  
-				foreach ($amt_approp as $key) { ?>
-					if(exp_id == <?php echo $key['EXPENDITURE_id'] ?>){
-						amt_approp = <?php echo $key['LBP_EXP_AMOUNT']; ?>
-					}
-			<?php } foreach ($minus_allot as $ma) { ?>
-				if (exp_id == <?php echo $ma['EXPENDITURE_id'] ?> ) {
-					total_rel = <?php echo $ma['PART_AMOUNT']; ?>
-				}
-			<?php } ?>
-			
-			
-			var additional = $("#add_approp").val();
-			var ltc = <?php echo $LTClaim; ?>;
-			var prev = (amt_approp / 4) * (<?=$quarter?> - 1);
-			var quarter = (amt_approp / 4);
-			var total_allot = prev + quarter;
-			var remain_bal = total_allot - total_rel;
-			var bal = remain_bal - ltc;
-			var total_approp = additional + amt_approp;
+			$('#exp-mbo').val(ex_name);
+			$('#mbo-amt-approp').val('₱'+real_amt_approp);
+			$('#mbo-prev-allot').val('₱'+prev_allot.toLocaleString());
+			$('#mbo-qtr-allot').val('₱'+qtr_allot.toLocaleString());
+			$('#mbo-total-allot').val('₱'+total_allot.toLocaleString());
+			$('#mbo-rem-bal').val('₱'+rem_bal.toLocaleString());
+			$('#mbo-ltc').val('₱'+real_ltc);
+			$('#mbo-bal-approp').val('₱'+bal_approp.toLocaleString());
+			$('#mbo-bal-approp-dummy').val(bal_approp);
 
-			$('#prev').val('₱'+prev.toLocaleString());
-			$('#quart').val('₱'+quarter.toLocaleString());
-			$('#total').val('₱'+total_allot.toLocaleString());
-			$('#allotment').val('₱'+amt_approp.toLocaleString());
-			$('#balance').val('₱'+bal.toLocaleString());
-			$('#remain_bal').val('₱'+remain_bal.toLocaleString());
-			$('#total_approp').val('₱'+total_approp.toLocaleString());
-			$('#ltc').val('₱'+ltc.toLocaleString());
-			$('#exp_id').val(exp_id);
-			
+			//FOR ADD_APPROP (JUST IN CASE)
+			$('#mbo-amt-approp-dummy').val(amt_approp);
+			$('#mbo-rem-bal-dummy').val(rem_bal);
 
-			if (bal >= 0) {
-				$('#reject').hide();
-				$('#accept').show();
-				$('#status').val("accept");
+		});
+
+		$('#mbo-add-approp').keyup(function(){
+			var amt_approp = $('#mbo-amt-approp-dummy').val();
+			var add_approp = $(this).val();
+			var ltc = $('#ltc').val();
+			var total_approp = (+amt_approp) + (+add_approp);
+			var rem_bal = $('#mbo-rem-bal-dummy').val();
+
+			var total_rem_bal = (+add_approp) + (+rem_bal);
+			var total_bal_approp = (+total_rem_bal) - ltc;
+
+			$('#mbo-total-approp').val('₱ '+total_approp.toLocaleString());
+			$('#mbo-rem-bal').val('₱'+total_rem_bal.toLocaleString());
+			$('#mbo-bal-approp').val('₱'+total_bal_approp.toLocaleString());
+			$('#mbo-bal-approp-dummy').val(total_bal_approp);
+		});
+	});
+
+	$(function() {
+		$('#obr-reject-button').on('click', function(){
+			var val = $('#mbo-bal-approp-dummy').val();
+			if (val=="") {
+				$('#alert-popup-h4').text('ERROR! Expenditure not found.');
+				$('#alert-popup').modal('show');
 			} else {
-				$('#accept').hide();
-				$('#reject').show();
-				$('#status').val("reject");
+				$('#obr-status-h4').text('Reject Obr?');
+				$('#obr-status-modal').modal('show');
+				$('#obr-status-btn').on('click', function(){
+					$('#submit-reject-obr').click();
+				});
+			}
+		});
+		$('#obr-check-button').on('click', function(){
+			var val = $('#mbo-bal-approp-dummy').val();
+			if (val<0) {
+				$('#alert-popup-h4').text('ERROR! Insufficient Gold.');
+				$('#alert-popup').modal('show');
+			} else if (val=="") {
+				$('#alert-popup-h4').text('ERROR! Expenditure not found.');
+				$('#alert-popup').modal('show');
+			} else {
+				$('#obr-status-h4').text('Approve Obr?');
+				$('#obr-status-modal').modal('show');
+				$('#obr-status-btn').on('click', function(){
+					$('#submit-accept-obr').click();
+				});
 			}
 		});
 	});
-</script>
-
-<script>
-	$(function(){
-		$('#submit_lbp').hide();
-
-		$('#edit_lbp').on('click', function(){
-			$('#edit_lbp').hide();
-			$('#submit_lbp').show();
-
-			<?php foreach ($lbp_exp as $value) { ?>
-				$('#amt<?php echo $value['EXPENDITURE_EXPENDITURE_id']; ?>').text('');
-				$('#amt<?php echo $value['EXPENDITURE_EXPENDITURE_id']; ?>').append(
-					'<input type="text" name ="amount[]" value="'+<?php echo $value['LBP_EXP_AMOUNT']; ?>+'">'
-				);
-			<?php } ?>
-		});
-	});
-</script>
-
-<script type="text/javascript">
-	$(function(){
-		$('#pending').on('click', function(){
-			$('.hider').hide();
-			$('.cursor').removeClass('active');
-			$('#pending').addClass('active');
-			$('#pend').show();
-		});
-		$('#on_process').on('click', function(){
-			$('.hider').hide();
-			$('.cursor').removeClass('active');
-			$('#on_process').addClass('active');
-			$('#process').show();
-		});
-		$('#approved').on('click', function(){
-			$('.hider').hide();
-			$('.cursor').removeClass('active');
-			$('#approved').addClass('active');
-			$('#appro').show();
-		});
-		$('#reject').on('click', function(){
-			$('.hider').hide();
-			$('.cursor').removeClass('active');
-			$('#reject').addClass('active');
-			$('#rej').show();
-		});
-  });
 </script>
 
 <script type="text/javascript">
@@ -235,13 +171,6 @@
 			}
 		});
 	});
-</script>
-
-<script>
-	$(function(){
-		var content = <?php echo $content; ?>;
-		console.log(content);
-	})
 </script>
 
 <script>

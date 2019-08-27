@@ -5,8 +5,7 @@
         <div class="min-height-200px">
 			<div class="pd-20 bg-white border-radius-4 box-shadow mb-30 primaryscroll">
                 <div class="row">
-                    <div class="col-sm-12 col-md-4">
-                    
+                    <!-- <div class="col-sm-12 col-md-4">
                         <h4>LBP2 Records</h4>
                         <table class="table table-bordered table-sm">
                             <tr>
@@ -18,9 +17,9 @@
                                 <td></td>
                             </tr>
                         </table>
-                    </div>
+                    </div> -->
 
-                    <div class="col-sm-12 col-md-8">
+                    <div class="col-sm-12 col-md-12">
                         <table class="table table-striped table-sm" style="width:50%;">
                             <thead><tr style="background-color: lightgray;">
                                 <th class="btn-secondary btn-sm notes">
