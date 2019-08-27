@@ -68,7 +68,6 @@
 
 			$('#exp-mbo').val(ex_name);
 			$('#mbo-amt-approp').val('₱'+real_amt_approp);
-			// $('#mbo-add-approp').val('₱');
 			$('#mbo-prev-allot').val('₱'+prev_allot.toLocaleString());
 			$('#mbo-qtr-allot').val('₱'+qtr_allot.toLocaleString());
 			$('#mbo-total-allot').val('₱'+total_allot.toLocaleString());
@@ -76,6 +75,27 @@
 			$('#mbo-ltc').val('₱'+real_ltc);
 			$('#mbo-bal-approp').val('₱'+bal_approp.toLocaleString());
 			$('#mbo-bal-approp-dummy').val(bal_approp);
+
+			//FOR ADD_APPROP (JUST IN CASE)
+			$('#mbo-amt-approp-dummy').val(amt_approp);
+			$('#mbo-rem-bal-dummy').val(rem_bal);
+
+		});
+
+		$('#mbo-add-approp').keyup(function(){
+			var amt_approp = $('#mbo-amt-approp-dummy').val();
+			var add_approp = $(this).val();
+			var ltc = $('#ltc').val();
+			var total_approp = (+amt_approp) + (+add_approp);
+			var rem_bal = $('#mbo-rem-bal-dummy').val();
+
+			var total_rem_bal = (+add_approp) + (+rem_bal);
+			var total_bal_approp = (+total_rem_bal) - ltc;
+
+			$('#mbo-total-approp').val('₱ '+total_approp.toLocaleString());
+			$('#mbo-rem-bal').val('₱'+total_rem_bal.toLocaleString());
+			$('#mbo-bal-approp').val('₱'+total_bal_approp.toLocaleString());
+			$('#mbo-bal-approp-dummy').val(total_bal_approp);
 		});
 	});
 

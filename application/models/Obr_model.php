@@ -4,6 +4,7 @@
         function __construct()
         {
             $this->load->database();
+            date_default_timezone_set('Asia/Manila');
         }
         
         public function createOBR($obr_id, $lb_id)
@@ -118,7 +119,7 @@
             $data = array( 
                 'OBR_NO' => $this->input->post('obr_no'),
                 'OBR_STATUS' => $this->input->post('obr_check_btn'),
-                'OBR_APPROVED_DATE' => date('Y-m-d', strtotime($this->input->post('obr_checked_date') ) )
+                'OBR_APPROVED_DATE' => $this->input->post('obr_checked_date')
             ); 
             $this->db->where('OBR_ID', $obr_id);
             return $this->db->update('obligation_request', $data);
@@ -126,8 +127,11 @@
 
         public function reject($obr_id)
         {
-            $arrayOBR = array( 'OBR_NO' => $this->input->post('obr_no'),
-                'OBR_STATUS' => "DECLINED", 'OBR_HANDLER' => $this->session->userdata('id') );
+            $arrayOBR = array( 
+                'OBR_NO' => $this->input->post('obr_no'),
+                'OBR_STATUS' => "DECLINED", 
+                'OBR_HANDLER' => $this->session->userdata('id') 
+            ); 
 
             $this->db->where('OBR_ID', $obr_id);
             return $this->db->update('obligation_request', $arrayOBR);
@@ -135,8 +139,10 @@
 
         public function reviewOBR()
         {
-            $arrayOBR = array( 'OBR_NO' => $this->input->post('obr_no'),
-                'OBR_STATUS' => "ON PROCESS", 'OBR_HANDLER' => $this->session->userdata('id') 
+            $arrayOBR = array( 
+                'OBR_NO' => $this->input->post('obr_no'),
+                'OBR_STATUS' => "ON PROCESS", 
+                'OBR_HANDLER' => $this->session->userdata('id') 
             );
 
             $this->db->where('OBR_ID', $this->input->post('obr_id'));

@@ -73,37 +73,38 @@
                             <div class="form-group row" style="margin-bottom:0;">
                                 <label class="col-md-6 col-sm-12 label-input">Mun. Budget Office Control No.&nbsp;</label>
                                 <div class="col-md-6 col-sm-12">
-                                    <input name="mbo_no" class="line-input" value="<?php echo $mbo_no.'-'.date('Y', strtotime($Obr_details['OBR_DATE'])); ?>">
+                                    <input name="mbo_no" class="line-input" value="<?php echo $mbo_no.'-'.date('Y', strtotime($Obr_details['OBR_DATE'])); ?>" readonly>
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-bottom:0;">
                                 <label class="col-md-3 col-sm-12 label-input">Exp. Class&nbsp;</label>
                                 <div class="col-md-9 col-sm-12">
-                                    <input id="exp-mbo" class="line-input" value="">
+                                    <input id="exp-mbo" class="line-input" value="" readonly>
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-bottom:0;">
                                 <label class="col-md-3 col-sm-12 label-input">Amt. Approp.</label>
                                 <div class="col-md-5 col-sm-12">
                                     <input type="text" class="line-input" id="mbo-amt-approp" readonly> 
+                                    <input type="text" class="line-input" id="mbo-amt-approp-dummy" hidden> 
                                 </div>
                                 <label class="col-md-1 col-sm-12 label-input">Code</label>
                                 <div class="col-md-3 col-sm-12">
-                                    <input type="text" class="line-input" name="dpt_id" value="<?=$dpt_id;?>">
+                                    <input type="text" class="line-input" name="dpt_id" value="<?=$dpt_id;?>" readonly>
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-bottom:0;">
                                 <label class="col-md-3 col-sm-12 label-input">Add Approp.&nbsp;</label>
                                 <div class="col-md-4 col-sm-12">
-                                    <input type="number" class="line-input" id = "mbo-add_approp" name = "add_approp" >
+                                    <input type="number" class="line-input" id="mbo-add-approp" name="add_approp">
                                 </div>
                                 <div class="col-md-5 col-sm-12">
-                                    <input type="text" class="line-input" id = "mbo-total_approp" readonly>
+                                    <input type="text" class="line-input" id = "mbo-total-approp" readonly>
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-bottom:0;">
                                 <label class="col-md-3 col-sm-12 label-input">Previous Allot.</label>
-                                <div class="col-md-9 col-sm-12">
+                                <div class="col-md-4 col-sm-12">
                                     <input type="text" class="line-input" id="mbo-prev-allot" readonly>
                                 </div>
                             </div>
@@ -122,6 +123,7 @@
                                 <label class="col-md-4 col-sm-12 label-input">Add Allot./Rem. Balance</label>
                                 <div class="col-md-5 col-sm-12">
                                     <input type="text" class="line-input" id = "mbo-rem-bal" readonly>
+                                    <input type="text" class="line-input" id = "mbo-rem-bal-dummy" hidden>
                                 </div>
                             </div>
 
@@ -155,7 +157,7 @@
                                 </div>
                                 <label class="col-md-1 col-sm-12 label-input">Date</label>
                                 <div class="col-md-4 col-sm-12">
-                                    <input type="date" class="line-input" name="obr_checked_date">
+                                    <input type="date" class="line-input" name="obr_checked_date" required>
                                 </div>
                             </div>
                         </div>
