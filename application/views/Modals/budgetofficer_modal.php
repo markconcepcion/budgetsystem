@@ -1,7 +1,7 @@
 <div class="modal fade" id="change_pass" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <?php echo form_open('Budget_head/Profile/changePass/'.$this->session->userdata('id')); ?>
+            <?php echo form_open('Budget_officer/Profile/changePass/'.$this->session->userdata('id')); ?>
                 <div class="modal-header bar">
                     <img src="<?php echo base_url('assets/jimage/LGUBO.png'); ?>" class="logo">
                     <h4 class="modal-title text-white mod_head" id="myLargeModalLabel">Change Password</h4>

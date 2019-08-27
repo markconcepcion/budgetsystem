@@ -144,41 +144,19 @@
 		});
 	});
 </script>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('#req_amt').on('change', function(){
-			var temp = $(this).val();
-			if (temp <= 0) {
-				alert("Amount cannot be 0 or less than 0");
-        $(this).val(null);
-			}
-		});
-
-		$('#req_part').on('change', function(){
-			var temp_part = $(this).val();
-			if (temp_part == "") {
-				alert("Particular cannot be empty");
-        $(this).val(null);
-			}
-		});
-
-		$('#req_payee').on('change', function(){
-			var temp_pay = $(this).val();
-			if (temp_pay == "") {
-				alert("Payee cannot be empty");
-        $(this).val(null);
-			}
-		});
-	});
-</script>
-
-<script>
+<script> // FOR POPUP MESSAGE
 	$('document').ready(function(){
-		<?php if($this->session->flashdata('login_success')): ?>
-			$('#log_ok').modal('show');
+		<?php if($this->session->flashdata('edit_success')): ?>
+			$('#edit-modal').modal('show');
 			setTimeout(function(){
-				$('#log_ok').modal('hide');
+				$('#edit-modal').modal('hide');
+			}, 1500);
+		<?php endif; ?>
+
+		<?php if($this->session->flashdata('edit_failed')): ?>
+			$('#editf-modal').modal('show');
+			setTimeout(function(){
+				$('#editf-modal').modal('hide');
 			}, 1500);
 		<?php endif; ?>
 	});
