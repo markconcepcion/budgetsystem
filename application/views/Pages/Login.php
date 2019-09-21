@@ -36,7 +36,6 @@
             {
                 width: 320px !important;
                 height: 400px !important;
-                border: 1px solid #080808;
                 background: linear-gradient(top, #3c3c3c 0%, #222222 100%) !important;
                 background: -webkit-linear-gradient(top, #3c3c3c 0%, #222222 100%) !important;
                 color: white;

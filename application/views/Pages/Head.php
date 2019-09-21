@@ -175,5 +175,11 @@
 /* -- START -- *//* SIDEBAR STYLE */
 /* SIDEBAR STYLE */ /* -- END -- */
 
+.backbtn {
+    border:0;
+    border-radius:50%;
+    margin-top: -10px !important;
+    margin-left: -10px !important;
+}
 </style>
 
