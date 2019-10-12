@@ -36,75 +36,126 @@
                     </ul>
                 </div>
                 <div class="tab-content">
+
+                    <!-- CONSOLIDATED RECENT ACTIVITIES -->
                     <div class="tab-pane fade show active" id="all" role="tabpanel">
                         <table class="table table-bordered table-sm" style="border-top:2px solid black;">
                             <tbody>
                                 <?php foreach ($obrs as $obr) { 
-                                    if ($obr['OBR_STATUS'] === "PENDING") { ?>
-                                        <tr class="notif">
-                                            <?php echo form_open('Budget_head/Obr/Obr_details/'.$obr['OBR_ID']); ?><input name="dpt_id"  value="<?php echo $obr['DPT_ID']; ?>" hidden>
-                                            <?php echo '<td><button type="submit" class="btn btn-sm">'.date('M', strtotime($obr['OBR_DATE'])).' '.date('d', strtotime($obr['OBR_DATE'])).' - A new obligation request has been submitted from '.$obr['DPT_NAME'].'. <a>VIEW?</a></button></td>';
-                                            echo form_close(); ?>
-                                        </tr>
-                                    <?php } else { 
-                                        foreach ($obr_mbo as $mbo) {;
-                                            if ($mbo['OBLIGATION_REQUEST_OBR_ID'] === $obr['OBR_ID']) { ?>
-                                                <tr class="notif">
-                                                    <?php echo form_open('Budget_head/Obr/Obr_details_checked/'.$obr['OBR_ID']); ?><input name="dpt_id"  value="<?php echo $obr['DPT_ID']; ?>" hidden>
-                                                    <?php echo '<td><button type="submit" class="btn btn-sm"><span style="color:black!important;">'.date('M', strtotime($obr['OBR_APPROVED_DATE'])).' '.date('d', strtotime($obr['OBR_APPROVED_DATE'])).' - An obligation request has been checked by '.$mbo['USR_FNAME'].' '.$mbo['USR_LNAME'].' and is waiting for approval. </span><a>VIEW?</a></button></td>';
-                                                    echo form_close(); ?>
-                                                </tr>
-                                            <?php }
+                                    if ($obr['OBR_STATUS'] === "PENDING") 
+                                    {
+                                        echo form_open('Budget_head/Obr/Obr_details/'.$obr['OBR_ID']); ?>
+                                            <tr class="notif">
+                                                <input name="dpt_id"  value="<?php echo $obr['DPT_ID']; ?>" hidden>
+                                                <td><button type="button" class="btn btn-sm" style="cursor:text;">
+                                                        <?php echo date('M', strtotime($obr['OBR_DATE'])).' '.date('d', strtotime($obr['OBR_DATE'])).' - A new obligation request has been submitted from '.$obr['DPT_NAME'].'.'; ?>
+                                                </button></td>
+                                                <td><button type="submit" class="btn btn-sm text-blue"><a>VIEW</a></button></td>
+                                            </tr>
+                                        <?php echo form_close(); 
+                                    } 
+                                    else 
+                                    { 
+                                        foreach ($obr_mbo as $mbo)
+                                        {
+                                            if ($mbo['OBLIGATION_REQUEST_OBR_ID'] === $obr['OBR_ID']) 
+                                            { 
+                                                echo form_open('Budget_head/Obr/Obr_details_checked/'.$obr['OBR_ID']); //END OF PHP ?> 
+                                                    <tr class="notif"><!-- START OF HTML-->
+                                                        <input name="dpt_id"  value="<?php echo $obr['DPT_ID']; ?>" hidden>
+                                                        <td><button type="button" class="btn btn-sm" style="cursor:text;"><span style="color:black!important;">
+                                                            <?php echo date('M', strtotime($obr['OBR_APPROVED_DATE'])).' '.date('d', strtotime($obr['OBR_APPROVED_DATE'])).' - An obligation request has been checked by '.$mbo['USR_FNAME'].' '.$mbo['USR_LNAME'].' and is waiting for approval.'; ?> 
+                                                        </span></button></td>
+                                                        <td><button type="submit" class="btn btn-sm text-blue"><a>VIEW</a></button></td>
+                                                    </tr>
+                                                <?php echo form_close(); 
+                                            }
                                         }// end of foreach
                                     }//end of else
                                 } foreach ($lbps as $lbp) { ?>
                                     <tr class="notif">
-                                        <?php echo '<td><button class="btn btn-sm">As of now, the '.$lbp['DPT_NAME'].' has already proposed a budget for year '.$lbp['FRM_YEAR'].'. <a href="'.base_url('Budget_head/Lbp/Lbp2/'.$lbp['FRM_ID']).'">VIEW?</a></button></td>'; ?>
+                                        <td>   
+                                            <button type="button" class="btn btn-sm" style="cursor:text;">
+                                                <?php echo 'As of now, the '.$lbp['DPT_NAME'].' has already proposed a budget for year '.$lbp['FRM_YEAR'].'.'; ?>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="submit" class="btn btn-sm">
+                                                <a href="<?php echo base_url('Budget_head/Lbp/Lbp2/'.$lbp['FRM_ID']); ?>">VIEW</a>
+                                            </button>
+                                        </td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- PENDING OBLIGATION REQUESTS -->
                     <div class="tab-pane fade" id="pending" role="tabpanel">
                         <table class="table table-bordered table-sm" style="border-top:2px solid black;">
                             <tbody>
                                 <?php foreach ($obrs as $obr) { 
-                                    if ($obr['OBR_STATUS'] === "PENDING") { ?>
+                                    if ($obr['OBR_STATUS'] === "PENDING") 
+                                    { 
+                                        echo form_open('Budget_head/Obr/Obr_details/'.$obr['OBR_ID']); ?>
                                         <tr class="notif">
-                                            <?php echo form_open('Budget_head/Obr/Obr_details/'.$obr['OBR_ID']); ?><input name="dpt_id"  value="<?php echo $obr['DPT_ID']; ?>" hidden>
-                                            <?php echo '<td><button type="submit" class="btn btn-sm"><a>'.date('M', strtotime($obr['OBR_DATE'])).' '.date('d', strtotime($obr['OBR_DATE'])).' - A new obligation request has been submitted from '.$obr['DPT_NAME'].'. <span class="text-blue">VIEW?</span></a></button></td>';
-                                            echo form_close(); ?>
+                                            <input name="dpt_id"  value="<?php echo $obr['DPT_ID']; ?>" hidden>
+                                            <td><button type="button" class="btn btn-sm" style="cursor:text;">
+                                                    <?php echo date('M', strtotime($obr['OBR_DATE'])).' '.date('d', strtotime($obr['OBR_DATE'])).' - A new obligation request has been submitted from '.$obr['DPT_NAME'].'.'; ?>
+                                            </button></td>
+                                            <td><button type="submit" class="btn btn-sm text-blue"><a>VIEW</a></button></td>
                                         </tr>
-                                    <?php }
+                                        <?php echo form_close(); 
+                                    }
                                 } ?>
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- CHECKED OBLIGATION REQUESTS -->
                     <div class="tab-pane fade" id="check" role="tabpanel">
                         <table class="table table-bordered table-sm" style="border-top:2px solid black;">
                             <tbody>
                                 <?php foreach ($obrs as $obr) { 
-                                    if ($obr['OBR_STATUS'] === "CHECKED") { 
-                                        foreach ($obr_mbo as $mbo) { 
-                                            if ($mbo['OBLIGATION_REQUEST_OBR_ID'] === $obr['OBR_ID']) { ?>
-                                                <tr class="notif">
-                                                    <?php echo form_open('Budget_head/Obr/Obr_details_checked/'.$obr['OBR_ID']); ?><input name="dpt_id"  value="<?php echo $obr['DPT_ID']; ?>" hidden>
-                                                    <?php echo '<td><button type="submit" class="btn btn-sm"><a>'.date('M', strtotime($obr['OBR_APPROVED_DATE'])).' '.date('d', strtotime($obr['OBR_APPROVED_DATE'])).' - An obligation request has been checked by '.$mbo['USR_FNAME'].' '.$mbo['USR_LNAME'].' and is waiting for approval. <span class="text-blue">VIEW?</span></a></button></td>';
-                                                    echo form_close(); ?>
-                                                </tr>
-                                            <?php }
+                                    if ($obr['OBR_STATUS'] === "CHECKED") 
+                                    { 
+                                        foreach ($obr_mbo as $mbo)
+                                        {
+                                            if ($mbo['OBLIGATION_REQUEST_OBR_ID'] === $obr['OBR_ID']) 
+                                            { 
+                                                echo form_open('Budget_head/Obr/Obr_details_checked/'.$obr['OBR_ID']); //END OF PHP ?> 
+                                                    <tr class="notif"><!-- START OF HTML-->
+                                                        <input name="dpt_id"  value="<?php echo $obr['DPT_ID']; ?>" hidden>
+                                                        <td><button type="button" class="btn btn-sm" style="cursor:text;"><span style="color:black!important;">
+                                                            <?php echo date('M', strtotime($obr['OBR_APPROVED_DATE'])).' '.date('d', strtotime($obr['OBR_APPROVED_DATE'])).' - An obligation request has been checked by '.$mbo['USR_FNAME'].' '.$mbo['USR_LNAME'].' and is waiting for approval.'; ?> 
+                                                        </span></button></td>
+                                                        <td><button type="submit" class="btn btn-sm text-blue"><a>VIEW</a></button></td>
+                                                    </tr>
+                                                <?php echo form_close(); 
+                                            }
                                         }// end of foreach
                                     }//end of else
                                 } ?>
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- PROPOSED LBP 2 -->
                     <div class="tab-pane fade" id="propose" role="tabpanel">
                         <table class="table table-bordered table-sm" style="border-top:2px solid black;">
                             <tbody>
                                 <?php foreach ($lbps as $lbp) { ?>
                                     <tr class="notif">
-                                        <?php echo '<td><button class="btn btn-sm"><a href="'.base_url('Budget_head/Lbp/Lbp2/'.$lbp['FRM_ID']).'">As of now, the '.$lbp['DPT_NAME'].' has already proposed a budget for year '.$lbp['FRM_YEAR'].'. <span class="text-blue">VIEW?</span></a></button></td>'; ?>
+                                        <td>   
+                                            <button type="button" class="btn btn-sm" style="cursor:text;">
+                                                <?php echo 'As of now, the '.$lbp['DPT_NAME'].' has already proposed a budget for year '.$lbp['FRM_YEAR'].'.'; ?>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="submit" class="btn btn-sm">
+                                                <a href="<?php echo base_url('Budget_head/Lbp/Lbp2/'.$lbp['FRM_ID']); ?>">VIEW</a>
+                                            </button>
+                                        </td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
