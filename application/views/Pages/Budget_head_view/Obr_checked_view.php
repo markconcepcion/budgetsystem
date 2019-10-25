@@ -11,6 +11,8 @@
     $bal_approp = $remain_bal-$obr_details['PART_AMOUNT'];
 ?>
 
+<?php echo form_open('Budget_head/Obr/approve_OBR/'.$obr_details['OBR_ID']); ?>
+
 <div class="main-container">
     <div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10" >
         <div class="min-height-200px">
@@ -131,15 +133,17 @@
                             </div>
                             <label class="col-md-1 col-sm-12 label-input">Date</label>
                             <div class="col-md-4 col-sm-12">
-                                <input type="date" class="line-input" value="" disabled>
+                                <input type="date" class="line-input" name="obr_approved_date" required>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="text-right">
-                   <button class="btn btn-secondary">RETURN</button>
-                    <button class="btn btn-warning">APPROVE</button>
+                <div class="text-right" style="padding-top:13px;">
+                    <button type="submit" class="btn btn-secondary" value="DECLINE" name="btnVal">DECLINE</button>
+                    <button type="submit" class="btn btn-warning" value="APPROVE" name="btnVal">APPROVE</button>
                 </div>
             </div>
         </div>
+
+<?php echo form_close(); ?>

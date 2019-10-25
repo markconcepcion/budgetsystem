@@ -44,7 +44,7 @@
                                     <tr>
                                         <td class="text-center"<?php if ($log['OBR_STATUS'] === 'DECLINED'){ echo 'style="background-color:#ff9900" >'; ?>
                                             <i class="fa fa-close" aria-hidden="true"></i>
-                                        <?php } else { echo '>'; ?>
+                                        <?php } else { echo 'style="background-color:#4CAF50" >'; ?>
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         <?php } ?></td>
                                         <td><?php echo $log['OBR_NO']; ?></td>

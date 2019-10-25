@@ -22,12 +22,17 @@
                 <table class="table table-bordered table-sm" style="border-top:2px solid black;">
                     <tbody>
                         <?php foreach ($obrs as $obr) { ?>
-                            <tr class="notif">
-                                <?php echo form_open('Budget_officer/Obr/Obr_details/'.$obr['OBR_ID']); ?><input name="dpt_id"  value="<?php echo $obr['DPT_ID']; ?>" hidden>
-                                <?php echo '<td><button type="submit" class="btn btn-sm"><a>'.date('M', strtotime($obr['OBR_DATE'])).' '.date('d', strtotime($obr['OBR_DATE'])).' - A new obligation request has been submitted from '.$obr['DPT_NAME'].'. <span class="text-blue">VIEW?</span></a></button></td>';
-                                echo form_close(); ?>
-                            </tr>
-                        <?php } ?>
+                            <?php echo form_open('Budget_officer/Obr/Obr_details/'.$obr['OBR_ID']); ?>
+                                <tr class="notif">
+                                    <input name="dpt_id"  value="<?php echo $obr['DPT_ID']; ?>" hidden>
+                                    <td>
+                                        <button type="button" class="btn btn-sm" style="cursor:text;"><span style="color:black!important;">
+                                            <?php echo date('M', strtotime($obr['OBR_DATE'])).' '.date('d', strtotime($obr['OBR_DATE'])).' - A new obligation request has been submitted from '.$obr['DPT_NAME'].'.'; ?> 
+                                        </button>
+                                    </td>
+                                    <td><button type="submit" class="btn btn-sm text-blue"><a>VIEW</a></button></td>
+                                </tr>
+                        <?php echo form_close(); } ?>
                     </tbody>
                 </table>
             </div>

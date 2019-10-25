@@ -97,15 +97,6 @@
                 AND OBR_STATUS = 'APPROVED' AND EXPENDITURE_EXPENDITURE_id IN ($exps)");
             return $query->result_array();
         }
-        public function updateApproval($obr_id)
-        {
-            $arrayOBR = array('OBR_APPROVED_DATE' => $this->input->post('approved_date'),
-                'OBR_STATUS' => "APPROVED"
-            );
-
-            $this->db->where('OBR_ID', $obr_id);
-            return $this->db->update('obligation_request', $arrayOBR);
-        }
 
         public function updateParticular($obr_id)
         { // FIRST PHASE IN OBR PROCESS
@@ -123,6 +114,17 @@
             ); 
             $this->db->where('OBR_ID', $obr_id);
             return $this->db->update('obligation_request', $data);
+        }
+
+        public function updateApproval($obr_id)
+        {
+            $arrayOBR = array(
+                'OBR_APPROVED_DATE' => $this->input->post('obr_approved_date'),
+                'OBR_STATUS' => "APPROVED"
+            );
+
+            $this->db->where('OBR_ID', $obr_id);
+            return $this->db->update('obligation_request', $arrayOBR);
         }
 
         public function reject($obr_id)

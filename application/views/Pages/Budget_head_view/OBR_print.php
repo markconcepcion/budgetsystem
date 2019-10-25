@@ -1,10 +1,3 @@
-<?php
-    $prev = ($amt_approp['LBP_EXP_AMOUNT'] / 4) * ($quarter - 1); 
-    $quarter = ($amt_approp['LBP_EXP_AMOUNT'] / 4) * $quarter;
-    $total = $prev + $quarter;
-    $remain_bal = $total - $total_rel['PART_AMOUNT'];
-?>
-
 
                     <table style = "border: 1px solid black; width: 100%;">
                         <thead>
@@ -20,17 +13,17 @@
                         <tbody>
                             <tr>
                                 <td colspan = "6" class = "text-center" style = "border: 1px solid black;">OBLIGATION REQUEST</td>
-                                <td colspan = "6"  class = "text-left" style = "border: 1px solid black;">&nbsp; No. &nbsp; <?php echo $obr_details['OBR_NO'].'-'.(date('Y')-2000); ?>
+                                <td colspan = "6"  class = "text-left" style = "border: 1px solid black;">&nbsp; No. &nbsp; 
                                 </td>
                             </tr>
 
                             <tr>
                                 <td colspan = "1" class = "text-center" style = "border: 1px solid black;">Payee:</td>
 
-                                <td colspan = "8" class = "text-left" style = "border: 1px solid black;"> &nbsp; <?php echo $obr_details['OBR_PAYEE']; ?>
+                                <td colspan = "8" class = "text-left" style = "border: 1px solid black;"> &nbsp; <?php // echo echo $obr_details['OBR_PAYEE']; ?>
                                 </td>
 
-                                <td colspan = "3" class = "text-left" style = "border: 1px solid black;">&nbsp; Date: &nbsp; <?php echo date('F-d-Y', strtotime($obr_details['OBR_DATE'])); ?></td>
+                                <td colspan = "3" class = "text-left" style = "border: 1px solid black;">&nbsp; Date: &nbsp; <?php // echo echo date('F-d-Y', strtotime($obr_details['OBR_DATE'])); ?></td>
                             </tr>
 
                             <tr>
@@ -48,27 +41,27 @@
 
                             <tr style="min-height:25%;">
                                 <td colspan = "9" class = "text-center" style = "border: 1px solid black;">
-                                    <?php $LTClaim=0; foreach ($obr_exp_details as $key) {  $LTClaim+=$key['PART_AMOUNT']; ?>
-                                        <?php echo $key['PART_PARTICULARS']; ?>
-                                    <?php } ?>
+                                    <?php // echo $LTClaim=0; foreach ($obr_exp_details as $key) {  $LTClaim+=$key['PART_AMOUNT']; ?>
+                                        <?php // echo echo $key['PART_PARTICULARS']; ?>
+                                    <?php // echo } ?>
                                         
                                     <div class = "text-left" style="padding-left: 10%;">
-                                        <label style = "font-size: 12px">Mun. Budget Office Control No.&nbsp;</label><input class = "mbo" value ="<?php echo $mbo_det['MBO_ID'].'-'.(date('Y')-2000); ?>" readonly><br>
+                                        <label style = "font-size: 12px">Mun. Budget Office Control No.&nbsp;</label><input class = "mbo" value ="<?php // echo echo $mbo_det['MBO_ID'].'-'.(date('Y')-2000); ?>" readonly><br>
                                         <label style = "font-size: 12px">Exp. Class&nbsp;</label>
-                                        <input class = "mbo" value = "<?php echo $amt_approp['EXP_NAME']; ?>" style = "width: 50%;"readonly><br />
-                                        <label style = "font-size: 12px">Amt. Approp.&nbsp;</label><input type="text" class="mbo" value = "<?php echo '₱',number_format($amt_approp['LBP_EXP_AMOUNT'], 2); ?>"readonly>
-                                        <label style = "font-size: 12px">&nbsp;Code&nbsp;</label><input type="text" class = "mbo" value = "<?=$dept_code; ?>"readonly><br>
-                                        <label style = "font-size: 12px">Add Approp.&nbsp;</label><input type="text" value = "<?php echo '₱',number_format(1000, 2); ?>"  class="mbo"readonly>
-                                        <input type="text" class = "mbo" style = "margin-left: 5px" value="<?php echo '₱',number_format(($amt_approp['LBP_EXP_AMOUNT']+1000), 2); ?>" readonly><br>
-                                        <label style = "font-size: 12px">Previous Allot.</label><input type="text" class="mbo" value = "<?php echo '₱',number_format($prev, 2); ?>"readonly><br>
-                                        <label style = "font-size: 12px">Qtr. Allot.</label><input type="text" class="mbo" value = "<?php echo '₱',number_format($quarter, 2); ?>"readonly>
-                                        <input type="text" class = "mbo" style = "margin-left: 5px" value = "<?php echo '₱',number_format($total, 2); ?>" readonly><br>
-                                        <label style = "font-size: 12px">Add Allot./Rem. Balance</label><input type="text" class="mbo" value = "<?php echo '₱',number_format($remain_bal, 2); ?>" readonly><br>
-                                        <label style = "font-size: 12px">Less This Claim&nbsp;</label><input type="text" id = "ltc" class="mbo" value="<?php echo '(₱',number_format($LTClaim, 2),')'; ?>" readonly><br>
-                                        <label style = "font-size: 12px">Balance of Approp.</label><input type="text" class="mbo" value = "<?php echo '₱',number_format(($total-$LTClaim), 2); ?>" readonly><br>
-                                        <label style = "font-size: 12px">Remarks:</label><input type="text" class="mbo" value = "<?php echo $mbo_det['MBO_REMARKS']; ?>" readonly><br>
-                                        <label style = "font-size: 12px">MBO/Asst. Initial</label><input type="text" class="mbo" value = "<?php echo $mbo_det['MBO_INITIAL']; ?>" readonly>
-                                        <label style = "font-size: 12px">Date</label><input type="text"  readonly name = "approved_date" required = "" class = "mbo" value="<?php echo $obr_details['OBR_APPROVED_DATE']; ?>"><br>
+                                        <input class = "mbo" value = "<?php // echo echo $amt_approp['EXP_NAME']; ?>" style = "width: 50%;"readonly><br />
+                                        <label style = "font-size: 12px">Amt. Approp.&nbsp;</label><input type="text" class="mbo" value = "<?php // echo echo '₱',number_format($amt_approp['LBP_EXP_AMOUNT'], 2); ?>"readonly>
+                                        <label style = "font-size: 12px">&nbsp;Code&nbsp;</label><input type="text" class = "mbo" value = "<?php //$dept_code; ?>"readonly><br>
+                                        <label style = "font-size: 12px">Add Approp.&nbsp;</label><input type="text" value = "<?php // echo echo '₱',number_format(1000, 2); ?>"  class="mbo"readonly>
+                                        <input type="text" class = "mbo" style = "margin-left: 5px" value="<?php // echo echo '₱',number_format(($amt_approp['LBP_EXP_AMOUNT']+1000), 2); ?>" readonly><br>
+                                        <label style = "font-size: 12px">Previous Allot.</label><input type="text" class="mbo" value = "<?php // echo echo '₱',number_format($prev, 2); ?>"readonly><br>
+                                        <label style = "font-size: 12px">Qtr. Allot.</label><input type="text" class="mbo" value = "<?php // echo echo '₱',number_format($quarter, 2); ?>"readonly>
+                                        <input type="text" class = "mbo" style = "margin-left: 5px" value = "<?php // echo echo '₱',number_format($total, 2); ?>" readonly><br>
+                                        <label style = "font-size: 12px">Add Allot./Rem. Balance</label><input type="text" class="mbo" value = "<?php // echo echo '₱',number_format($remain_bal, 2); ?>" readonly><br>
+                                        <label style = "font-size: 12px">Less This Claim&nbsp;</label><input type="text" id = "ltc" class="mbo" value="<?php // echo echo '(₱',number_format($LTClaim, 2),')'; ?>" readonly><br>
+                                        <label style = "font-size: 12px">Balance of Approp.</label><input type="text" class="mbo" value = "<?php // echo echo '₱',number_format(($total-$LTClaim), 2); ?>" readonly><br>
+                                        <label style = "font-size: 12px">Remarks:</label><input type="text" class="mbo" value = "<?php // echo echo $mbo_det['MBO_REMARKS']; ?>" readonly><br>
+                                        <label style = "font-size: 12px">MBO/Asst. Initial</label><input type="text" class="mbo" value = "<?php // echo echo $mbo_det['MBO_INITIAL']; ?>" readonly>
+                                        <label style = "font-size: 12px">Date</label><input type="text"  readonly name = "approved_date" required = "" class = "mbo" value="<?php // echo echo $obr_details['OBR_APPROVED_DATE']; ?>"><br>
                                     </div>
                                     
                                 </td>
@@ -76,9 +69,9 @@
                                 <td colspan = "1" class = "text-center" style = "border: 1px solid black;"></td>
 
                                 <td colspan = "1" style = "width: 1%;" class = "text-center">
-                                    <?php foreach ($obr_exp_details as $key_amt) { ?>
-                                        <?php echo '₱',number_format($key_amt['PART_AMOUNT'], 2); ?>
-                                    <?php } ?>
+                                    <?php // echo foreach ($obr_exp_details as $key_amt) { ?>
+                                        <?php // echo echo '₱',number_format($key_amt['PART_AMOUNT'], 2); ?>
+                                    <?php // echo } ?>
                                         <br />
                                     <input class = "form-control" readonly style = "background-color: white; border: 1px solid white; margin-bottom: 200%;">
                                 </td>
@@ -86,7 +79,7 @@
 
                             <tr>
                                 <td colspan = "11" class = "text-center" style = "border: 1px solid black;">Total <h6 style = "text-align: right; margin-top: -2.5%;">₱<h6></td>
-                                <td colspan = "1" class = "text-center" style = "border: 1px solid black; width: 3%;"> <?php echo number_format($LTClaim, 2); ?></td>
+                                <td colspan = "1" class = "text-center" style = "border: 1px solid black; width: 3%;"> <?php // echo echo number_format($LTClaim, 2); ?></td>
                             </tr>
 
                             <tr>

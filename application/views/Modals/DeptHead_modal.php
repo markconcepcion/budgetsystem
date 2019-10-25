@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content box-shadow bar">
                 <div class="modal-body text-center font-18">
-                    <div class="mb-15 text-center"><img src="http://localhost/BASystem/assets/jimage/success.png" class="logo" style="position: unset;"></div>
+                    <div class="mb-15 text-center"><img src="<?php echo base_url('assets/jimage/success.png'); ?>" class="logo" style="position: unset;"></div>
                     <h3 class="mb-10 text-white"><?php echo $this->session->flashdata('edit_success') ?></h3>
                 </div>
             </div>
@@ -16,7 +16,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content box-shadow bar">
                 <div class="modal-body text-center font-18">
-                    <div class="mb-15 text-center"><img src="http://localhost/BASystem/assets/jimage/cancel.png" class="logo" style="position: unset;"></div>
+                    <div class="mb-15 text-center"><img src="<?php echo base_url('assets/jimage/cancel.png'); ?>" class="logo" style="position: unset;"></div>
                     <h3 class="mb-10 text-white"><?php echo $this->session->flashdata('edit_failed') ?></h3>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                         NO
                     </div>
                     <div class="col-6">
-                        <a href="http://localhost/BASystem/Login/Logout" ><button type="button" class="btn btn-warning border-radius-100 btn-block confirmation-btn"><i class="fa fa-check"></i></button></a>
+                        <a href="<?php echo base_url('Login/Logout'); ?>" ><button type="button" class="btn btn-warning border-radius-100 btn-block confirmation-btn"><i class="fa fa-check"></i></button></a>
                         YES
                     </div>
                 </div>

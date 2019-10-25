@@ -7,6 +7,7 @@
             } else if($this->session->userdata('level') != "BUDGET HEAD") {
                 redirect('Login/Logout');
             }
+            date_default_timezone_set('Asia/Manila');
         }
         
         public function index() {   
@@ -17,6 +18,15 @@
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['Obrs'] = $this->obr_model->readOBRs($this->session->userdata('level'), $order); //FETCH ALL OBRs THAT IS PENDING AND CHECKED BY BO
             $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
+        }
+
+        public function printObligationRequest()
+        {
+
+            $this->load->view('Pages/Head');
+            $this->load->view('Pages/Budget_head_view/deskapp/head');
+            $this->load->view('Pages/Budget_head_view/OBR_print');
+            $this->load->view('Pages/Budget_head_view/deskapp/script');
         }
 
         public function Obr_details($obr_id) { // DISPALY OBR DETAILS AND LBP EXPENDITURES  
@@ -76,6 +86,12 @@
             $data['obr_exp'] = $this->obr_model->readObrs_approved($exp_id, $this->input->post('dpt_id'), $yr);
             
             $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
+        }
+
+        //FINAL APPROVE OBR - BY BUDGET HEAD
+        public function approve_OBR($obr_id) {
+            $this->obr_model->updateApproval($obr_id);
+            // reirect('Budget_head/Obr');
         }
 
          // MACRO FUNCTIONS
@@ -141,27 +157,27 @@
             $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
         }
 
-        public function approve_OBR($obr_id) {
-            $this->obr_model->updateApproval($obr_id);
-            $data['content'] = 'Printable';
-            $data['dept_code'] = $this->input->post('dept');
-            $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
+        // public function approve_OBR($obr_id) {
+        //     $this->obr_model->updateApproval($obr_id);
+        //     $data['content'] = 'Printable';
+        //     $data['dept_code'] = $this->input->post('dept');
+        //     $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
 
-            $data['obr_details'] = $this->obr_model->readOBRdet_id($obr_id);
-            $data['obr_exp_details'] = $this->obr_model->readOBRexp_id($obr_id);
-            $data['mbo_det'] = $this->mbo_model->readMBO($obr_id);
+        //     $data['obr_details'] = $this->obr_model->readOBRdet_id($obr_id);
+        //     $data['obr_exp_details'] = $this->obr_model->readOBRexp_id($obr_id);
+        //     $data['mbo_det'] = $this->mbo_model->readMBO($obr_id);
 
-            $temp = $data['obr_details'];
-            $exp_id = $temp['EXPENDITURE_EXPENDITURE_id'];
-            $data['total_rel'] = $this->exp_model->total_actualRel($exp_id);
-            $lbp_id = $this->lbp_model->readLBP_dept($data['dept_code'], $this->input->post('year'));
+        //     $temp = $data['obr_details'];
+        //     $exp_id = $temp['EXPENDITURE_EXPENDITURE_id'];
+        //     $data['total_rel'] = $this->exp_model->total_actualRel($exp_id);
+        //     $lbp_id = $this->lbp_model->readLBP_dept($data['dept_code'], $this->input->post('year'));
             
-            $data['amt_approp'] = $this->lbp_model->read_AmtApprop($lbp_id, $this->input->post('year'), $exp_id);
-            $data['quarter'] = $this->getQuarter(date('m'));
-            $this->load->view('Pages/Budget_head_view/deskapp/head', $data);
-            $this->load->view('Pages/Budget_head_view/OBR_print', $data);
-            $this->load->view('Pages/Budget_head_view/deskapp/script', $data);
-        }
+        //     $data['amt_approp'] = $this->lbp_model->read_AmtApprop($lbp_id, $this->input->post('year'), $exp_id);
+        //     $data['quarter'] = $this->getQuarter(date('m'));
+        //     $this->load->view('Pages/Budget_head_view/deskapp/head', $data);
+        //     $this->load->view('Pages/Budget_head_view/OBR_print', $data);
+        //     $this->load->view('Pages/Budget_head_view/deskapp/script', $data);
+        // }
  
 
        
