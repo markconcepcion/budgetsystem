@@ -63,6 +63,88 @@
     </div>
 </div>
 
+<!-- MODAL FOR EDITING EXPENDITURE -->
+<div class="modal fade" id="editExpenditureModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <?php echo form_open('Superuser/Expenditure/editExpenditure'); ?>
+                <div class="modal-header bar">
+                    <img src="<?php echo base_url('assets/jimage/LGUBO.png'); ?>" class="logo">
+                    <h4 class="modal-title text-white mod_head" id="myLargeModalLabel">EDIT EXPENDITURE</h4>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body box shadow">
+                    <div class="form-group">
+                        <label>Expenditure Account Code</label>
+                        <div class="form-group row">
+                            <div class="col-sm-12 col-md-1 acct-code" style="padding-left:15.5px !important; max-width:45px !important;">
+                                <input class="form-control exp-acct-code code1Limit" name="accountCode1"  id="inputAccountCode1" type="text"style="width: 25px;" placeholder="0" required> 
+                            </div>
+                            <div class="dash col-sm-12 col-md-1">
+                                <span>_</span>
+                            </div>
+                            <div class="col-sm-12 col-md-1 acct-code">
+                                <input class="form-control exp-acct-code code2Limit" name="accountCode2" id="inputAccountCode2" type="text"style="width: 35px;" placeholder="00" required>
+                            </div>
+                            <div class="dash col-sm-12 col-md-1">
+                                <span>_</span>
+                            </div>
+                            <div class="col-sm-12 col-md-1 acct-code">
+                                <input class="form-control exp-acct-code code3Limit" name="accountCode3"  id="inputAccountCode3" type="text" style="width: 35px;" placeholder="00" required>
+                            </div>
+                            <div class="dash col-sm-12 col-md-1">
+                                <span>_</span>
+                            </div>
+                            <div class="col-sm-12 col-md-1 acct-code">
+                                <input class="form-control exp-acct-code code4Limit" name="accountCode4"  id="inputAccountCode4" type="text" style="width: 45px;" placeholder="000" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Expenditure Name</label>
+                        <div class="form-group">
+                            <input id="inputExpenditureID" name="expenditureID" hidden>
+                            <input class="form-control" type="text" id="inputExpenditure" name="expenditure">
+                        </div>
+                    </div>
+                    <div class="form-group text-right" style="margin: 10px 0 0 0;">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-secondary">Save changes</button>
+                    </div>
+                </div>
+            <?php echo form_close(); ?>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL FOR EDITING EXPENDITURE CLASS -->
+<div class="modal fade" id="editExpenditureClassModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <?php echo form_open('Superuser/Expenditure/editExpenditureClass'); ?>
+                <div class="modal-header bar">
+                    <img src="<?php echo base_url('assets/jimage/LGUBO.png'); ?>" class="logo">
+                    <h4 class="modal-title text-white mod_head" id="myLargeModalLabel">EDIT EXPENDITURE</h4>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body box shadow">
+                    <div class="form-group">
+                        <label>Expenditure Class Name</label>
+                        <div>
+                            <input id="inputExpenditureClassID" name="expenditureClassID" value="" hidden>
+                            <input class="form-control editable" type="text" id="inputExpenditureClass" name="expenditureClass" value="" required="">
+                        </div>
+                    </div>
+                    <div class="form-group text-right" style="margin: 10px 0 0 0;">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-secondary">Save changes</button>
+                    </div>
+                </div>
+            <?php echo form_close(); ?>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="logout-modal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content bar box-shadow">

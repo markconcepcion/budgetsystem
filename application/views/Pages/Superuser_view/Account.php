@@ -9,6 +9,9 @@
                             <a class="nav-link active text-blue" data-toggle="tab" href="#home5" role="tab" aria-selected="true">Accounts</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-blue" data-toggle="tab" href="#deactivatedAcct" role="tab" aria-selected="true">Inactive Accounts</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-blue" data-toggle="tab" href="#profile5" role="tab" aria-selected="false">Add an Account</a>
                         </li>
                     </ul>
@@ -35,6 +38,9 @@
                                                 <td><?php echo $key['DPT_NAME']; ?></td>
                                                 <td><?php echo $key['USR_POST']; ?></td>
                                                 <td> 
+                                                    <a href="<?php echo base_url('Superuser/Account/resetAcct/'.$key['USR_ID'].'/'.$key['USR_FNAME'].'/'.$key['DEPARTMENT_DPT_ID']); ?>">
+                                                        <button type="button" class="edit-dept btn btn-secondary btn-sm">Reset</button>
+                                                    </a>
                                                     <?php if ($key['USR_POST'] === "BUDGET HEAD") { ?>
                                                         <a href="<?php echo base_url('Superuser/Account/bh_deacct/'.$key['USR_ID']); ?>"><button type="button" class="btn btn-warning btn-sm">Deactivate</button></a>
                                                     <?php } else { ?>
@@ -43,6 +49,39 @@
                                                 </td>
                                             </tr>
                                         <?php } } } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="deactivatedAcct" role="tabpanel">
+                            <div class="pd-20 forscroll">
+                                <table class="table table-bordered table-sm">
+                                    <thead class="bar">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Employee Name</th>
+                                            <th scope="col">Department</th>
+                                            <th scope="col">User Position</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i=1; foreach ($inactiveAccts as $acct) { 
+                                            if ($key['USR_POST'] != "SUPERUSER") { 
+                                                // if (($bhprofile['USR_ID']+1) != $key['USR_ID']) {?>
+                                            <tr>
+                                                <th scope="row"><?php echo $i; $i++; ?></th>
+                                                <td><?php echo $acct['USR_FNAME'],' ',$acct['USR_LNAME']; ?></td>
+                                                <td><?php echo $acct['DPT_NAME']; ?></td>
+                                                <td><?php echo $acct['USR_POST']; ?></td>
+                                                <td>
+                                                    <a href="<?php echo base_url('Superuser/Account/activateAcct/'.$acct['USR_ID']); ?>">
+                                                        <button type="button" class="btn btn-warning btn-sm">Activate</button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php } } //} ?>
                                     </tbody>
                                 </table>
                             </div>

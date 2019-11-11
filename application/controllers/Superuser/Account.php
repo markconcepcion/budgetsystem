@@ -15,6 +15,7 @@
         {
             $data['content'] = 'Pages/Superuser_view/Account';
             $data['acc_list'] = $this->user_model->fetchUsers();
+            $data['inactiveAccts'] = $this->user_model->getInactiveAccts();
             $data['bhprofile'] = $this->user_model->fetchBH();
             $data['dept_list'] = $this->dept_model->readDept();
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
@@ -71,9 +72,31 @@
             }
         }
 
+        public function activateAcct($userID)
+        {
+            $userData = $this->user_model->fetchUsers($userID);
+            $checkPost = $this->user_model->checkPostVacancy($userData['DEPARTMENT_DPT_ID'], $userData['USR_POST']);
+
+            if ($checkPost->num_rows() > 0) {
+                $this->session->set_flashdata('edit_failed', 'Activation Denied! Another Account is being used by the department.');
+            } else {
+                $this->user_model->updateAccountStatus($userID, "ACTIVE");
+                $this->session->set_flashdata('edit_success', 'Activated Successfully!');
+            }
+
+            redirect('Superuser/Account');
+        } 
+        
         public function de_acct($id){
-            $this->user_model->deactivate($id);
+            $this->user_model->updateAccountStatus($userID, "INACTIVE");
 			$this->session->set_flashdata('edit_success', 'Success! The account has been deactivated');
+			redirect('Superuser/Account');
+        }
+
+        public function resetAcct($userID, $userName, $deptID)
+        {
+            $this->user_model->updateAccountEntry($userID, $userName, $deptID);
+			$this->session->set_flashdata('edit_success', 'Reset Successful!');
 			redirect('Superuser/Account');
         }
     }

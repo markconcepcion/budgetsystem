@@ -60,5 +60,22 @@
                 redirect('Superuser/Expenditure');
 			}
         }
+
+        public function editExpenditure()
+        {
+            $expenditureAcctCode = $this->input->post('accountCode1').'-'.$this->input->post('accountCode2').'-'.$this->input->post('accountCode3').'-'.$this->input->post('accountCode4');
+
+            $this->exp_model->updateExpenditure($expenditureAcctCode);
+            $this->session->set_flashdata('edit_success', 'Updated Successfully!');
+            redirect('Superuser/Expenditure');
+            
+        }
+
+        public function editExpenditureClass()
+        {
+            $this->exp_class_model->updateExpClass();
+            $this->session->set_flashdata('edit_success', 'Updated Successfully!');
+            redirect('Superuser/Expenditure');
+        }
     }
     

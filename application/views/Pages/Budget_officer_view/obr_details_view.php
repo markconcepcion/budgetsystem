@@ -164,10 +164,10 @@
                     </div>
 
                     <div class="text-right" style="padding-top:13px;">
-                        <button type="button" id="obr-reject-button" class="btn btn-secondary" value="DECLINED">DECLINED</button>
-                        <button type="button" id="obr-check-button" class="btn btn-warning">ACCEPT</button>
-                        <button type="submit" id="submit-accept-obr" name="obr_check_btn" value="CHECKED" hidden>ACCEPT</button>
-                        <button type="submit" id="submit-reject-obr" name="obr_check_btn" value="DECLINED" hidden>DECLINED</button>
+                        <button type="button" id="obr-reject-button" class="btn btn-secondary" value="DECLINED">REJECT</button>
+                        <button type="button" id="obr-check-button" class="btn btn-warning">APPROVE</button>
+                        <button type="submit" id="submit-accept-obr" name="obr_check_btn" value="CHECKED" hidden>APPROVE</button>
+                        <button type="submit" id="submit-reject-obr" name="obr_check_btn" value="DECLINED" hidden>REJECT</button>
                     </div>
                 <?php echo form_close(); ?>
 			</div>

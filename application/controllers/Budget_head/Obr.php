@@ -28,9 +28,9 @@
             $this->load->view('Pages/Budget_head_view/OBR_print');
             $this->load->view('Pages/Budget_head_view/deskapp/script');
         }
-
-        public function Obr_details($obr_id) { // DISPALY OBR DETAILS AND LBP EXPENDITURES  
-            $data['content'] = 'Pages/Budget_head_view/Obr_details_view';
+        
+        // DISPALY OBR DETAILS AND LBP EXPENDITURES - PENDING
+        public function Obr_details($obr_id) {   
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['dpt_id'] = $this->input->post('dpt_id');
             
@@ -46,18 +46,18 @@
             $data['obr_exps'] = $this->obr_model->readObrs_approved($Exps_id, $this->input->post('dpt_id'), date('Y'));
 
             // GET RECENT MBO NO AND OBR NO
-            $obr_no = $this->obr_model->readObr_No($this->session->userdata('level'), date('Y')); 
-            $mbo_no = $this->mbo_model->readMbo_No($this->session->userdata('level'), date('Y')); 
-            $data['obr_no'] = $this->no_explode($obr_no);
-            $data['mbo_no'] = $this->no_explode($mbo_no);
+            $data['obr_no'] = $this->obr_model->readObr_No($this->session->userdata('level'), date('Y')) + 1; 
+            $data['mbo_no'] = $this->mbo_model->readMbo_No($this->session->userdata('level'), date('Y')) + 1;
             
             $data['Obr_details'] = $this->obr_model->readObr($obr_id); // FETCH OBR DATA BY USING ID
             $data['quarter'] = $this->getQuarter(date('m')); // CURRENT QUARTER
             
+            $data['content'] = 'Pages/Budget_head_view/Obr_details_view';
             $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
         }
 
-        public function Obr_check($obr_id) { // CHECK OBR WETHER TO BE ACCEPTED OR DECLINED
+        // CHECK OBR WETHER TO BE ACCEPTED OR DECLINED
+        public function Obr_check($obr_id) { 
             if ($this->input->post('obr_check_btn') === "DECLINED") {
                 $this->obr_model->updateParticular($obr_id);
                 $this->obr_model->updateObr($obr_id);
@@ -107,16 +107,16 @@
             }
         }
 
-        function no_explode($n) {
-            if ($n === 0) {
-                return 1;
-            } else if ($n === 1500) {
-                return 1500;
-            } else {
-                $temp = explode('-', $n);
-                return $temp[0]+1;
-            }
-        }
+        // function no_explode($n) {
+        //     if ($n === 0) {
+        //         return 1;
+        //     } else if ($n === 1500) {
+        //         return 1500;
+        //     } else {
+        //         $temp = explode('-', $n);
+        //         return $temp[0]+1;
+        //     }
+        // }
 
 
 

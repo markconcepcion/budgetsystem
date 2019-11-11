@@ -25,7 +25,7 @@
                                 <th class="btn-secondary btn-sm notes">
                                     <i class="fa fa-sticky-note" aria-hidden="true"></i>
                                     NOTE: Click on the black buttons to show Expenditures
-                                    <i class="fa fa-smile-o" aria-hidden="true"></i>
+                                     
                                 </th>
                             </tr></thead>
                         </table>
@@ -42,7 +42,7 @@
                                         <th class="btn-secondary btn-sm notes">
                                             <i class="fa fa-sticky-note" aria-hidden="true"></i>
                                             NOTE: To Choose Expenditures, just click the checkboxes you want to include
-                                            <i class="fa fa-smile-o" aria-hidden="true"></i>
+                                             
                                         </th>
                                     </tr></thead>
                                 </table>
@@ -60,7 +60,7 @@
                             } ?>
                             <input name="currYr" value="<?php echo date('Y'); ?>" hidden>
                             <input name="Dpt_id" value="<?php echo $this->session->userdata('dept'); ?>" hidden>
-                            <button type="submit" class="btn btn-warning float" style="top:4%;right:4%;">Submit</button>
+                            <button type="submit" class="btn btn-warning float" style="top:0.5%;right:1%;">Submit</button>
                         <?php echo form_close(); ?>
                     </div>
                 </div>

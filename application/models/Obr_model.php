@@ -43,11 +43,11 @@
         {
             if ($Level === "BUDGET OFFICER 2") {
                 $query = $this->db->query("SELECT MAX(OBR_NO) AS OBR_NO FROM obligation_request 
-                    WHERE OBR_NO > 1500 AND YEAR(OBR_DATE) = $Yr");
+                    WHERE OBR_NO > 1500 AND obrNoYear = $Yr");
                 return $query->row()->OBR_NO ?? 1500;
             } else {
                 $query = $this->db->query("SELECT MAX(OBR_NO) AS OBR_NO FROM obligation_request 
-                    WHERE OBR_NO <= 1500 AND YEAR(OBR_DATE) = $Yr");
+                    WHERE OBR_NO <= 1500 AND obrNoYear = $Yr");
                 return $query->row()->OBR_NO ?? 0;
             }
         }
@@ -88,6 +88,19 @@
             return $query->row_array();
         }
 
+        public function readObrInfo($obr_id)
+        {
+            $query = $this->db->query("SELECT *, a.DEPARTMENT_DPT_ID as deptID FROM obligation_request
+                left JOIN mbo_control ON mbo_control.OBLIGATION_REQUEST_OBR_ID=obligation_request.OBR_ID
+                left JOIN user a ON a.USR_ID=obligation_request.USER_USR_ID
+                left JOIN user b ON b.USR_ID=mbo_control.USER_USR_ID
+                left JOIN particular ON particular.OBLIGATION_REQUEST_OBR_ID=obligation_request.OBR_ID
+                left JOIN expenditure ON expenditure.EXPENDITURE_id=particular.EXPENDITURE_EXPENDITURE_id
+                left JOIN expenditure_class ON expenditure_class.EXPCLASS_ID=expenditure.EXPENDITURE_CLASS_EXPCLASS_ID
+                WHERE OBR_ID = $obr_id");
+            return $query->row_array();
+        }
+
         public function readObrs_approved($exps, $dpt_id, $yr) // WITH 'S' - 3 ARG - MANY ROWS
         {
             $query = $this->db->query("SELECT * FROM obligation_request
@@ -109,6 +122,7 @@
         { // FIRST PHASE IN OBR PROCESS
             $data = array( 
                 'OBR_NO' => $this->input->post('obr_no'),
+                'obrNoYear' => date('Y'),
                 'OBR_STATUS' => $this->input->post('obr_check_btn'),
                 'OBR_APPROVED_DATE' => $this->input->post('obr_checked_date')
             ); 

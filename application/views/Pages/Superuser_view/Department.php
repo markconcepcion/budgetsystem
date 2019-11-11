@@ -9,6 +9,9 @@
                             <a class="nav-link active text-blue" data-toggle="tab" href="#home5" role="tab" aria-selected="true">Department List</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-blue" data-toggle="tab" href="#inactiveDept" role="tab" aria-selected="true">Inactive Departments</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-blue" data-toggle="tab" href="#profile5" role="tab" aria-selected="false">Click Here to Add Department</a>
                         </li>
                     </ul>
@@ -48,6 +51,36 @@
                                                 </tr>
                                             <?php }
                                         } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="inactiveDept" role="tabpanel">
+                            <div class="pd-20 forscroll">
+                                <table class="table table-bordered table-sm">
+                                    <thead class="bar">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Code</th>
+                                            <th scope="col">Department Name</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i=1; foreach ($inactiveDepts as $xDept) { ?>
+                                            <tr>
+                                                <th scope="row"><?php echo $i; $i++; ?></th>
+                                                <td><?php echo $xDept['DPT_ID']; ?></td>
+                                                <td><?php echo $xDept['DPT_NAME']; ?></td>
+                                                <td>
+                                                    <a href="<?php echo base_url('Superuser/Department/activateDept/'.$xDept['DPT_ID']); ?>" class="deact-dept-button">
+                                                        <button class="btn btn-warning btn-sm">
+                                                        <i class="" aria-hidden="true"></i>Activate</button>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>

@@ -31,7 +31,7 @@
                 $data['content'] = "Pages/Department_head_view/Notebook_view";
                 $this->load->view('Pages/Department_head_view/deskapp/layout', $data);
             } else {
-                $data['message'] = "You still haven't submitted an LBP Proposal..<br>Please submit one first.";
+                $data['message'] = "You still haven't submitted an LBP Proposal or<br>Your proposed budget is still pending.";
                 $data['content'] = "Pages/blank_view";
                 $this->load->view('Pages/Department_head_view/deskapp/layout', $data);
             }

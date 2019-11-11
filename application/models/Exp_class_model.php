@@ -52,5 +52,12 @@
 			$query = $this->db->get('expenditure');
 			return $query->result_array();
 		}
+
+		public function updateExpClass()
+		{
+			$data = array( 'EXPCLASS_NAME' => $this->input->post('expenditureClass') );
+			$this->db->where('EXPCLASS_ID', $this->input->post('expenditureClassID'));
+			return $this->db->update('expenditure_class', $data);
+		}
     }
     

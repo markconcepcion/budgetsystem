@@ -75,9 +75,9 @@
     .lbp-head th.title{ min-width:0!important; width:20%!important; }
     .bg-gray{ background:lightgray; }
 
-    .img-approved { position: absolute;
+    .img-approved {
+        float: right;
         width: 120px; height: 120px;
-        right: 5%; top: 30px;
     }
 
     .bar {

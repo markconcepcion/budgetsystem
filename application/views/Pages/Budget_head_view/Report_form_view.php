@@ -18,7 +18,7 @@
 </style>
 
 <div class="bar text-right toHide" style="height:auto;">
-    <a href="<?php echo base_url('Budget_head/Reports'); ?>"><button class="btn btn-warning"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Back</button></a>
+    <a href="<?php echo base_url('Budget_head/Reports'); ?>"><button class="btn btn-warning"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Back</button></a>
     <a href="<?php echo base_url(); ?>"><button class="btn btn-warning"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Home</button></a>
     <button type="button" class="btn btn-warning" id="print-btn"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
 </div>

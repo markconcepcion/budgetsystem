@@ -66,6 +66,26 @@
 			return $query->row_array();
 		}
 
+		public function checkPostVacancy($deptID, $userPost)
+		{
+			$query = $this->db->query("SELECT * FROM user
+				WHERE DEPARTMENT_DPT_ID = $deptID
+				AND USR_POST = '$userPost'
+				and USR_STATUS = 'ACTIVE'");
+			return $query;
+		}
+
+		public function getInactiveAccts()
+		{
+			$this->db->order_by('USR_POST', 'ASC');
+			$this->db->select('user.*, department.*');
+			$this->db->from('user');
+			$this->db->join('department', 'user.DEPARTMENT_DPT_ID = department.DPT_ID');
+			$this->db->where('USR_STATUS', "INACTIVE");
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+
 		public function fetchBH()
 		{
 		    $this->db->where('USR_POST', "BUDGET HEAD");
@@ -142,10 +162,21 @@
 			return $this->db->insert('assignation', $data);
 		}
 		
-		public function deactivate($id)
+		public function updateAccountStatus($userID, $userStatus)
 		{
-			$data = array( 'USR_STATUS' => "INACTIVE");
-			$this->db->where('USR_ID', $id);
-			return $this->db->update('user', $data);	
+			$data = array( 'USR_STATUS' => "$userStatus");
+			$this->db->where('USR_ID', $userID);
+			return $this->db->update('user', $data);
+		}
+
+		public function updateAccountEntry($userID, $userName, $deptID)
+		{
+			$newData = array (
+				'USR_PASSWORD' => $deptID,
+				'USR_USERNAME' => $userName
+			);
+
+			$this->db->where('USR_ID', $userID);
+			return $this->db->update('user', $newData);
 		}
 	}

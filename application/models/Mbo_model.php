@@ -10,6 +10,7 @@
         {
             $data = array( 
                 'MBO_ID' => $this->input->post('mbo_no'),
+                'mboIDYear' => date('Y'),
                 'OBLIGATION_REQUEST_OBR_ID' => $obr_id,
                 'USER_USR_ID' => $this->session->userdata('id'),
                 'CONTROL_NOTEBOOK_CTRL_NTB_ID' => $cn_id,
@@ -53,11 +54,11 @@
         {
             if ($level === "BUDGET OFFICER 2") {
                 $query = $this->db->query("SELECT MAX(MBO_ID) AS MBO_ID FROM mbo_control
-                    WHERE MBO_ID > 1500 AND MBO_ID LIKE '%$yr%'");
+                WHERE MBO_ID > 1500 AND mboIDYear = '$yr'");
                 return $query->row()->MBO_ID ?? 1500;
             } else {
                 $query = $this->db->query("SELECT MAX(MBO_ID) AS MBO_ID FROM mbo_control
-                    WHERE MBO_ID < 1500 AND MBO_ID LIKE '%$yr%'");
+                    WHERE MBO_ID < 1500 AND mboIDYear = '$yr'");
                 return $query->row()->MBO_ID ?? 0;
             }
         }

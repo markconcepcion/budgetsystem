@@ -11,7 +11,6 @@
         
         public function index() {
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
-
             $order = $this->input->post('order'); $data['order_by'] = $this->input->post('order_by');
             if ($order === null) { $order = "ASC"; $data['order_by'] = "SORT DESCENDINGLY"; }
             $data['obrs'] = $this->obr_model->readOBRs($this->session->userdata('level'), $order);
@@ -59,6 +58,25 @@
                 $this->obr_model->updateObr($obr_id);
                 $this->mbo_model->createMBO($obr_id, $cn_id);
             } redirect('Budget_officer/Obr');
+        }
+
+        public function obrPrint($obrID)
+        {
+            $data['mayor'] = $this->ui_model->getMayor();
+            $data['budgetHead'] = $this->ui_model->getBudgetHead();
+            $data['obrInfo'] = $this->obr_model->readObrInfo($obrID);
+
+            $obrInfo = $data['obrInfo'];
+            $expenditureID = $obrInfo['EXPENDITURE_id'];
+            $departmentID = $obrInfo['deptID'];
+            $obrYear = date('Y', strtotime($obrInfo['OBR_DATE']));
+            $lbpID = $this->lbp_model->readLbp2_id($departmentID, $obrYear, "FINALIZED"); 
+            
+            $data['lbpExpenditure'] = $this->exp_model->readExp($lbpID, $expenditureID); // GET EXP OF LBP 2 EXP 
+            $data['quarter'] = $this->getQuarter(date('m')); // CURRENT QUARTER
+            $data['obrApprovedExpenditure'] = $this->obr_model->readObrs_approved($expenditureID, $departmentID, $obrYear);
+
+            $this->load->view('Pages/Budget_officer_view/obrPrintView', $data);
         }
 
         // MACRO FUNCTIONS

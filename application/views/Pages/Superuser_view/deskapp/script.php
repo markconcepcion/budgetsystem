@@ -18,6 +18,28 @@
 </script>
 <script>
 	$(function () {
+		$('.editExpenditureClassBtn').on('click', function() {
+			var expClassID = $(this).data('id');
+			var expClass = $(this).data('value');
+
+			$('#inputExpenditureClassID').val(expClassID);
+			$('#inputExpenditureClass').val(expClass);
+		});
+
+		$('.editExpenditureBtn').on('click', function() {
+			var expenditureID = $(this).data('id');
+			var expenditureAcctCode = $(this).data('code');
+			var expenditure = $(this).data('name');
+
+			var arrayCode = expenditureAcctCode.split("-");
+			for (var x = 1; x <= arrayCode.length; x++) {
+				$('#inputAccountCode'+x).val(arrayCode[x-1]);
+			}
+
+			$('#inputExpenditureID').val(expenditureID);
+			$('#inputExpenditure').val(expenditure);
+		});
+
 		$('.deact-dept-button').on('click', function(){
 			var val = $(this).data('id');
 			$('#deact-dept-id').val(val);
@@ -48,42 +70,42 @@
 			$('#dept-name').val($(this).data('name'));
 		});
 
-		$("#code-one").keyup(function(){
+		$(".code1Limit").keyup(function(){
 			var val = $(this).val();
 
 			if(isNaN(val) == true || val > 9 || val == null){
 				alert("ENTER ONLY 1 DIGIT NUMBER");
 				$(this).val(null);
 			} else if(val > 0) {
-				$("#code-two").focus();
+				$(".code2Limit").focus();
 			}
 		});
 
-		$("#code-two").keyup(function(){
+		$(".code2Limit").keyup(function(){
 			var val = $(this).val();
-
+			
 			if(isNaN(val) == true || val > 99 || val == null){
 				alert("ENTER ONLY 2 DIGIT NUMBER");
 				$(this).val(null);
 			} else if(val >= 10) {
-				$("#code-three").focus();
+				$(".code3Limit").focus();
 			}
 			
 		});
 
-		$("#code-three").keyup(function(){
+		$(".code3Limit").keyup(function(){
 			var val = $(this).val();
 
 			if(isNaN(val) == true || val > 99 || val == null){
 				alert("ENTER ONLY 2 DIGIT NUMBER");
 				$(this).val(null);
 			} else if (val >= 10){
-					$("#code-four").focus();
+					$(".code4Limit").focus();
 				}
 			
 		});
 
-		$("#code-four").keyup(function(){
+		$(".code4Limit").keyup(function(){
 			var val = $(this).val();
 
 			if(isNaN(val) == true || val > 999 || val == null){

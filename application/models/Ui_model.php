@@ -57,5 +57,25 @@
                 AND USR_STATUS = 'ACTIVE'");
             return $query->row_array();
         }
+
+        public function getMayor()
+        {
+            $query = $this->db->query("
+                SELECT * FROM assignation 
+                WHERE assign_id = (SELECT MAX(assign_id) as assign_id FROM assignation
+                                    WHERE assign_post = 'MAYOR')
+            ");
+            return $query->row_array();
+        }
+
+        public function getBudgetHead()
+        {
+            $query = $this->db->query("
+                SELECT * FROM assignation 
+                WHERE assign_id = (SELECT MAX(assign_id) as assign_id FROM assignation
+                                    WHERE assign_post = 'BUDGET HEAD')
+            ");
+            return $query->row_array();
+        }
     }
     

@@ -163,3 +163,11 @@
 		<?php endif; ?>
 	});
 </script>
+
+<script>
+    $(function(){
+        $('#print-btn').click(function(){
+			window.print();
+        });
+    });
+</script>

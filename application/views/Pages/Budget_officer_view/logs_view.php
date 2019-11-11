@@ -52,7 +52,7 @@
                                         <td><?php echo $log['PART_PARTICULARS']; ?></td>
                                         <td><?php echo $log['OBR_DATE']; ?></td>
                                         <td><?php echo $log['DEPARTMENT_DPT_ID']; ?></td>
-                                        <td><button class="btn btn-secondary btn-sm" style="width:100%"><i class="fa fa-view"></i>View ObR</button></td>
+                                        <td><a href="<?php echo base_url('Budget_officer/Obr/obrPrint/'.$log['OBR_ID']); ?>"><button type="button" class="btn btn-secondary btn-sm" style="width:100%"><i class="fa fa-view"></i>View ObR</button></a></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -81,7 +81,7 @@
                                         <td><?php echo $log['PART_PARTICULARS']; ?></td>
                                         <td><?php echo $log['OBR_DATE']; ?></td>
                                         <td><?php echo $log['DEPARTMENT_DPT_ID']; ?></td>
-                                        <td><button class="btn btn-secondary btn-sm" style="width:100%"><i class="fa fa-view"></i>View ObR</button></td>
+                                        <td><a href="<?php echo base_url('Budget_officer/Obr/obrPrint/'.$log['OBR_ID']); ?>"><button type="button" class="btn btn-secondary btn-sm" style="width:100%"><i class="fa fa-view"></i>View ObR</button></a></td>
                                     </tr>
                                 <?php } } ?>
                             </tbody>
@@ -110,7 +110,7 @@
                                         <td><?php echo $log['PART_PARTICULARS']; ?></td>
                                         <td><?php echo $log['OBR_DATE']; ?></td>
                                         <td><?php echo $log['DEPARTMENT_DPT_ID']; ?></td>
-                                        <td><button class="btn btn-secondary btn-sm" style="width:100%"><i class="fa fa-view"></i>View ObR</button></td>
+                                        <td><a href="<?php echo base_url('Budget_officer/Obr/obrPrint/'.$log['OBR_ID']); ?>"><button type="button" class="btn btn-secondary btn-sm" style="width:100%"><i class="fa fa-view"></i>View ObR</button></a></td>
                                     </tr>
                                 <?php } } ?>
                             </tbody>

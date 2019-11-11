@@ -59,7 +59,13 @@
                                                                             <th scope="row"><?php echo $i; $i++; ?></th>
                                                                             <td><?php echo $key['EXP_ACCT_CODE']; ?></td>
                                                                             <td><?php echo $key['EXP_NAME']; ?></td>
-                                                                            <td></td>
+                                                                            <td>
+                                                                                <button type="button" class="editExpenditureBtn btn btn-warning btn-sm" data-id="<?php echo $key['EXPENDITURE_id']; ?>"
+                                                                                data-code="<?php echo $key['EXP_ACCT_CODE']; ?>" data-name="<?php echo $key['EXP_NAME']; ?>" data-toggle="modal" 
+                                                                                data-target="#editExpenditureModal">
+                                                                                    Edit
+                                                                                </button>
+                                                                            </td>
                                                                         </tr>
                                                                     <?php }
                                                                 } ?>
@@ -87,7 +93,13 @@
                                                                                     <th scope="row"><?php echo $i; $i++; ?></th>
                                                                                     <td><?php echo $exp_key['EXP_ACCT_CODE']; ?></td>
                                                                                     <td><?php echo $exp_key['EXP_NAME']; ?></td>
-                                                                                    <td></td>
+                                                                                    <td>
+                                                                                        <button type="button" class="editExpenditureBtn btn btn-warning btn-sm" data-id="<?php echo $key['EXPENDITURE_id']; ?>"
+                                                                                        data-code="<?php echo $key['EXP_ACCT_CODE']; ?>" data-name="<?php echo $key['EXP_NAME']; ?>" data-toggle="modal" 
+                                                                                        data-target="#editExpenditureModal">
+                                                                                            Edit
+                                                                                        </button>
+                                                                                    </td>
                                                                                 </tr>
                                                                             <?php }
                                                                         } ?>
@@ -111,25 +123,25 @@
                                         <label>Expenditure Account Code</label>
                                         <div class="form-group row">
                                             <div class="col-sm-12 col-md-1 acct-code" style="padding-left:15.5px !important; max-width:45px !important;">
-                                                <input class="form-control exp-acct-code" name="code1"  id="code-one" type="text"style="width: 25px;" placeholder="0" required> 
+                                                <input class="form-control exp-acct-code code1Limit" name="code1"  id="code-one" type="text"style="width: 25px;" placeholder="0" required> 
                                             </div>
                                             <div class="dash col-sm-12 col-md-1">
                                                 <span>_</span>
                                             </div>
                                             <div class="col-sm-12 col-md-1 acct-code">
-                                                <input class="form-control exp-acct-code" name="code2" id="code-two" type="text"style="width: 35px;" placeholder="00" required>
+                                                <input class="form-control exp-acct-code code2Limit" name="code2" id="code-two" type="text"style="width: 35px;" placeholder="00" required>
                                             </div>
                                             <div class="dash col-sm-12 col-md-1">
                                                 <span>_</span>
                                             </div>
                                             <div class="col-sm-12 col-md-1 acct-code">
-                                                <input class="form-control exp-acct-code" name="code3"  id="code-three" type="text" style="width: 35px;" placeholder="00" required>
+                                                <input class="form-control exp-acct-code code3Limit" name="code3"  id="code-three" type="text" style="width: 35px;" placeholder="00" required>
                                             </div>
                                             <div class="dash col-sm-12 col-md-1">
                                                 <span>_</span>
                                             </div>
                                             <div class="col-sm-12 col-md-1 acct-code">
-                                                <input class="form-control exp-acct-code" name="code4"  id="code-four" type="text" style="width: 45px;" placeholder="000" required>
+                                                <input class="form-control exp-acct-code code4Limit" name="code4"  id="code-four" type="text" style="width: 45px;" placeholder="000" required>
                                             </div>
                                         </div>
                                     </div>
@@ -137,7 +149,7 @@
                                         <label>Expenditure Name</label>
                                         <div class="form-group row">
                                             <div class="col-sm-12 col-md-9">
-                                                <input class="form-control" type="text" name="part_name" placeholder="Click Here to Enter Expenditure Name">
+                                                <input class="form-control" type="text" name="part_name" placeholder="Click Here to Enter Expenditure Name" required>
                                             </div>
                                         </div>
                                     </div>
@@ -163,17 +175,44 @@
 
                         <div class="tab-pane fade" id="contact5" role="tabpanel">
                             <div class="pd-20">
-                                <?php echo form_open('Superuser/Expenditure/addExpClass'); ?>
-                                    <div class="form-group row">
-                                        <label class="col-sm-12 col-md-2 col-form-label">Expenditure Class Name</label>
-                                        <div class="col-sm-12 col-md-10">
-                                            <input class="form-control" type="text" name="class_name" id="exp-class" placeholder="Click Here to Enter Expenditure Class Name">
-                                        </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="table table-bordered table-sm">
+                                            <thead class="bar">
+                                                <tr>
+                                                    <td>Expenditure Class</td>
+                                                    <td></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($exp_classes as $key) { ?>
+                                                    <tr>
+                                                        <td><?php echo ucwords(strtolower($key['EXPCLASS_NAME'])) ;?></td>
+                                                        <td>
+                                                            <button type="button" class="editExpenditureClassBtn btn btn-warning btn-sm" data-id="<?php echo $key['EXPCLASS_ID']?>"
+                                                            data-value="<?php echo ucwords(strtolower($key['EXPCLASS_NAME'])); ?>" data-toggle="modal" data-target="#editExpenditureClassModal">
+                                                                Edit
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="form-group text-right">
-                                        <button type="submit" class="btn btn-warning">Submit</button>
+                                    <div class="col-md-6">
+                                        <?php echo form_open('Superuser/Expenditure/addExpClass'); ?>
+                                            <div class="form-group">
+                                                <label>Expenditure Class Name</label>
+                                                <div>
+                                                    <input class="form-control" type="text" name="class_name" id="exp-class" placeholder="Click Here to Enter Expenditure Class Name">
+                                                </div>
+                                            </div>
+                                            <div class="form-group text-right">
+                                                <button type="submit" class="btn btn-warning">Submit</button>
+                                            </div>
+                                        <?php echo form_close(); ?>
                                     </div>
-                                <?php echo form_close(); ?>
+                                </div>
                             </div>
                         </div>
 

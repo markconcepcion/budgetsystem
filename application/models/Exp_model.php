@@ -129,5 +129,15 @@
             return $query->row_array();
             
         }
+
+        public function updateExpenditure($expenditureAcctCode)
+        {
+            $data = array(
+                'EXP_ACCT_CODE' => $expenditureAcctCode,
+                'EXP_NAME' => $this->input->post('expenditure')
+            );
+            $this->db->where('EXPENDITURE_id', $this->input->post('expenditureID'));
+            return $this->db->update('expenditure', $data);
+        }
     }
     

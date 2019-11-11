@@ -52,9 +52,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			return $this->db->update('department', $data);	
 		}
 
-		public function deactivateDept($id){
-			$data = array( 'DPT_STATUS' => "INACTIVE" );
-			$this->db->where('DPT_ID', $id);
+		
+
+		public function readInactiveDepartments()
+		{
+			$query = $this->db->query("SELECT * from department where DPT_STATUS = 'INACTIVE'");
+			return $query->result_array();
+		}
+
+		public function updateDeparmentStatus($deptID, $deptStatus){
+			$data = array( 'DPT_STATUS' => $deptStatus);
+			$this->db->where('DPT_ID', $deptID);
 			return $this->db->update('department', $data);	
 		}
 	}

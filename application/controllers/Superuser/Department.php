@@ -18,6 +18,7 @@
 		public function index(){
 			$data['content'] = 'Pages/Superuser_view/Department';
 			$data['dept_list'] = $this->dept_model->readDept(); 
+			$data['inactiveDepts'] = $this->dept_model->readInactiveDepartments();
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $this->load->view('Pages/Superuser_view/deskapp/layout', $data);
 		}
@@ -51,10 +52,16 @@
 			}
 		}
 
+		public function activateDept($deptID)
+		{
+			$this->dept_model->updateDeparmentStatus($deptID, "ACTIVE");
+			$this->session->set_flashdata('edit_success', 'Updated Successfully!');
+			redirect('Superuser/Department');
+		}
 		public function deactDept()
 		{
 			$this->session->set_flashdata('edit_success', 'Department Deactivated');
-			$this->dept_model->deactivateDept($this->input->post('dept_id'));
+			$this->dept_model->updateDeparmentStatus($this->input->post('dept_id'), "INACTIVE");
 			redirect('Superuser/Department');
 		}
 	}
