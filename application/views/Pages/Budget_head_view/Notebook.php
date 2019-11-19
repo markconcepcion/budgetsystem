@@ -4,7 +4,7 @@
 			<div class="pd-20 bg-white border-radius-4 box-shadow mb-30 primaryscroll">
 				
 				<!-- HEADER TABLE -->
-				<table class="table table-bordered table-sm">
+				<!-- <table class="table table-bordered table-sm">
                     <thead>
                         <tr style="background-color: lightgray;">
                             <th>
@@ -17,7 +17,7 @@
 							</th>
                         </tr>
                     </thead>
-                </table>
+                </table> -->
 				
 				<!-- MAIN TABLE -->
 				<table class="table table-bordered table-sm">

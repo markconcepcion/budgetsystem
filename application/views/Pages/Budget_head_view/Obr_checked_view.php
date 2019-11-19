@@ -21,7 +21,7 @@
                     <div class="col-sm-12 col-md-5 box-shadow ntb-bar" style="color:white; padding: 5px;">
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-6" style="padding-right:0px;">OBR NO.:</div>
-                            <div class="col-sm-12 col-md-6" style="padding-left:0px;"><?php echo $obr_details['OBR_NO']; ?></div>
+                            <div class="col-sm-12 col-md-6" style="padding-left:0px;"><?php echo $obr_details['OBR_NO'].'-'.$obr_details['obrNoYear']; ?></div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-6" style="padding-right:0px;">SUBMITTED ON:</div>
@@ -52,7 +52,7 @@
                         <div class="form-group row" style="margin-bottom:0;">
                             <label class="col-md-6 col-sm-12 label-input">Mun. Budget Office Control No.&nbsp;</label>
                             <div class="col-md-6 col-sm-12">
-                                <input name="mbo_no" class="line-input" value="<?php echo $obr_details['MBO_ID']; ?>" disabled>
+                                <input name="mbo_no" class="line-input" value="<?php echo $obr_details['MBO_ID'].'-'.$obr_details['mboIDYear']; ?>" disabled>
                             </div>
                         </div>
                         <div class="form-group row" style="margin-bottom:0;">

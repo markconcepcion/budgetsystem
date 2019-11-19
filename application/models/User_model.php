@@ -164,7 +164,7 @@
 		
 		public function updateAccountStatus($userID, $userStatus)
 		{
-			$data = array( 'USR_STATUS' => "$userStatus");
+			$data = array( 'USR_STATUS' => $userStatus);
 			$this->db->where('USR_ID', $userID);
 			return $this->db->update('user', $data);
 		}

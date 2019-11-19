@@ -47,12 +47,19 @@
                                         <?php } else { echo 'style="background-color:#4CAF50" >'; ?>
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         <?php } ?></td>
-                                        <td><?php echo $log['OBR_NO']; ?></td>
-                                        <td><?php echo $log['MBO_ID']; ?></td>
+                                        <td><?php echo $log['OBR_NO'].'-'.$log['obrNoYear']; ?></td>
+                                        <td><?php echo $log['MBO_ID'].'-'.$log['mboIDYear']; ?></td>
                                         <td><?php echo $log['PART_PARTICULARS']; ?></td>
                                         <td><?php echo $log['OBR_DATE']; ?></td>
                                         <td><?php echo $log['DEPARTMENT_DPT_ID']; ?></td>
-                                        <td><a href="<?php echo base_url('Budget_officer/Obr/obrPrint/'.$log['OBR_ID']); ?>"><button type="button" class="btn btn-secondary btn-sm" style="width:100%"><i class="fa fa-view"></i>View ObR</button></a></td>
+                                        <td>
+                                            <a href="<?php echo base_url('Budget_officer/Obr/obrPrint/'.$log['OBR_ID']); ?>">
+                                                <button type="button" class="btn btn-secondary btn-sm" style="width:100%">
+                                                    <i class="fa fa-view"></i>
+                                                    View ObR
+                                                </button>
+                                            </a>
+                                        </td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -76,12 +83,19 @@
                                     <?php if ($log['OBR_STATUS'] === 'APPROVED'){ ?>
                                     <tr>
                                         <td class="text-center" style="background-color:#4CAF50"><i class="fa fa-check" aria-hidden="true"></i></td>
-                                        <td><?php echo $log['OBR_NO']; ?></td>
-                                        <td><?php echo $log['MBO_ID']; ?></td>
+                                        <td><?php echo $log['OBR_NO'].'-'.$log['obrNoYear']; ?></td>
+                                        <td><?php echo $log['MBO_ID'].'-'.$log['mboIDYear']; ?></td>
                                         <td><?php echo $log['PART_PARTICULARS']; ?></td>
                                         <td><?php echo $log['OBR_DATE']; ?></td>
                                         <td><?php echo $log['DEPARTMENT_DPT_ID']; ?></td>
-                                        <td><a href="<?php echo base_url('Budget_officer/Obr/obrPrint/'.$log['OBR_ID']); ?>"><button type="button" class="btn btn-secondary btn-sm" style="width:100%"><i class="fa fa-view"></i>View ObR</button></a></td>
+                                        <td>
+                                            <a href="<?php echo base_url('Budget_officer/Obr/obrPrint/'.$log['OBR_ID']); ?>">
+                                                <button type="button" class="btn btn-secondary btn-sm" style="width:100%">
+                                                    <i class="fa fa-view"></i>
+                                                    View ObR
+                                                </button>
+                                            </a>
+                                        </td>
                                     </tr>
                                 <?php } } ?>
                             </tbody>
@@ -105,8 +119,8 @@
                                     <?php if ($log['OBR_STATUS'] === 'DECLINED') { ?>
                                         <tr>
                                         <td class="text-center" style="background-color:#ff9900"><i class="fa fa-close" aria-hidden="true"></i></td>
-                                        <td><?php echo $log['OBR_NO']; ?></td>
-                                        <td><?php echo $log['MBO_ID']; ?></td>
+                                        <td><?php echo $log['OBR_NO'].'-'.$log['obrNoYear']; ?></td>
+                                        <td><?php echo $log['MBO_ID'].'-'.$log['mboIDYear']; ?></td>
                                         <td><?php echo $log['PART_PARTICULARS']; ?></td>
                                         <td><?php echo $log['OBR_DATE']; ?></td>
                                         <td><?php echo $log['DEPARTMENT_DPT_ID']; ?></td>

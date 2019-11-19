@@ -87,7 +87,7 @@
             redirect('Superuser/Account');
         } 
         
-        public function de_acct($id){
+        public function de_acct($userID){
             $this->user_model->updateAccountStatus($userID, "INACTIVE");
 			$this->session->set_flashdata('edit_success', 'Success! The account has been deactivated');
 			redirect('Superuser/Account');
