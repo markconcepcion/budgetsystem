@@ -17,9 +17,9 @@
 					<h5 class="pd-20" style = "color:white;">Obligation Request List</h5>
 					<div class="list-group">
 						<a id = "pending" type = "button" class="cursor list-group-item d-flex align-items-center justify-content-between">Pending <span class="badge badge-primary badge-pill"><?=$PENDING;?></span></a>
-						<a id = "on_process" type = "button" class="cursor list-group-item d-flex align-items-center justify-content-between">On Process <span class="badge badge-primary badge-pill"><?=$ON_PROCESS;?></span></a>
+						<a id = "on_process" type = "button" class="cursor list-group-item d-flex align-items-center justify-content-between">On Process <span class="badge badge-primary badge-pill"><?=$CHECKED;?></span></a>
 						<a id = "approved" type = "button" class="cursor list-group-item d-flex align-items-center justify-content-between">Approved <span class="badge badge-primary badge-pill"><?=$APPROVED;?></span></a>
-						<a id = "reject" type = "button" class="cursor list-group-item d-flex align-items-center justify-content-between">Reject <span class="badge badge-primary badge-pill"><?=$REJECT;?></span></a>
+						<a id = "reject" type = "button" class="cursor list-group-item d-flex align-items-center justify-content-between">Reject <span class="badge badge-primary badge-pill"><?=$DECLINED;?></span></a>
 					</div>
 				</div>
 
@@ -60,7 +60,7 @@
 								</tr>
 							</thead>
 							<tbody>
-							<?php foreach ($obrs as $key) { if ($key['OBR_STATUS'] === "ON PROCESS") { ?>
+							<?php foreach ($obrs as $key) { if ($key['OBR_STATUS'] === "CHECKED") { ?>
 									<tr>
 										<td scope="row"><?php echo $key['OBR_DATE']; ?></td>
 										<td scope="row"><?php echo $key['OBR_PAYEE']; ?></td>

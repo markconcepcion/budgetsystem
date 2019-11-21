@@ -232,9 +232,9 @@
 
         <tr>
             <td colspan = "1" style = "border: 1px solid black" class = "text-left">Printed<br /> Name:</td>
-            <td colspan = "5" style = "border: 1px solid black" class = "text-center"><?php echo $mayor['assign_name']; ?></td>
+            <td colspan = "5" style = "border: 1px solid black" class = "text-center">ANTIONIO BACULIO</td>
             <td colspan = "1" style = "border: 1px solid black" class = "text-left">Printed<br /> Name:</td>
-            <td colspan = "5" style = "border: 1px solid black" class = "text-center"><?php echo $budgetHead['assign_name']; ?></td>
+            <td colspan = "5" style = "border: 1px solid black" class = "text-center">MARIELYD FERRER</td>
         </tr>
 
         <tr>

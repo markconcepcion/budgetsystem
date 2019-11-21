@@ -37,7 +37,7 @@
                 redirect('Superuser/Assignation');
 			} else {
                 $this->user_model->changeAssign();
-                $this->session->set_flashdata('edit_success', 'Success! Edited Successfully');
+                $this->session->set_flashdata('edit_success', 'Edited Successfully');
                 redirect('Superuser/Assignation');
             }
         }

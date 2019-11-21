@@ -42,7 +42,7 @@
                 redirect('Superuser/Expenditure');
             } else{
                 $this->exp_model->createParticular($part_code);
-				$this->session->set_flashdata('edit_success', 'Success! An Expenditure has been added.');
+				$this->session->set_flashdata('edit_success', 'Expenditure added successfully.');
                 redirect('Superuser/Expenditure');
 			}
         }

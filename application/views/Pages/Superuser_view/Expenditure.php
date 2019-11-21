@@ -94,8 +94,8 @@
                                                                                     <td><?php echo $exp_key['EXP_ACCT_CODE']; ?></td>
                                                                                     <td><?php echo $exp_key['EXP_NAME']; ?></td>
                                                                                     <td>
-                                                                                        <button type="button" class="editExpenditureBtn btn btn-warning btn-sm" data-id="<?php echo $key['EXPENDITURE_id']; ?>"
-                                                                                        data-code="<?php echo $key['EXP_ACCT_CODE']; ?>" data-name="<?php echo $key['EXP_NAME']; ?>" data-toggle="modal" 
+                                                                                        <button type="button" class="editExpenditureBtn btn btn-warning btn-sm" data-id="<?php echo $exp_key['EXPENDITURE_id']; ?>"
+                                                                                        data-code="<?php echo $exp_key['EXP_ACCT_CODE']; ?>" data-name="<?php echo $exp_key['EXP_NAME']; ?>" data-toggle="modal" 
                                                                                         data-target="#editExpenditureModal">
                                                                                             Edit
                                                                                         </button>

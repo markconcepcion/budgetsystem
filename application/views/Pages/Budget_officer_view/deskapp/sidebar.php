@@ -7,7 +7,7 @@
 	</div>
 	<div class="menu-block customscroll" id="sidebar">
 		<div class="title sidebar-menu" style="text-align:center; padding-bottom:0px;">
-			<h5 style="color: lightgrey;"><?php echo $this->session->userdata('level'); ?></h5>
+			<h5 style="color: lightgrey;">Budget Officer</h5>
 		</div>
 		<div class="sidebar-menu" id="sidebar">
 			<ul id="accordion-menu">
@@ -29,6 +29,17 @@
 				<li>
 					<a href="<?php echo base_url('Budget_officer/ControlNotebook'); ?>" class="dropdown-toggle no-arrow">
 						<i class="fa fa-book" aria-hidden="true"></i><span class="mtext">NOTEBOOK</span>
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo base_url('Budget_officer/Report'); ?>" class="dropdown-toggle no-arrow">
+						<i class="fa fa-bar-chart" aria-hidden="true"></i><span class="mtext">REPORTS</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="<?php echo base_url('Budget_officer/Lbp'); ?>" class="dropdown-toggle no-arrow">
+						<i class="fa fa-list" aria-hidden="true"></i><span class="mtext">LBP</span>
 					</a>
 				</li>
 			</ul>

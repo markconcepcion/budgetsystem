@@ -58,25 +58,33 @@
             $data['content'] = "Pages/Budget_officer_view/Notebook_exp_view";
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
 
-            //GETTING EXPENDITURE AND EXPEDITURES CLASS IN THE LBP2
-            $currYr = $this->input->post('currYr'); // GET YEAR FROM INPUT
-            if($currYr === NULL){ $currYr = date('Y'); } // SET YEAR TP CURRENT YEAR IF NULL
-            $Lbp_id = $this->lbp_model->readLbp2_id($d_code, $currYr); //GET LBP2 ID
-            $data['Lbp_exps'] = $this->lbp_model->readLbp2($Lbp_id); // GET EXPENDITURES USING LBP2 ID
-            $Exp_id = ""; // SET A NULL VALUE
-            foreach ($data['Lbp_exps'] as $ids) { $Exp_id = $Exp_id.$ids['EXPENDITURE_EXPENDITURE_id'].','; } // COMPILE ALL EXP ID THAT CORRESPONDS WITH LBP_EXP
-            $Exps_id = substr_replace($Exp_id ,"",-1); // REMOVE LAST COMMNA 
-            $data['Exp_classes'] = $this->exp_class_model->readExpClasses($Exps_id); //USE COMPLIDE IDS TO GET EXPENDITURES CLASS
-            $data['Exps'] = $this->exp_model->readExps($Exps_id); //USE COMPLIDE IDS TO GET EXPENDITURES CLASS
+            $expenditure = $this->input->post('Exp_id');
+			$expenditureClass = $this->input->post('ExC_id');
 
-            //GET ANNUAL APPROPRITATION AND QUARTER NO.
-            $data['annualApprop'] = $this->exp_model->readExp($Lbp_id, $this->input->post('Exp_id'));
-            $data['quarter'] = $this->getQuarter(date('m'));
+			if(!is_numeric($expenditure) || !is_numeric($expenditureClass)) {
+                $this->session->set_flashdata('edit_failed', 'Incomplete Data!');
+				redirect('Budget_officer/ControlNotebook');
+            } else {
+                //GETTING EXPENDITURE AND EXPEDITURES CLASS IN THE LBP2
+                $currYr = $this->input->post('currYr'); // GET YEAR FROM INPUT
+                if($currYr === NULL){ $currYr = date('Y'); } // SET YEAR TP CURRENT YEAR IF NULL
+                $Lbp_id = $this->lbp_model->readLbp2_id($d_code, $currYr); //GET LBP2 ID
+                $data['Lbp_exps'] = $this->lbp_model->readLbp2($Lbp_id); // GET EXPENDITURES USING LBP2 ID
+                $Exp_id = ""; // SET A NULL VALUE
+                foreach ($data['Lbp_exps'] as $ids) { $Exp_id = $Exp_id.$ids['EXPENDITURE_EXPENDITURE_id'].','; } // COMPILE ALL EXP ID THAT CORRESPONDS WITH LBP_EXP
+                $Exps_id = substr_replace($Exp_id ,"",-1); // REMOVE LAST COMMNA 
+                $data['Exp_classes'] = $this->exp_class_model->readExpClasses($Exps_id); //USE COMPLIDE IDS TO GET EXPENDITURES CLASS
+                $data['Exps'] = $this->exp_model->readExps($Exps_id); //USE COMPLIDE IDS TO GET EXPENDITURES CLASS
 
-            $data['exp_name'] = $this->exp_model->readExpenditure($this->input->post('Exp_id'));
-            $data['dept_code'] = $d_code;
-            $data['records'] = $this->controlnb_model->readNotebook_id($d_code, $this->input->post('Exp_id'), $Lbp_id);
-            $this->load->view('Pages/Budget_officer_view/deskapp/layout', $data);
+                //GET ANNUAL APPROPRITATION AND QUARTER NO.
+                $data['annualApprop'] = $this->exp_model->readExp($Lbp_id, $this->input->post('Exp_id'));
+                $data['quarter'] = $this->getQuarter(date('m'));
+
+                $data['exp_name'] = $this->exp_model->readExpenditure($this->input->post('Exp_id'));
+                $data['dept_code'] = $d_code;
+                $data['records'] = $this->controlnb_model->readNotebook_id($d_code, $this->input->post('Exp_id'), $Lbp_id);
+                $this->load->view('Pages/Budget_officer_view/deskapp/layout', $data);
+            }
 		}
 
 		public function addNotebooks() {

@@ -26,7 +26,7 @@
             $this->obr_model->createOBR($obr_id, $lb_id['LB_ID']);
             $this->obr_model->createOBR_Expenditure($obr_id);
 
-            $this->session->set_flashdata('edit_success', 'Your Request have been submitted');
+            $this->session->set_flashdata('edit_success', 'OBR submitted successfully!');
             redirect('Department_head/Obligation_request');
         }
     }

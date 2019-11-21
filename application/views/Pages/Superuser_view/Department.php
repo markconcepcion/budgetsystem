@@ -33,12 +33,12 @@
                                     </thead>
                                     <tbody>
                                         <?php $i=1; foreach ($dept_list as $key) { 
-                                            if (($key['USR_POST'] != "BUDGET OFFICER") && ($key['USR_POST'] != "SUPERUSER") && ($key['USR_STATUS'] === "ACTIVE") ) { ?>
+                                            // if (($key['USR_POST'] != "BUDGET OFFICER") && ($key['USR_POST'] != "SUPERUSER") && ($key['USR_STATUS'] === "ACTIVE") ) { ?>
                                                 <tr>
                                                     <th scope="row"><?php echo $i; $i++; ?></th>
                                                     <td><?php echo $key['DPT_ID']; ?></td>
                                                     <td><?php echo $key['DPT_NAME']; ?></td>
-                                                    <td><?php echo $key['USR_FNAME'],' ',$key['USR_LNAME']; ?></td>
+                                                    <td><?php echo $key['deptHead']; ?></td>
                                                     <td><button type="button" class="edit-dept btn btn-secondary btn-sm" 
                                                             data-toggle="modal" data-target="#edit_dept" 
                                                             data-id="<?php echo $key['DPT_ID']; ?>"
@@ -49,7 +49,7 @@
                                                             <i class="" aria-hidden="true"></i>Deactivate</button></a>
                                                     </td>
                                                 </tr>
-                                            <?php }
+                                            <?php // }
                                         } ?>
                                     </tbody>
                                 </table>

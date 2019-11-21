@@ -17,7 +17,7 @@
 
 		public function index(){
 			$data['content'] = 'Pages/Superuser_view/Department';
-			$data['dept_list'] = $this->dept_model->readDept(); 
+			$data['dept_list'] = $this->dept_model->readDepartment(); 
 			$data['inactiveDepts'] = $this->dept_model->readInactiveDepartments();
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $this->load->view('Pages/Superuser_view/deskapp/layout', $data);
@@ -33,7 +33,7 @@
 				redirect('Superuser/Department');                
 			} else {
 				$this->dept_model->createDept();
-                $this->session->set_flashdata('edit_success', 'Success! A department has been added.');
+                $this->session->set_flashdata('edit_success', 'Department Successfully Added.');
 				redirect('Superuser/Department');
 			}
 		}

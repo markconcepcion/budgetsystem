@@ -33,13 +33,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$query = $this->db->query("SELECT * FROM department
 				LEFT JOIN user ON user.DEPARTMENT_DPT_ID = department.DPT_ID
 				WHERE department.DPT_STATUS = 'ACTIVE'");
-	
+
 				return $query->result_array();
 			}
 
 			$this->db->where('DPT_ID', $dept_id);
 			$query = $this->db->get('department');
 			return $query->row_array();
+		}
+
+		public function readDepartment()
+		{
+			$query = $this->db->query("SELECT * FROM department
+				WHERE department.DPT_STATUS = 'ACTIVE'");
+
+				return $query->result_array();
 		}
 
 		public function updateDept(){

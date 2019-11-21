@@ -90,8 +90,9 @@
 
         //FINAL APPROVE OBR - BY BUDGET HEAD
         public function approve_OBR($obr_id) {
+            $this->session->set_flashdata('edit_success', 'OBR Approved!');
             $this->obr_model->updateApproval($obr_id);
-            // reirect('Budget_head/Obr');
+            redirect('Budget_head/Obr');
         }
 
          // MACRO FUNCTIONS

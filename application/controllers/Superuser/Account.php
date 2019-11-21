@@ -44,7 +44,7 @@
                     redirect('Superuser/Account');
                 } else {
                     $this->user_model->createUser($this->input->post('upost'));
-                    $this->session->set_flashdata('edit_success', 'Success! A Department Head Account has been created.');
+                    $this->session->set_flashdata('edit_success', 'Account successfully added!');
                     redirect('Superuser/Account');
                 }
 			} else {
