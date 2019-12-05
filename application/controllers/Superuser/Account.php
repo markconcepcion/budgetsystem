@@ -54,7 +54,8 @@
                         redirect('Superuser/Account');
                     } else {
                         $this->user_model->createUser($this->input->post('upost'));
-                        $this->user_model->createUser("DEPARTMENT HEAD");
+                        $this->user_model->createUser("BH_DEPTHEAD");
+                        $this->user_model->createUser("BH_STAFF");
                         $this->session->set_flashdata('edit_success', 'Success! A Budget Head Account has been created.');
                         redirect('Superuser/Account');
                     }
@@ -80,8 +81,15 @@
             if ($checkPost->num_rows() > 0) {
                 $this->session->set_flashdata('edit_failed', 'Activation Denied! Another Account is being used by the department.');
             } else {
-                $this->user_model->updateAccountStatus($userID, "ACTIVE");
-                $this->session->set_flashdata('edit_success', 'Activated Successfully!');
+                if ($userData['USR_POST'] === 'BUDGET HEAD') {
+                    $this->user_model->updateAccountStatus($userID, "ACTIVE");
+                    $this->user_model->updateAccountStatus($userID+1, "ACTIVE");
+                    $this->user_model->updateAccountStatus($userID+2, "ACTIVE");
+                    $this->session->set_flashdata('edit_success', 'Activated Successfully!');
+                } else {
+                    $this->user_model->updateAccountStatus($userID, "ACTIVE");
+                    $this->session->set_flashdata('edit_success', 'Activated Successfully!');
+                }
             }
 
             redirect('Superuser/Account');
@@ -97,6 +105,15 @@
         {
             $this->user_model->updateAccountEntry($userID, $userName, $deptID);
 			$this->session->set_flashdata('edit_success', 'Reset Successful!');
+			redirect('Superuser/Account');
+        }
+
+        public function bh_deacct($userID)
+        {
+            $this->user_model->updateAccountStatus($userID, "INACTIVE");
+            $this->user_model->updateAccountStatus(($userID+1), "INACTIVE");
+            $this->user_model->updateAccountStatus(($userID+2), "INACTIVE");
+            $this->session->set_flashdata('edit_success', 'The account is deactivated!');
 			redirect('Superuser/Account');
         }
     }

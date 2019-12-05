@@ -13,8 +13,14 @@
 <script src="<?php echo base_url()?>assets/src/plugins/datatables/media/js/button/vfs_fonts.js"></script>
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+
+
 <script>
-	$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" onclick="history.go(-1);return false;"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
+	<?php if ($content == 'Pages/Budget_head_view/Obr_details_view' ) { ?>
+        <a class="btn btn-warning float backbtn" href="<?php echo base_url('Budget_head/Obr/removeStat/'.$Obr_details['OBR_ID']); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>
+	<?php } else { ?>
+		$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" href="<?php echo base_url('Budget_head/'.$highlights); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
+	<?php } ?>
 </script>
 <script> // EDIT PROFILE AND TOGGLE SIDEBAR 
 	//EDIT PROFILE
@@ -105,7 +111,7 @@
 		$('#obr-reject-btn').on('click', function(){
 			var val = $('#mbo-bal-approp-dummy').val();
 			if (val=="") {
-				$('#alert-popup-h4').text('ERROR! Expenditure not found.');
+				$('#alert-popup-h4').text('Expenditure not found.');
 				$('#alert-popup').modal('show');
 			} else {
 				$('#obr-status-h4').text('Reject Obr?');
@@ -118,10 +124,10 @@
 		$('#obr-check-btn').on('click', function(){
 			var val = $('#mbo-bal-approp-dummy').val();
 			if (val<0) {
-				$('#alert-popup-h4').text('ERROR! Insufficient Gold.');
+				$('#alert-popup-h4').text('Insufficient Budget.');
 				$('#alert-popup').modal('show');
 			} else if (val=="") {
-				$('#alert-popup-h4').text('ERROR! Expenditure not found.');
+				$('#alert-popup-h4').text('Expenditure not found.');
 				$('#alert-popup').modal('show');
 			} else {
 				$('#obr-status-h4').text('Approve Obr?');

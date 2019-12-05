@@ -12,6 +12,7 @@
 
 		public function index()
 		{	
+            $data['highlights'] = 'logbook';
 			$data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id')); // GET SESSION PROFILE
 			
 			$data['logbook'] = $this->logbook_model->readLogbook(date('Y')); // CHECK IF LOGBOOK FOR THIS YEAR EXIST

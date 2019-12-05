@@ -10,6 +10,7 @@
 
         public function index()
         {
+            $data['highlights'] = 'home';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['content'] = 'Pages/Budget_officer_view/Homepage_view';
             

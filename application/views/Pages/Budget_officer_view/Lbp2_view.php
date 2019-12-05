@@ -111,7 +111,7 @@
                                 <label>Prepared by:</label>
                                 <br />
                                 <br />
-                                <h5 class = "text-center"><?php echo $Lbp2_det['deptHead']; ?></h5>
+                                <h5 class = "text-center"><?php echo $Lbp2_det['USR_FNAME'].' '.$Lbp2_det['USR_MNAME'].' '.$Lbp2_det['USR_LNAME']; ?></h5>
                                 <h6 class = "text-center">Department Head</h6>
                             </div>
                         </div>

@@ -11,6 +11,7 @@
         }
         
         public function index() {   
+            $data['highlights'] = 'obr';
             $order = $this->input->post('order'); $data['order_by'] = $this->input->post('order_by');
             if ($order === null) { $order = "ASC"; $data['order_by'] = "SORT DESCENDINGLY"; }
 
@@ -28,9 +29,25 @@
             $this->load->view('Pages/Budget_head_view/OBR_print');
             $this->load->view('Pages/Budget_head_view/deskapp/script');
         }
+
+        public function removeStat($obr_id)
+        {
+            $this->obr_model->isView($obr_id, '0');
+            redirect('Budget_head/Obr');
+        }
         
         // DISPALY OBR DETAILS AND LBP EXPENDITURES - PENDING
-        public function Obr_details($obr_id) {   
+        public function Obr_details($obr_id) {
+            $checkViewStat =  $this->obr_model->readObr($obr_id);
+            if ($checkViewStat['obrViewStatus'] == '1') {
+                $this->session->set_flashdata('edit_failed', 'On The Process');
+                redirect('Budget_head/Obr');
+            }
+
+            $data['highlights'] = 'obr';
+            $this->obr_model->isView($obr_id, '1');
+
+            
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['dpt_id'] = $this->input->post('dpt_id');
             
@@ -71,6 +88,7 @@
         }
 
         public function Obr_details_checked($obr_id) {
+            $data['highlights'] = 'obr';
             $data['content'] = 'Pages/Budget_head_view/Obr_checked_view';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['dpt_id'] = $this->input->post('dpt_id');
@@ -90,8 +108,16 @@
 
         //FINAL APPROVE OBR - BY BUDGET HEAD
         public function approve_OBR($obr_id) {
-            $this->session->set_flashdata('edit_success', 'OBR Approved!');
-            $this->obr_model->updateApproval($obr_id);
+            $btnVal = $this->input->post('btnVal');
+
+            if ($btnVal === 'DECLINE') {
+                $this->session->set_flashdata('edit_failed', 'OBR Declined!');
+                $this->obr_model->returnOBR($obr_id);
+            } else {
+                $this->session->set_flashdata('edit_success', 'OBR Approved!');
+                $this->obr_model->updateApproval($obr_id);
+            }
+            
             redirect('Budget_head/Obr');
         }
 
@@ -110,6 +136,7 @@
 
         public function obrPrint($obrID)
         {
+            $data['highlights'] = 'obr';
             $data['mayor'] = $this->ui_model->getMayor();
             $data['budgetHead'] = $this->ui_model->getBudgetHead();
             $data['obrInfo'] = $this->obr_model->readObrInfo($obrID);

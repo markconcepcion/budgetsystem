@@ -14,7 +14,7 @@
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
 <script>
-	$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" onclick="history.go(-1);return false;"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
+	$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" href="<?php echo base_url('Department_head/'.$highlights); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
 </script>
 
 <script>

@@ -13,7 +13,7 @@
                             <tr> <th class="text-center" colspan="2"><h5>PROGRAM APPROPRIATION AND OBLIGATION BY OBJECT OF EXPENDITURE</h5></th> </tr>
                             <tr>
                                 <th class="title">Office Department</th>
-                                <th><?php //echo ': '.$Lbp2_det['DPT_NAME']; ?></th>
+                                <th><?php echo ': '.$deptDetails['DPT_NAME']; ?></th>
                             </tr>
                             <tr>
                                 <th class="title">Function</th>
@@ -106,14 +106,21 @@
                             </tr>
                         </tbody>
                     </table>
+                    
                     <div class="row">
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
                                 <label>Prepared by:</label>
                                 <br />
                                 <br />
-                                <h5 class = "text-center">HON. ANTONIO H. BACULIO</h5>
-                                <h6 class = "text-center">Municipal Mayor</h6>
+                                <h5 class = "text-center"><?php echo $deptDetails['deptHead']; ?></h5>
+                                <h6 class = "text-center">
+                                    <?php if ($deptDetails['DPT_ID'] == 1011) { 
+                                        echo 'Municipal Mayor';
+                                    } else {
+                                        echo 'Department Head';
+                                    } ?>
+                                </h6>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-12">
@@ -121,7 +128,7 @@
                                 <label>Reviewed by:</label>
                                 <br />
                                 <br />
-                                <h5 class = "text-center">MARIELYD A. FERRER, CPA</h5>
+                                <h5 class = "text-center"><?php echo $bhead['deptHead'] ?></h5>
                                 <h6 class = "text-center">Mun. Budget Officer</h6>
                             </div>
                         </div>
@@ -130,11 +137,14 @@
                                 <label>Approved by:</label>
                                 <br />
                                 <br />
-                                <h5 class = "text-center">HON. ANTONIO H. BACULIO</h5>
+                                <h5 class = "text-center"><?php echo $mayor['deptHead'] ?></h5>
                                 <h6 class = "text-center">Municipal Mayor</h6>
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="preparedBy" value="<?php echo $deptDetails['deptHead'] ?>">
+                    <input type="hidden" name="reviewedBy" value="<?php echo $bhead['deptHead'] ?>">
+                    <input type="hidden" name="approvedBy" value="<?php echo $mayor['deptHead'] ?>">
                 <?php echo form_close(); ?>
             </div>
         </div>

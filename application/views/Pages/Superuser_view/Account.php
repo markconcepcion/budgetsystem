@@ -30,8 +30,7 @@
                                     </thead>
                                     <tbody>
                                         <?php $i=1; foreach ($acc_list as $key) { 
-                                            if ($key['USR_POST'] != "SUPERUSER") { 
-                                                if (($bhprofile['USR_ID']+1) != $key['USR_ID']) {?>
+                                            if ($key['USR_POST'] != "SUPERUSER" && $key['USR_POST'] != "BH_STAFF" && $key['USR_POST'] != "BH_DEPTHEAD") { ?>
                                             <tr>
                                                 <th scope="row"><?php echo $i; $i++; ?></th>
                                                 <td><?php echo $key['USR_FNAME'],' ',$key['USR_LNAME']; ?></td>
@@ -48,7 +47,7 @@
                                                     <?php } ?>
                                                 </td>
                                             </tr>
-                                        <?php } } } ?>
+                                        <?php } } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -68,8 +67,7 @@
                                     </thead>
                                     <tbody>
                                         <?php $i=1; foreach ($inactiveAccts as $acct) { 
-                                            if ($key['USR_POST'] != "SUPERUSER") { 
-                                                // if (($bhprofile['USR_ID']+1) != $key['USR_ID']) {?>
+                                            if ($acct['USR_POST'] != "BH_STAFF" && $acct['USR_POST'] != "BH_DEPTHEAD") { ?>
                                             <tr>
                                                 <th scope="row"><?php echo $i; $i++; ?></th>
                                                 <td><?php echo $acct['USR_FNAME'],' ',$acct['USR_LNAME']; ?></td>
@@ -81,7 +79,7 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                        <?php } } //} ?>
+                                        <?php } } ?>
                                     </tbody>
                                 </table>
                             </div>

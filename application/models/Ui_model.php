@@ -58,24 +58,24 @@
             return $query->row_array();
         }
 
-        public function getMayor()
+        public function getSignature($deptID)
         {
-            $query = $this->db->query("
-                SELECT * FROM assignation 
-                WHERE assign_id = (SELECT MAX(assign_id) as assign_id FROM assignation
-                                    WHERE assign_post = 'MAYOR')
-            ");
+            $query = $this->db->query("SELECT * FROM department d 
+                                WHERE d.DPT_STATUS = 'ACTIVE'
+                                AND d.DPT_ID = $deptID");
             return $query->row_array();
         }
 
-        public function getBudgetHead()
+        public function getObr_dept($deptID, $obrStatus, $year)
         {
-            $query = $this->db->query("
-                SELECT * FROM assignation 
-                WHERE assign_id = (SELECT MAX(assign_id) as assign_id FROM assignation
-                                    WHERE assign_post = 'BUDGET HEAD')
-            ");
-            return $query->row_array();
+            $query = $this->db->query("SELECT obr.OBR_DATE, obr.OBR_PAYEE, p.PART_PARTICULARS, p.PART_AMOUNT FROM obligation_request obr
+                                    join particular p on p.OBLIGATION_REQUEST_OBR_ID=obr.OBR_ID
+                                    join user u on u.USR_ID=obr.USER_USR_ID
+                                    where u.DEPARTMENT_DPT_ID = $deptID
+                                    and obr.OBR_STATUS = '{$obrStatus}'
+                                    and year(obr.OBR_DATE) = $year
+                                    ORDER BY obr.OBR_DATE DESC");
+            return $query->result_array();
         }
     }
     

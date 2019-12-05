@@ -1,5 +1,6 @@
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
+        <a class="btn btn-warning float backbtn" href="<?php echo base_url('Budget_officer/Obr/removeStat/'.$Obr_details['OBR_ID']); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>
         <div class="min-height-200px">
 			<div class="pd-20 bg-white border-radius-4 box-shadow mb-30 primaryscroll">
                 <div class="hide">

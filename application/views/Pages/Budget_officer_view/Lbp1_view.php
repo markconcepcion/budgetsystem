@@ -2,29 +2,12 @@
     .table-bordered td{ padding: 2px; font-size: 15px ! important; }
     .t-align{ text-align:right; }
 </style>
-<style type="text/css" media="screen"></style>
-<style type="text/css" media="print">
-    /* @page {size:landscape}  */ 
-    @media print {
-        @page {size: Legal landscape;max-height:100%; max-width:100%}
-        body{ width:100%; height:100%; }    
-        .toHide, .toHide * {display:none !important;}
-        .delBorder, .delBorder * {border:0; margin:0 !important;}
-        .header-right, .left-side-bar {display:none !important;}
-        #mCSB_2_scrollbar_vertical, #mCSB_2_scrollbar_vertical * {display:none !important;}
-        .backbtn, .backbtn * {display:none !important;}
-        .main-container {padding:0 !important;}
-    }
-</style>
 
 <?php $val1 = 0; $val2 = 0; $val3 = 0; ?>
 <div class="main-container">
     <div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
         <div class="min-height-200px">
             <div class="pd-20 bg-white border-radius-4 box-shadow mb-30 delBorder">
-                    <div class="text-right toHide" style="height:auto;">
-                        <button type="button" class="btn btn-warning" id="print-btn"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
-                    </div>
                     <h6> Consolidated LBP 1</h6><br />
                     <h5 class = "text-center">PROGRAM APPROPRIATION AND OBLIGATION BY OBJECT OF EXPENDITURE</h5><br />
                     <div class="form-group row">

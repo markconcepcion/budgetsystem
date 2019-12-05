@@ -62,6 +62,7 @@
 			}
 
 			$this->db->where('USR_ID', $user_id);
+			$this->db->join('department', 'user.DEPARTMENT_DPT_ID = department.DPT_ID');
 			$query = $this->db->get('user');
 			return $query->row_array();
 		}
@@ -77,12 +78,10 @@
 
 		public function getInactiveAccts()
 		{
-			$this->db->order_by('USR_POST', 'ASC');
-			$this->db->select('user.*, department.*');
-			$this->db->from('user');
-			$this->db->join('department', 'user.DEPARTMENT_DPT_ID = department.DPT_ID');
-			$this->db->where('USR_STATUS', "INACTIVE");
-			$query = $this->db->get();
+			$query = $this->db->query("SELECT * FROM basdb.user u
+					LEFT JOIN department d ON d.DPT_ID=u.DEPARTMENT_DPT_ID 
+					WHERE u.USR_STATUS = 'INACTIVE'
+					ORDER BY USR_ID DESC");
 			return $query->result_array();
 		}
 

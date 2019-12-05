@@ -12,6 +12,7 @@
 
 		public function index()
 		{	
+            $data['highlights'] = 'logbook';
 			$data['content'] = "Pages/Budget_head_view/Logbook_view";
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
 

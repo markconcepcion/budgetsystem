@@ -8,7 +8,7 @@
 		<div class="min-height-200px">
 			<div class="bg-white pd-20 border-radius-4 box-shadow mb-30 primaryscroll" style="padding-top:10px;">
                 <div class="row">
-                    <h4 class="col-sm-12 col-md-6" style="padding-top: 14px; padding-left:16px;"><i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;REPORTS' LIST</h4>
+                    <h4 class="col-sm-12 col-md-6" style="padding-top: 14px; padding-left:16px;"><i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;REPORTS LIST</h4>
                     <div class="dropdown text-right col-sm-12 col-md-6" style = "margin-bottom:5px; padding-right:17px;">
                         <a class="dropbtn dropdown-toggle btn btn-secondary" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
                             <?php echo $yr; ?>
@@ -35,85 +35,87 @@
                         <tr>
                             <td class="text-center"><b>Consolidated</b></td>
                             <td>
-                                <?php echo form_open('Budget_officer/Report/Report_form'); ?>
+                                <?php echo form_open('budget_officer/report/consolidatedQuarter'); ?>
                                     <input name="quarter" value="1" hidden>
-                                    <input name="yr" value="<?php echo $yr; ?>" hidden>
+                                    <input name="year" value="<?php echo $yr; ?>" hidden>
                                     <button type="submit" class="btn btn-warning btn-sm">View</button>
                                 <?php echo form_close(); ?>
                             </td>
                             <td>
-                                <?php echo form_open('Budget_officer/Report/Report_form'); ?>
+                                <?php echo form_open('budget_officer/report/consolidatedQuarter'); ?>
                                     <input name="quarter" value="2" hidden>
-                                    <input name="yr" value="<?php echo $yr; ?>" hidden>
+                                    <input name="year" value="<?php echo $yr; ?>" hidden>
                                     <button type="submit" class="btn btn-warning btn-sm">View</button>
                                 <?php echo form_close(); ?>
                             </td>
                             <td>
-                                <?php echo form_open('Budget_officer/Report/Report_form'); ?>
+                                <?php echo form_open('budget_officer/report/consolidatedQuarter'); ?>
                                     <input name="quarter" value="3" hidden>
-                                    <input name="yr" value="<?php echo $yr; ?>" hidden>
+                                    <input name="year" value="<?php echo $yr; ?>" hidden>
                                     <button type="submit" class="btn btn-warning btn-sm">View</button>
                                 <?php echo form_close(); ?>
                             </td>
                             <td>
-                                <?php echo form_open('Budget_officer/Report/Report_form'); ?>
+                                <?php echo form_open('budget_officer/report/consolidatedQuarter'); ?>
                                     <input name="quarter" value="4" hidden>
-                                    <input name="yr" value="<?php echo $yr; ?>" hidden>
+                                    <input name="year" value="<?php echo $yr; ?>" hidden>
                                     <button type="submit" class="btn btn-warning btn-sm">View</button>
                                 <?php echo form_close(); ?>
                             </td>
                             <td>
-                                <?php echo form_open('Budget_officer/Report/Report_form'); ?>
+                                <?php echo form_open('budget_officer/report/consolidatedAnnual'); ?>
                                     <input name="quarter" value="annual" hidden>
-                                    <input name="yr" value="<?php echo $yr; ?>" hidden>
+                                    <input name="year" value="<?php echo $yr; ?>" hidden>
                                     <button type="submit" class="btn btn-warning btn-sm">View</button>
                                 <?php echo form_close(); ?>
                             </td>
                         </tr>
-                        <?php foreach ($dpts as $dpt) { ?>
-                            <tr>
-                                <td><?php echo $dpt['DPT_ID'].' - '.$dpt['DPT_NAME']; ?></td>
-                                <td>
-                                    <?php echo form_open('Budget_officer/Report'); ?>
-                                        <input name="quarter" value="1" hidden>
-                                        <input name="yr" value="<?php echo $yr; ?>" hidden>
-                                        <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
-                                        <button type="submit" class="btn btn-secondary btn-sm">View</button>
-                                    <?php echo form_close(); ?>
-                                </td>
-                                <td>
-                                    <?php echo form_open('Budget_officer/Report'); ?>
-                                        <input name="quarter" value="2" hidden>
-                                        <input name="yr" value="<?php echo $yr; ?>" hidden>
-                                        <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
-                                        <button type="submit" class="btn btn-secondary btn-sm">View</button>
-                                    <?php echo form_close(); ?>
-                                </td>
-                                <td>
-                                    <?php echo form_open('Budget_officer/Report'); ?>
-                                        <input name="quarter" value="3" hidden>
-                                        <input name="yr" value="<?php echo $yr; ?>" hidden>
-                                        <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
-                                        <button type="submit" class="btn btn-secondary btn-sm">View</button>
-                                    <?php echo form_close(); ?>
-                                </td>
-                                <td>
-                                    <?php echo form_open('Budget_officer/Report'); ?>
-                                        <input name="quarter" value="4" hidden>
-                                        <input name="yr" value="<?php echo $yr; ?>" hidden>
-                                        <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
-                                        <button type="submit" class="btn btn-secondary btn-sm">View</button>
-                                    <?php echo form_close(); ?>
-                                </td>
-                                <td>
-                                    <?php echo form_open('Budget_officer/Report'); ?>
-                                        <input name="quarter" value="annual" hidden>
-                                        <input name="yr" value="<?php echo $yr; ?>" hidden>
-                                        <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
-                                        <button type="submit" class="btn btn-secondary btn-sm">View</button>
-                                    <?php echo form_close(); ?>
-                                </td>
-                            </tr>
+                        <?php foreach ($dpts as $dpt) { 
+                            if ($dpt['DPT_ID'] != 1111) { ?>
+                                <tr>
+                                    <td><?php echo $dpt['DPT_ID'].' - '.$dpt['DPT_NAME']; ?></td>
+                                    <td>
+                                        <?php echo form_open('budget_officer/report/departmentQuarter'); ?>
+                                            <input name="quarter" value="1" hidden>
+                                            <input name="year" value="<?php echo $yr; ?>" hidden>
+                                            <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
+                                            <button type="submit" class="btn btn-secondary btn-sm">View</button>
+                                        <?php echo form_close(); ?>
+                                    </td>
+                                    <td>
+                                        <?php echo form_open('budget_officer/report/departmentQuarter'); ?>
+                                            <input name="quarter" value="2" hidden>
+                                            <input name="year" value="<?php echo $yr; ?>" hidden>
+                                            <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
+                                            <button type="submit" class="btn btn-secondary btn-sm">View</button>
+                                        <?php echo form_close(); ?>
+                                    </td>
+                                    <td>
+                                        <?php echo form_open('budget_officer/report/departmentQuarter'); ?>
+                                            <input name="quarter" value="3" hidden>
+                                            <input name="year" value="<?php echo $yr; ?>" hidden>
+                                            <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
+                                            <button type="submit" class="btn btn-secondary btn-sm">View</button>
+                                        <?php echo form_close(); ?>
+                                    </td>
+                                    <td>
+                                        <?php echo form_open('budget_officer/report/departmentQuarter'); ?>
+                                            <input name="quarter" value="4" hidden>
+                                            <input name="year" value="<?php echo $yr; ?>" hidden>
+                                            <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
+                                            <button type="submit" class="btn btn-secondary btn-sm">View</button>
+                                        <?php echo form_close(); ?>
+                                    </td>
+                                    <td>
+                                        <?php echo form_open('budget_officer/report/departmentAnnual'); ?>
+                                            <input name="quarter" value="annual" hidden>
+                                            <input name="year" value="<?php echo $yr; ?>" hidden>
+                                            <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
+                                            <button type="submit" class="btn btn-secondary btn-sm">View</button>
+                                        <?php echo form_close(); ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
                         <?php } ?>
                     </tbody>
                 </table>

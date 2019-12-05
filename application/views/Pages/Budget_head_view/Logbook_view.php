@@ -48,7 +48,7 @@
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         <?php } ?></td>
                                         <td><?php echo $log['OBR_NO'].'-'.$log['obrNoYear']; ?></td>
-                                        <td><?php echo $log['MBO_ID'].'-'.$log['mboIDYear']; ?></td>
+                                        <td><?php echo $log['MBO_NO'].'-'.$log['mboIDYear']; ?></td>
                                         <td><?php echo $log['PART_PARTICULARS']; ?></td>
                                         <td><?php echo $log['OBR_DATE']; ?></td>
                                         <td><?php echo $log['DEPARTMENT_DPT_ID']; ?></td>
@@ -82,7 +82,7 @@
                                 <?php foreach ($logs as $log) { ?>
                                     <?php if ($log['OBR_STATUS'] === 'APPROVED'){ ?>
                                     <tr>
-                                        <td class="text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                                        <td class="text-center" style="background-color:#4CAF50"><i class="fa fa-check" aria-hidden="true"></i></td>
                                         <td><?php echo $log['OBR_NO'].'-'.$log['obrNoYear']; ?></td>
                                         <td><?php echo $log['MBO_ID'].'-'.$log['mboIDYear']; ?></td>
                                         <td><?php echo $log['PART_PARTICULARS']; ?></td>

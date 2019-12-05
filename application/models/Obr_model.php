@@ -4,10 +4,9 @@
         function __construct()
         {
             $this->load->database();
-            date_default_timezone_set('Asia/Manila');
         }
         
-        public function createOBR($obr_id, $lb_id)
+        public function createOBR($obr_id, $lb_id, $signID)
         {
             $data = array(
                 'OBR_ID' => $obr_id,
@@ -15,9 +14,24 @@
                 'LOGBOOK_LB_ID' => $lb_id,
                 'USER_USR_ID' => $this->session->userdata('id'),
                 'OBR_STATUS' => "PENDING",
-                'OBR_PAYEE' => $this->input->post('obr_payee')
+                'OBR_PAYEE' => $this->input->post('obr_payee'),
+                'signID' => $signID
             );
 
+            return $this->db->insert('obligation_request', $data);
+        }
+
+        public function create_obr($obrID, $logID, $signID)
+        {
+            $data = array(
+                'OBR_ID' => $obr_id,
+                'OBR_DATE' => date('Y-m-d'),
+                'LOGBOOK_LB_ID' => $lb_id,
+                'USER_USR_ID' => $this->session->userdata('id'),
+                'OBR_STATUS' => "PENDING",
+                'OBR_PAYEE' => $this->input->post('obr_payee'),
+                'signID' => $signID
+            );
             return $this->db->insert('obligation_request', $data);
         }
 
@@ -134,11 +148,25 @@
         {
             $arrayOBR = array(
                 'OBR_APPROVED_DATE' => $this->input->post('obr_approved_date'),
-                'OBR_STATUS' => "APPROVED"
+                'OBR_STATUS' =>  'APPROVED'
             );
 
             $this->db->where('OBR_ID', $obr_id);
             return $this->db->update('obligation_request', $arrayOBR);
+        }
+
+        public function returnOBR($obrID)
+        {
+            $this->db->query("DELETE FROM mbo_control WHERE OBLIGATION_REQUEST_OBR_ID = $obrID");
+            $data = array(
+                'OBR_NO' => null,
+                'OBR_APPROVED_DATE' => null,
+                'obrViewStatus' => '0',
+                'OBR_STATUS' => 'PENDING'
+            );
+
+            $this->db->where('OBR_ID', $obrID);
+            return $this->db->update('obligation_request', $data);
         }
 
         public function reject($obr_id)
@@ -165,6 +193,14 @@
             return $this->db->update('obligation_request', $arrayOBR);
         }
         
+        public function isView($obrID, $viewStatus)
+        {
+            $data = array(
+                'obrViewStatus' => $viewStatus
+            );
+            $this->db->where('OBR_ID', $obrID);
+            return $this->db->update('obligation_request', $data);
+        }
 
 
 

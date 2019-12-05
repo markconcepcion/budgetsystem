@@ -1,13 +1,14 @@
 <?php
     class Login extends CI_Controller
     {
-	//fabianeslit edited this
         function __construct() {
             parent::__construct();
         }
 
         public function index()
         {
+            date_default_timezone_set('Asia/Manila');
+
             if($this->session->userdata('logged_in')) {
                 if ($this->session->userdata('level') === "BUDGET HEAD") {
 				    redirect('Budget_head/Home');
@@ -20,6 +21,11 @@
                 }
             }
 
+            // $this->controlnb_model->createNotebooks(date('Y'));
+            if ($this->logbook_model->readLogbook(date('Y')) == null ) {
+                $this->logbook_model->createLogbook(date('Y'));
+            }
+            
             $this->load->view('Pages/Login');
         }
 

@@ -6,10 +6,18 @@
 
             if(!$this->session->userdata('logged_in')) {
 				Redirect('Login');
-            } 
+            } else if($this->session->userdata('level') != "BUDGET OFFICER 1" 
+                    && $this->session->userdata('level') != "BUDGET OFFICER 2" 
+                    && $this->session->userdata('level') != "BH_STAFF") 
+            {
+                redirect('Login/Logout');
+            }
+
+            date_default_timezone_set('Asia/Manila');
         }
         
         public function index() {
+            $data['highlights'] = 'obr';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $order = $this->input->post('order'); $data['order_by'] = $this->input->post('order_by');
             if ($order === null) { $order = "ASC"; $data['order_by'] = "SORT DESCENDINGLY"; }
@@ -20,6 +28,15 @@
         }
         
         public function Obr_details($obr_id) { // DISPALY OBR DETAILS AND LBP EXPENDITURES  
+            $checkViewStat =  $this->obr_model->readObr($obr_id);
+            if ($checkViewStat['obrViewStatus'] == '1') {
+                $this->session->set_flashdata('edit_failed', 'On The Process');
+                redirect('Budget_officer/Obr');
+            }
+            
+            $data['highlights'] = 'obr';
+            $this->obr_model->isView($obr_id, '1');
+
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['dpt_id'] = $this->input->post('dpt_id');
             
@@ -47,6 +64,12 @@
             $this->load->view('Pages/Budget_officer_view/deskapp/layout', $data);
         }
 
+        public function removeStat($obr_id)
+        {
+            $this->obr_model->isView($obr_id, '0');
+            redirect('Budget_officer/Obr');
+        }
+
         public function Obr_check($obr_id) { // CHECK OBR WETHER TO BE ACCEPTED OR DECLINED
             if ($this->input->post('obr_check_btn') === "DECLINED") {
                 $this->obr_model->updateParticular($obr_id);
@@ -62,6 +85,7 @@
 
         public function obrPrint($obrID)
         {
+            $data['highlights'] = 'obr';
             $data['mayor'] = $this->ui_model->getMayor();
             $data['budgetHead'] = $this->ui_model->getBudgetHead();
             $data['obrInfo'] = $this->obr_model->readObrInfo($obrID);

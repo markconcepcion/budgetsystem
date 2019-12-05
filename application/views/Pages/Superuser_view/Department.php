@@ -28,6 +28,7 @@
                                             <th scope="col">Code</th>
                                             <th scope="col">Department Name</th>
                                             <th scope="col">Department Head</th>
+                                            <!-- <th scope="col">Department Head</th> -->
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -39,9 +40,11 @@
                                                     <td><?php echo $key['DPT_ID']; ?></td>
                                                     <td><?php echo $key['DPT_NAME']; ?></td>
                                                     <td><?php echo $key['deptHead']; ?></td>
+                                                    <!-- <td><?php echo $key['USR_FNAME'].' '.$key['USR_MNAME'].' '.$key['USR_LNAME']; ?></td> -->
                                                     <td><button type="button" class="edit-dept btn btn-secondary btn-sm" 
                                                             data-toggle="modal" data-target="#edit_dept" 
                                                             data-id="<?php echo $key['DPT_ID']; ?>"
+                                                            data-head="<?php echo $key['deptHead']; ?>"
                                                             data-name="<?php echo $key['DPT_NAME']; ?>">Edit</button>
 				                                        <a class="deact-dept-button" data-id="<?php echo $key['DPT_ID']; ?>" 
                                                             data-toggle="modal" data-target="#deact-dept-modal" href="">
@@ -92,13 +95,19 @@
                                     <div class="form-group row">
                                         <label class="col-sm-12 col-md-2 col-form-label">Department Code</label>
                                         <div class="col-sm-12 col-md-10">
-                                            <input class="form-control" type="number" name="dept_code" placeholder="Click Here to Enter Department Code">
+                                            <input class="form-control" type="number" name="dept_code" placeholder="Click Here to Type Department Code">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-12 col-md-2 col-form-label">Department Name</label>
                                         <div class="col-sm-12 col-md-10">
-                                            <input class="form-control" type="text" name="dept_name" placeholder="Click Here to Enter Department Name">
+                                            <input class="form-control" type="text" name="dept_name" placeholder="Click Here to Type Department Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-12 col-md-2 col-form-label">Department Head</label>
+                                        <div class="col-sm-12 col-md-10">
+                                            <input class="form-control" type="text" name="dept_head" placeholder="Click Here to Type Department Head">
                                         </div>
                                     </div>
                                     <div class="form-group text-right">
@@ -107,7 +116,6 @@
                                 <?php echo form_close(); ?>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

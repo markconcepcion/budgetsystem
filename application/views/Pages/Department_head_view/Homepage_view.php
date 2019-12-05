@@ -23,9 +23,10 @@
 					</div>
 				</div>
 
-				<div class = "col-md-9">
+			 	<div class = "col-md-9">
+
 					<div  class="hide" id = "pend">
-						<div class="table-responsive">
+						<div class="table-responsive table-sm">
 							<table class="table table-striped">
 							<thead class = "bar" style = "color: white;">
 								<tr>
@@ -36,20 +37,21 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php foreach ($obrs as $key) { if ($key['OBR_STATUS'] === "PENDING") { ?>
+								<?php foreach ($obrPending as $obrp) { ?>
 									<tr>
-										<td scope="row"><?php echo $key['OBR_DATE']; ?></td>
-										<td scope="row"><?php echo $key['OBR_PAYEE']; ?></td>
-										<td scope="row"><?php echo $key['PART_PARTICULARS']; ?></td>
-										<td scope="row"><?php echo '₱',number_format($key['PART_AMOUNT'], 2); ?></td>
+										<td scope="row"><?php echo date('M-d-Y', strtotime($obrp['OBR_DATE'])); ?></td>
+										<td scope="row"><?php echo $obrp['OBR_PAYEE']; ?></td>
+										<td scope="row"><?php echo $obrp['PART_PARTICULARS']; ?></td>
+										<td scope="row"><?php echo '₱',number_format($obrp['PART_AMOUNT'], 2); ?></td>
 									</tr>
-								<?php } } ?>
+								<?php } ?>
 							</tbody>
 							</table>
 						</div>
 					</div>
+
 					<div class="hide" id = "process">
-						<div class="table-responsive">
+						<div class="table-responsive table-sm">
 							<table class="table table-striped">
 							<thead class = "bar" style = "color: white;">
 								<tr>
@@ -60,20 +62,20 @@
 								</tr>
 							</thead>
 							<tbody>
-							<?php foreach ($obrs as $key) { if ($key['OBR_STATUS'] === "CHECKED") { ?>
+								<?php foreach ($obrChecked as $obrc) { ?>
 									<tr>
-										<td scope="row"><?php echo $key['OBR_DATE']; ?></td>
-										<td scope="row"><?php echo $key['OBR_PAYEE']; ?></td>
-										<td scope="row"><?php echo $key['PART_PARTICULARS']; ?></td>
-										<td scope="row"><?php echo '₱',number_format($key['PART_AMOUNT'], 2); ?></td>
+										<td scope="row"><?php echo date('M-d-Y', strtotime($obrc['OBR_DATE'])); ?></td>
+										<td scope="row"><?php echo $obrc['OBR_PAYEE']; ?></td>
+										<td scope="row"><?php echo $obrc['PART_PARTICULARS']; ?></td>
+										<td scope="row"><?php echo '₱',number_format($obrc['PART_AMOUNT'], 2); ?></td>
 									</tr>
-								<?php } } ?>
+								<?php } ?>
 							</tbody>
 							</table>
 						</div>
 					</div>
 					<div class="hide" id = "appro">
-						<div class="table-responsive">
+						<div class="table-responsive table-sm">
 							<table class="table table-striped">
 							<thead class = "bar" style = "color: white;">
 								<tr>
@@ -84,20 +86,20 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php foreach ($obrs as $key) { if ($key['OBR_STATUS'] === "APPROVED") { ?>
+								<?php foreach ($obrApproved as $obra) { ?>
 									<tr>
-										<td scope="row"><?php echo $key['OBR_DATE']; ?></td>
-										<td scope="row"><?php echo $key['OBR_PAYEE']; ?></td>
-										<td scope="row"><?php echo $key['PART_PARTICULARS']; ?></td>
-										<td scope="row"><?php echo '₱',number_format($key['PART_AMOUNT'], 2); ?></td>
+										<td scope="row"><?php echo date('M-d-Y', strtotime($obra['OBR_DATE'])); ?></td>
+										<td scope="row"><?php echo $obra['OBR_PAYEE']; ?></td>
+										<td scope="row"><?php echo $obra['PART_PARTICULARS']; ?></td>
+										<td scope="row"><?php echo '₱',number_format($obra['PART_AMOUNT'], 2); ?></td>
 									</tr>
-								<?php } } ?>
+								<?php } ?>
 							</tbody>
 							</table>
 						</div>
 					</div>
 					<div class="hide" id = "rej">
-						<div class="table-responsive">
+						<div class="table-responsive table-sm">
 							<table class="table table-striped">
 								<thead class = "bar" style = "color: white;">
 									<tr>
@@ -108,14 +110,14 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php foreach ($obrs as $key) { if ($key['OBR_STATUS'] === "DECLINED") { ?>
+									<?php foreach ($obrRejected as $obrr) { ?>
 										<tr>
-											<td scope="row"><?php echo $key['OBR_DATE']; ?></td>
-											<td scope="row"><?php echo $key['OBR_PAYEE']; ?></td>
-											<td scope="row"><?php echo $key['PART_PARTICULARS']; ?></td>
-											<td scope="row"><?php echo '₱',number_format($key['PART_AMOUNT'], 2); ?></td>
+											<td scope="row"><?php echo date('M-d-Y', strtotime($obrr['OBR_DATE'])); ?></td>
+											<td scope="row"><?php echo $obrr['OBR_PAYEE']; ?></td>
+											<td scope="row"><?php echo $obrr['PART_PARTICULARS']; ?></td>
+											<td scope="row"><?php echo '₱',number_format($obrr['PART_AMOUNT'], 2); ?></td>
 										</tr>
-									<?php } } ?>
+									<?php } ?>
 								</tbody>
 							</table>
 						</div>

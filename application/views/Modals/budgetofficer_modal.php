@@ -30,6 +30,26 @@
     </div>
 </div>
 
+<div class="modal fade" id="approve-lbp2-modal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bar box-shadow">
+            <div class="modal-body text-center font-18">
+                <h4 class="padding-top-30 mb-30 weight-500 text-white">Approve LBP2?</h4>
+                <div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+                        NO
+                    </div>
+                    <div class="col-6">
+                        <button type="button" id="confirm-modal-lbp2-btn" class="btn btn-warning border-radius-100 btn-block confirmation-btn"><i class="fa fa-check"></i></button>
+                        YES
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php if($this->session->flashdata('edit_success')): ?>
     <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

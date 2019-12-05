@@ -30,17 +30,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $i=0; foreach ($obrs as $obr) {  $i++; ?>
+                        <?php $i=0; foreach ($obrs as $obr) {  
+                            if ($obr['obrViewStatus'] == 0) { $i++; ?>
                             <tr><td><?php echo $i; ?></td>
                                 <td><?php echo $obr['DPT_NAME'] ?></td>
-                                <td><?php echo $obr['OBR_DATE'] ?></td>
+                                <td><?php echo date('M-d-Y', strtotime($obr['OBR_DATE'])); ?></td>
                                 <td><?php echo $obr['OBR_STATUS'] ?></td>
                                 <td><?php echo form_open('Budget_officer/Obr/Obr_details/'.$obr['OBR_ID']); ?>
                                     <input name="dpt_id" value="<?php echo $obr['DPT_ID']; ?>" hidden>
                                     <button class="btn btn-secondary btn-sm"><i class="fa fa-eye"></i>&nbsp;VIEW DETAILS</button>
                                 <?php echo form_close(); ?></td>
                             </tr>
-                        <?php } ?>
+                            <?php }
+                        } ?>
                     </tbody>
                 </table>
             </div>

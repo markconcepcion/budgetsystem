@@ -13,6 +13,7 @@
 
         //index function
 		public function index() {
+            $data['highlights'] = 'notebook';
 			$data['content'] = "Pages/Budget_head_view/Notebook";
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
 			$data['checkNotebook'] = $this->controlnb_model->readControlNotebook(date('Y'));
@@ -32,6 +33,7 @@
 
 		public function notebook_dept_view(Type $var = null)
 		{
+            $data['highlights'] = 'notebook';
 			$data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
 
             //GETTING EXPENDITURE AND EXPEDITURES CLASS IN THE LBP2
@@ -59,6 +61,7 @@
 
 		public function Notebook_Exp($d_code)
 		{
+            $data['highlights'] = 'notebook';
             $data['content'] = "Pages/Budget_head_view/Notebook_exp_view";
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
 

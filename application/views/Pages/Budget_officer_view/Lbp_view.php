@@ -11,7 +11,7 @@
 									<?=$lbp_yr;?>  
 								</a>
 								<div class="dropdown-menu dropdown-menu-right box-shadow" x-placement="bottom-end" style="display: none; position: absolute; transform: translate3d(250px, 39px, 0px); top: 0px; left: 0px; will-change: transform;">
-									<?php foreach ($Lbp_yrs as $yr) { echo form_open('Budget_officer/Lbp'); ?>
+                                    <?php foreach ($Lbp_yrs as $yr) { echo form_open('Budget_officer/Lbp'); ?>
                                         <input name="lbp_yr" value="<?php echo $yr['FRM_YEAR']; ?>" hidden>
                                         <button class="a-button" type="submit"><a class="dropdown-item"><?php echo $yr['FRM_YEAR']; ?></a></button>
                                     <?php echo form_close(); } ?>
@@ -30,8 +30,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="text-center">
-                            <td colspan="4"><?php echo form_open('Budget_officer/Lbp/Lbp1'); ?>
+                        <tr>
+                            <td colspan="4" class="text-center"><?php echo form_open('Budget_officer/Lbp/printLBP1'); ?>
                                 Consolidated LBP 2:&nbsp;
                                 <input type="hidden" name="year" value="<?=$lbp_yr;?>">
                                 <button class = "btn btn-secondary btn-sm">VIEW LBP 1</button>
@@ -42,7 +42,12 @@
                                 <td><?php echo $i; ?></td>
                                 <td><?php echo $d['DPT_ID'].' - '.$d['DPT_NAME']; ?></td>
                                 <td><?php echo $d['FRM_STATUS']; ?></td>
-                                <td><a href="<?php echo base_url('Budget_officer/Lbp/Lbp2/'.$d['FRM_ID']);?>" class = "btn btn-warning btn-sm">VIEW LBP 2</a></td>
+                                <td>
+                                    <a href="<?php echo base_url('Budget_officer/Lbp/printLbp2/'.$d['FRM_ID']);?>" class = "btn btn-warning btn-sm">PRINT</a>
+                                    <?php if ($d['FRM_STATUS'] === "PROPOSED") { ?>
+                                        <a href="<?php echo base_url('Budget_officer/Lbp/Lbp2/'.$d['FRM_ID']);?>" class = "btn btn-secondary btn-sm">VIEW LBP 2</a>
+                                    <?php } ?>
+                                </td>
                             </tr>
                         <?php } ?>
                     </tbody>

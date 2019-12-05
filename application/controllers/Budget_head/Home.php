@@ -11,6 +11,7 @@
         }
 
         public function index() {
+            $data['highlights'] = 'home';
 		    $data['content'] = 'Pages/Budget_head_view/Home_view';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             
@@ -19,6 +20,9 @@
             $obr_id = ""; // SET A NULL VALUE
             foreach ($data['obrs'] as $ids) { $obr_id = $obr_id.$ids['OBR_ID'].','; } // COMPILE ALL EXP ID THAT CORRESPONDS WITH LBP_EXP
             $obr_ids = substr_replace($obr_id ,"",-1); // REMOVE LAST COMMNA 
+            if ($obr_ids == null) {
+                $obr_ids = 0;
+            }
             $data['obr_mbo'] = $this->mbo_model->readMBOs($obr_ids); 
 
             $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);

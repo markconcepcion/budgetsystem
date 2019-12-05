@@ -10,13 +10,15 @@
             parent::__construct();
             if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "DEPARTMENT HEAD") {
+            } else if($this->session->userdata('level') != "DEPARTMENT HEAD"
+                    && $this->session->userdata('level') != "BH_DEPTHEAD") {
                 redirect('Login/Logout');
             }
 		}
 
         public function index()
         {
+            $data['highlights'] = 'profile';
             $data['content'] = 'Pages/Department_head_view/Profile';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['bhprofile'] = $this->ui_model->getBH();

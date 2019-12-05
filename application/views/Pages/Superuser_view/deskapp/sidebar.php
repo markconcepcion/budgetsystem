@@ -36,12 +36,6 @@
 						<span>ACCOUNTS</span>
 					</a>
 				</li>
-				<li>
-					<a href="Assignation" class="dropdown-toggle no-arrow">
-						<i class="icon-copy fa fa-users" aria-hidden="true"></i>
-						<span>ASSIGNATION</span>
-					</a>
-				</li>
 			</ul>
 		</div>
 	</div>

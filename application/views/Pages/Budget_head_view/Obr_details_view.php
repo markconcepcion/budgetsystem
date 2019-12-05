@@ -1,6 +1,7 @@
 <div class="main-container">
 	<div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
         <div class="min-height-200px">
+        <a class="btn btn-warning float backbtn" href="<?php echo base_url('Budget_head/Obr/removeStat/'.$Obr_details['OBR_ID']); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>
 			<div class="pd-20 bg-white border-radius-4 box-shadow mb-30 primaryscroll">
                 <div class="hide">
                     <?php foreach ($Lbp_exps as $lbp_exp) { ?>
@@ -165,10 +166,10 @@
                     </div>
 
                     <div class="text-right" style="padding-top:13px;">
-                        <button type="button" id="obr-reject-btn" class="btn btn-secondary" value="DECLINED">DECLINED</button>
+                        <button type="button" id="obr-reject-btn" class="btn btn-secondary" value="DECLINED">REJECT</button>
                         <button type="button" id="obr-check-btn" class="btn btn-warning">ACCEPT</button>
                         <button type="submit" id="submit-accept-obr" name="obr_check_btn" value="CHECKED" hidden>ACCEPT</button>
-                        <button type="submit" id="submit-reject-obr" name="obr_check_btn" value="DECLINED" hidden>DECLINED</button>
+                        <button type="submit" id="submit-reject-obr" name="obr_check_btn" value="DECLINED" hidden>REJECT</button>
                     </div>
                 <?php echo form_close(); ?>
 			</div>

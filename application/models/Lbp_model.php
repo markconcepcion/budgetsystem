@@ -116,13 +116,14 @@
 
 // DEPARTMENT HEAD ------------ DEPARTMENT HEAD ------------ DEPARTMENT HEAD ------------ DEPARTMENT HEAD ------------ DEPARTMENT HEAD ------------ DEPARTMENT HEAD ------------ DEPARTMENT HEAD ------------ DEPARTMENT HEAD ------------ 
         
-        public function createLbp2($lbp_id, $no)
+        public function createLbp2($lbp_id, $no, $signID)
         {
             $data = array(
                 'FRM_ID' => $lbp_id,
                 'FRM_NO' => $no,
                 'FRM_YEAR' => $this->input->post('nxtYr'),
-                'USER_USR_ID' => $this->session->userdata('id')
+                'USER_USR_ID' => $this->session->userdata('id'),
+                'signID' => $signID
             );
             return $this->db->insert('lbp_form', $data);
         }

@@ -19,7 +19,7 @@
         <div class="min-height-200px">
 			<div class="pd-20 bg-white border-radius-4 box-shadow mb-30 primaryscroll">
                 <div class="row">
-				    <h4 class="col-sm-12 col-md-5" style="padding-top:10px;"><i class="fa fa-sticky-note" aria-hidden="true"></i>&nbsp;Recent Activities</h4>
+				    <h4 class="col-sm-12 col-md-5" style="padding-top:10px;"><i class="fa fa-sticky-note" aria-hidden="true"></i>&nbsp;Latest Transaction</h4>
                     <ul class="nav nav-pills justify-content-end col-sm-12 col-md-7" role="tablist" style="padding-right:17px;">
                         <li class="nav-item">
                             <a class="nav-link text-blue" data-toggle="tab" href="#propose" role="tab" aria-selected="true">Proposed LBP2</a>
@@ -96,7 +96,7 @@
                             <tbody>
                                 <?php foreach ($obrs as $obr) { 
                                     if ($obr['OBR_STATUS'] === "PENDING") 
-                                    { 
+                                    { if ($obr['obrViewStatus'] == "0") {
                                         echo form_open('Budget_head/Obr/Obr_details/'.$obr['OBR_ID']); ?>
                                         <tr class="notif">
                                             <input name="dpt_id"  value="<?php echo $obr['DPT_ID']; ?>" hidden>
@@ -106,7 +106,7 @@
                                             <td><button type="submit" class="btn btn-sm text-blue"><a>VIEW</a></button></td>
                                         </tr>
                                         <?php echo form_close(); 
-                                    }
+                                    } }
                                 } ?>
                             </tbody>
                         </table>

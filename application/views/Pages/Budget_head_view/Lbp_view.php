@@ -30,9 +30,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="text-center">
-                            <td colspan="4"><?php echo form_open('Budget_head/Lbp/Lbp1'); ?>
-                                Consolidated LBP 2:&nbsp;
+                        <tr>
+                            <td colspan="2" class="text-right"><?php echo form_open('Budget_head/Lbp/printLBP1'); ?>
+                                Consolidated LBP 1:&nbsp;
                                 <input type="hidden" name="year" value="<?=$lbp_yr;?>">
                                 <button class = "btn btn-secondary btn-sm">VIEW LBP 1</button>
                             <?php echo form_close(); ?></td>
@@ -42,7 +42,9 @@
                                 <td><?php echo $i; ?></td>
                                 <td><?php echo $d['DPT_ID'].' - '.$d['DPT_NAME']; ?></td>
                                 <td><?php echo $d['FRM_STATUS']; ?></td>
-                                <td><a href="<?php echo base_url('Budget_head/Lbp/Lbp2/'.$d['FRM_ID']);?>" class = "btn btn-warning btn-sm">VIEW LBP 2</a></td>
+                                <td><a href="<?php echo base_url('Budget_head/Lbp/printLBP2/'.$d['FRM_ID']);?>" class = "btn btn-warning btn-sm">VIEW LBP 2</a>
+                                
+                                </td>
                             </tr>
                         <?php } ?>
                     </tbody>

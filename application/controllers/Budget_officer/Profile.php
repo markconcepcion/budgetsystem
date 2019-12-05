@@ -15,6 +15,7 @@
 
         public function index()
         {
+            $data['highlights'] = 'profile';
             $data['content'] = 'Pages/Budget_officer_view/Profile';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $this->load->view('Pages/Budget_officer_view/deskapp/layout', $data);

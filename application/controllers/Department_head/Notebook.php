@@ -5,13 +5,16 @@
             parent::__construct();
             if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "DEPARTMENT HEAD") {
+            } else if($this->session->userdata('level') != "DEPARTMENT HEAD"
+                    && $this->session->userdata('level') != "BH_DEPTHEAD") {
                 redirect('Login/Logout');
             }
         }
 
         public function index()
 		{
+            $data['highlights'] = 'notebook';
+
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['bhprofile'] = $this->ui_model->getBH();
 
@@ -39,6 +42,7 @@
         
         public function Notebook_Exp($d_code)
 		{
+            $data['highlights'] = 'notebook';
             $data['content'] = "Pages/Department_head_view/Notebook_exp_view";
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['bhprofile'] = $this->ui_model->getBH();

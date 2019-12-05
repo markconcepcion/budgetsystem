@@ -5,13 +5,15 @@
             parent::__construct();
             if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "DEPARTMENT HEAD") {
+            } else if($this->session->userdata('level') != "DEPARTMENT HEAD"
+                    && $this->session->userdata('level') != "BH_DEPTHEAD") {
                 redirect('Login/Logout');
             }
         }
         
         public function index()
         { // DISPLAY LBP2 (IF EXIST) DISPLAY EXPENDITURE SELECTION (IF NOT)
+            $data['highlights'] = 'lbp';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['bhprofile'] = $this->ui_model->getBH();
 
@@ -41,11 +43,16 @@
 
         public function Lbp2_selExps()
         { //DISPLAY LBP2 FORM TO BE FILLED UP 
+            $currYr = $this->input->post('currYr');
+            $Dpt_id = $this->input->post('Dpt_id');
+            $data['highlights'] = 'lbp';
+            $data['deptDetails'] = $this->dept_model->readDept($Dpt_id);
+            $data['mayor'] = $this->ui_model->getSignature(1011);
+            $data['bhead'] = $this->ui_model->getSignature(1071);
+            
             $Exp_id = "";
             foreach ($this->input->post('Exp_id[]') as $ids) { $Exp_id = $Exp_id.$ids.','; }
             $Exps_id = substr_replace($Exp_id ,"",-1);
-            $currYr = $this->input->post('currYr');
-            $Dpt_id = $this->input->post('Dpt_id');
 
             if(count($this->input->post('Exp_id[]')) <= 0 ) {
                 $this->session->set_flashdata('edit_failed', 'You have not picked any expenditures');
@@ -66,14 +73,25 @@
 
         public function submitLbp2()
         {
+            $preparedBy = $this->input->post('preparedBy');
+            $reviewedBy = $this->input->post('reviewedBy');
+            $approvedBy = $this->input->post('approvedBy');
+            
             $Dpt_id = $this->session->userdata('dept'); $currYr = date('Y');
-            $Lbp = $this->lbp_model->readLbp2_id($Dpt_id, ($currYr+1));
+            $lbp = $this->lbp_model->readLbp2_id($Dpt_id, ($currYr+1));
+            
             if($lbp > 0){
                 $this->session->set_flashdata('edit_failed', 'You have already submitted your LBP2');
                 redirect('Department_head/Lbp');
             } else {
+                $signID = $this->sign_model->readSignature($preparedBy, $reviewedBy, $approvedBy);
+                if($signID == 0){
+                    $signID = $this->sign_model->createSignature();
+                    echo $signID;
+                }
+                
                 $lbp_id = $this->lbp_model->readMaxId()+1;
-                $lbp_form = $this->lbp_model->createLbp2($lbp_id, 1);
+                $lbp_form = $this->lbp_model->createLbp2($lbp_id, 1, $signID);
                 $this->lbp_model->createLbp2_exps($lbp_id);
                 $this->session->set_flashdata('edit_success', 'You have submitted your LBP2');
                 redirect('Department_head/Lbp');

@@ -23,7 +23,7 @@ class Logbook_model extends CI_Model
             return $query->result_array();
         }
 
-        $this->db->where('LB_YEAR ', $year);
+        $this->db->where('LB_YEAR', $year);
         $query = $this->db->get('logbook');
         return $query->row_array();
     }
@@ -44,7 +44,8 @@ class Logbook_model extends CI_Model
             LEFT JOIN user ON user.USR_ID=obligation_request.USER_USR_ID
             LEFT JOIN mbo_control ON mbo_control.OBLIGATION_REQUEST_OBR_ID=obligation_request.OBR_ID
             LEFT JOIN particular ON particular.OBLIGATION_REQUEST_OBR_ID=obligation_request.OBR_ID
-            WHERE OBR_STATUS = 'DECLINED' OR OBR_STATUS = 'APPROVED' AND LB_YEAR = $yr");
+            WHERE OBR_STATUS = 'DECLINED' OR OBR_STATUS = 'APPROVED' AND LB_YEAR = $yr
+            ORDER BY OBR_NO ASC");
         return $query->result_array();
     }
 }

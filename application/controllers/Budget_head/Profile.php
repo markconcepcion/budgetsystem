@@ -17,6 +17,7 @@
 
         public function index()
         {
+            $data['highlights'] = 'profile';
             $data['content'] = 'Pages/Budget_head_view/Profile';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
@@ -44,7 +45,30 @@
             $this->session->set_flashdata('edit_success', 'Welcome, '.$this->session->userdata('user_name').' as a Department Head');
             redirect('Department_head/home');
         }
-        
+
+        public function logStaff()
+        {
+            $bh_staff = $this->user_model->getUsrD($this->session->userdata('dept'), "BH_STAFF");
+
+            $data  = $bh_staff->row_array();
+            
+            $my_id = $data['USR_ID'];
+            $name  = $data['USR_FNAME'].' '.$data['USR_LNAME'];
+            $dept  = $data['DEPARTMENT_DPT_ID'];
+            $level = $data['USR_POST'];
+            $sesdata = array(
+                'id' => $my_id,
+                'user_name'  => $name,
+                'dept'     => $dept,
+                'level'     => $level,
+                'logged_in' => TRUE
+            );
+
+            $this->session->set_userdata($sesdata);
+            $this->session->set_flashdata('edit_success', 'Welcome, '.$this->session->userdata('user_name').' as a Budget Officer');
+            redirect('Budget_officer/obr');
+        }
+
         public function LogAdmin()
         {
             $adminD = $this->ui_model->getAdmin();

@@ -27,11 +27,16 @@
 		{
 			$this->form_validation->set_rules('dept_name', 'Department Name', 'required');
 			$this->form_validation->set_rules('dept_code', 'Department Code', 'required');
+			$this->form_validation->set_rules('dept_head', 'Department Head', 'required');
 
 			if($this->form_validation->run() === FALSE){
 				$this->session->set_flashdata('edit_success', 'Error! Incomplete Data');
 				redirect('Superuser/Department');                
 			} else {
+				if ($this->dept_model->codeCheck($this->input->post('dept_code')) != null) {
+					$this->session->set_flashdata('edit_failed', 'Department Code Already Exists!');
+					redirect('Superuser/Department');
+				}
 				$this->dept_model->createDept();
                 $this->session->set_flashdata('edit_success', 'Department Successfully Added.');
 				redirect('Superuser/Department');
@@ -41,6 +46,7 @@
 		public function editDept(){
 			$this->form_validation->set_rules('dept-code', 'Department Code', 'required');
 			$this->form_validation->set_rules('dept-name', 'Department Name', 'required');
+			$this->form_validation->set_rules('dept-head', 'Department Head', 'required');
 
 			if($this->form_validation->run() === FALSE){
                 $this->session->set_flashdata('edit_success', 'Error! Incomplete Data.');

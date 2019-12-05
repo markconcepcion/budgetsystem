@@ -53,6 +53,12 @@
                             <input class="form-control editable" type="text" id="dept-name" name="dept-name" value="" required="">
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-3 col-form-label">Department Head</label>
+                        <div class="col-sm-12 col-md-9">
+                            <input class="form-control editable" type="text" id="dept-head" name="dept-head" value="" required="">
+                        </div>
+                    </div>
                     <div class="form-group text-right" style="margin: 10px 0 0 0;">
                         <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-secondary">Save changes</button>

@@ -14,7 +14,11 @@
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
 <script>
-	$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" onclick="history.go(-1);return false;"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
+	<?php if ($content == 'Pages/Budget_officer_view/Obr_details_view' ) { ?>
+        <a class="btn btn-warning float backbtn" href="<?php echo base_url('Budget_officer/Obr/removeStat/'.$Obr_details['OBR_ID']); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>
+	<?php } else { ?>
+		$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" href="<?php echo base_url('Budget_officer/'.$highlights); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
+	<?php } ?>	
 </script>
 <!-- FOR NOTEBOOK SCRIPT @ Selecting Expenditures by Class -->
 <script>
@@ -25,6 +29,23 @@
 			$('.expe').hide();
 			
 			$('#'+exp_class).show();
+		});
+	});
+</script>
+<script> //LBP2 FUNCTIONS
+	$(function(){
+		// UPDATE LBP2 BY REMOVING DISABLE
+		$('#update-lbp2-btn').on('click', function(){
+			$('.exp-amt').hide();
+			$('.lbp-input-disabled').removeClass('hide');
+			$('.lbp-input-disabled').addClass('bg-gray');
+			$('#update-lbp2-btn').hide();
+			$('#confirm-approve-lbp2-btn').show();
+		});
+
+		// APPROVE EDITED LBP2 
+		$('#confirm-modal-lbp2-btn').on('click', function(){
+			$('#approve-lbp2-btn').click();
 		});
 	});
 </script>

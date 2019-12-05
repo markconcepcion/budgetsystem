@@ -1,8 +1,8 @@
-<?php echo form_open('Department_head/Obligation_request/SubmitOBR'); ?>
-    <div class="main-container">
-        <div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
-            <div class="min-height-200px">
-                <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+<div class="main-container">
+    <div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
+        <div class="min-height-200px">
+            <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+                <?php echo form_open('Department_head/Obligation_request/submitOBR'); ?>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Date</label>
                         <div class="col-sm-12 col-md-10">
@@ -31,8 +31,10 @@
                     <div class="form-group text-right">
                         <button type="submit" class="btn btn-warning">SUBMIT</button>
                     </div>
-                </div>
+                    <input type="hidden" name="preparedBy" value="<?php echo $deptDetails['deptHead'] ?>">
+                    <input type="hidden" name="reviewedBy" value="<?php echo $bhead['deptHead'] ?>">
+                    <input type="hidden" name="approvedBy" value="<?php echo $mayor['deptHead'] ?>">
+                <?php echo form_close(); ?>
             </div>
-<?php echo form_close(); ?>
-
+        </div>
 <?php $this->load->view('Modals/obr_modal'); ?>
