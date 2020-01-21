@@ -5,24 +5,18 @@
 			
 			if(!$this->session->userdata('logged_in')) {
 				$this->load->view('Pages/Login');
-			} else if($this->session->userdata('level') != "BUDGET OFFICER 1" && $this->session->userdata('level') != "BUDGET OFFICER 2") {
+			} else if($this->session->userdata('roleCode') != 2) {
                 redirect('Login/Logout');
             }
-	    }
+            $this->ui_model->clear_fcache($this->session->userdata('id'));
+        }
 
-		public function index() {
+		public function viewNotebooks($year) {
             $data['highlights'] = 'notebook';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
-			$data['year'] = $this->input->post('yr'); 
-			$yr = $this->input->post('yr');
-			if($yr === null){ 
-				$yr = date('Y'); 
-				$data['year']=date('Y'); 
-			}
-
-			$data['checkNotebook'] = $this->controlnb_model->readControlNotebook(date('Y'));
-			$data['ntb_list'] = $this->controlnb_model->readControlNotebook();
-
+			$data['year'] = $year;
+            $data['years'] = $this->controlnb_model->read_existYear();
+			$data['ntb_list'] = $this->controlnb_model->readControlNotebook($year);
 			$data['content'] = "Pages/Budget_officer_view/notebook_view";
             $this->load->view('Pages/Budget_officer_view/deskapp/layout', $data);
 		}

@@ -1,4 +1,18 @@
-<style> .table-bordered td{ padding: 2px; font-size: 13px ! important; } h6{font-weight:600;} </style>
+<style> .table-bordered td{ padding: 2px; font-size: 13px ! important; } h6{font-weight:600;}
+    .subtotal-head{ background-color:#564e2829!important; }
+    .grandtotal-head{ background-color:#a5a5a5!important; }
+</style>
+
+<?php 
+    $prev_year_sub_total = 0; 
+    $prev_year_grand_total = 0;
+    $curr_year_sub_total_1 = 0;
+    $curr_year_grand_total_1 = 0;
+    $curr_year_sub_total_2 = 0;
+    $curr_year_grand_total_2 = 0;
+    $total_curr_year_sub_total = 0;
+    $total_curr_year_grand_total = 0;
+?>
 
 <div class="main-container">
     <div class="pd-ltr-20 customscroll customscroll-10-p height-100-p xs-pd-20-10">
@@ -45,13 +59,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
-                                $prevYr_sbtotal=0; $prevYr_grndtotal=0;
-                                $currYr1_sbtotal=0; $currYr1_grndtotal=0; 
-                                $currYr2_sbtotal=0; $currYr2_grndtotal=0; 
-                                $nxtYr_sbtotal=0; $nxtYr_grndtotal=0;
+                            <?php foreach ($Exp_classes as $ExC) { 
+                                $prev_year_sub_total=0;
+                                $curr_year_sub_total_1=0;
+                                $curr_year_sub_total_2=0;
+                                $total_curr_year_sub_total=0;
                             ?>
-                            <?php foreach ($Exp_classes as $ExC) { ?>
                                 <tr> <td colspan="7"><b><h6><?php echo $ExC['EXPCLASS_NAME']; ?><h6></b></td> </tr>
                                 <?php foreach ($Exps as $Ex) {
                                     if ($ExC['EXPCLASS_ID'] === $Ex['EXPENDITURE_CLASS_EXPCLASS_ID']) { ?>
@@ -59,50 +72,117 @@
                                             <td><input name="Exps_id[]" value="<?php echo $Ex['EXPENDITURE_id']; ?>" hidden>
                                                 <?php echo $Ex['EXP_NAME']?></td>
                                             <td><?php echo $Ex['EXP_ACCT_CODE']?></td>
-                                            <td class="text-right">
-                                                <?php foreach ($Exps_prevYr as $Ex_prevYr) { 
-                                                    if ($Ex['EXPENDITURE_id'] === $Ex_prevYr['EXPENDITURE_EXPENDITURE_id']) {
-                                                        $prevYr_sbtotal = $prevYr_sbtotal + $Ex_prevYr['LBP_EXP_AMOUNT']; 
-                                                        echo '₱'.number_format($Ex_prevYr['LBP_EXP_AMOUNT'], 2 );
-                                                    } 
+                                            
+                                            <!-- ACTUAL PREVIOUS YEAR EXPENDITURE -->
+                                            <td>
+                                                <?php foreach ($prev_year as $prev) { 
+                                                    if ($prev['EXPENDITURE_EXPENDITURE_id'] == $Ex['EXPENDITURE_id']) {
+                                                        $prev_year_sub_total += $prev['PART_AMOUNT'];
+                                                        echo '₱  ',number_format($prev['PART_AMOUNT'],2);
+                                                    }
                                                 } ?>
                                             </td>
-                                            <td class="text-right"></td>
-                                            <td class="text-right">
-                                                <?php foreach ($Exps_currYr as $Ex_currYr) { 
-                                                    if ($Ex['EXPENDITURE_id'] === $Ex_currYr['EXPENDITURE_EXPENDITURE_id']) {
-                                                        $currYr2_sbtotal = $currYr2_sbtotal + $Ex_currYr['LBP_EXP_AMOUNT']; 
-                                                        echo '₱'.number_format($Ex_currYr['LBP_EXP_AMOUNT'], 2 );
-                                                    } 
+
+                                            <!-- ACTUAL CURRENT YEAR EXPENDITURE(1ST SEM) -->
+                                            <td>
+                                                <?php foreach ($curr_year_1 as $first) { 
+                                                    if ($first['EXPENDITURE_EXPENDITURE_id'] == $Ex['EXPENDITURE_id']) {
+                                                        $curr_year_sub_total_1 += $first['PART_AMOUNT'];
+                                                        echo '₱  ',number_format($first['PART_AMOUNT'],2);
+                                                    }
                                                 } ?>
                                             </td>
-                                            <td class="text-right"></td>
+                                            
+                                            <!-- TOTAL CURRENT YEAR ESTIMATED EXPENDITURE(2ND SEM) -->
+                                            <td>
+                                                <?php foreach ($curr_year_2 as $cy2) {
+                                                    foreach ($curr_year_1 as $cy1) { 
+                                                        if ($cy2['EXPENDITURE_EXPENDITURE_id'] == $Ex['EXPENDITURE_id']) {
+                                                            if ($cy2['EXPENDITURE_EXPENDITURE_id'] == $cy1['EXPENDITURE_EXPENDITURE_id']) {
+                                                                $curr_year_sub_total_2 += ($cy2['EXP_AMOUNT']-$cy1['PART_AMOUNT']);
+                                                                echo '₱  ',number_format(($cy2['EXP_AMOUNT']-$cy1['PART_AMOUNT']),2);
+                                                            } else {
+                                                                $curr_year_sub_total_2 += $cy2['EXP_AMOUNT'];
+                                                                echo '₱  ',number_format($cy2['EXP_AMOUNT'],2);
+                                                            }
+                                                        }
+                                                    }
+                                                } ?>
+                                            </td>
+                                            
+                                            <!-- TOTAL CURRENT YEAR EXPENDITURE -->
+                                            <td>
+                                                <?php foreach ($curr_year_2 as $sec) { 
+                                                    if ($sec['EXPENDITURE_EXPENDITURE_id'] == $Ex['EXPENDITURE_id']) {
+                                                        $total_curr_year_sub_total += $sec['EXP_AMOUNT'];
+                                                        echo '₱  ',number_format($sec['EXP_AMOUNT'],2);
+                                                    }
+                                                } ?>
+                                            </td>
+
                                             <td class="text-right bg-gray">
-                                                ₱<input class="submit-lbp2-input lbp-input-disabled" name="Exps_amt[]" type="number" step="0.01" max="1,000,000,000,000,000,042,420,637,374,017,961,984" placeholde="0.00" required>
+                                                ₱<input 
+                                                    class="submit-lbp2-input lbp-input-disabled class<?php echo $ExC['EXPCLASS_ID']?>" 
+                                                    data-id="<?php echo $ExC['EXPCLASS_ID']?>" data-name="class<?php echo $ExC['EXPCLASS_ID']?>" name="Exps_amt[]" 
+                                                    step="0.01" max="1,000,000,000,000,000,042,420,637,374,017,961,984" value="0.00" required
+                                                >
                                             </td>
                                         </tr>
                                     <?php } 
                                 } ?>
-                                <tr> 
-                                    <td colspan="2"><b><h6>SUB-TOTAL</h6></b></td> 
-                                    <td><b><h6><?php echo '₱',number_format($prevYr_sbtotal, 2 ); ?></h6></b></td> 
-                                    <td><b><h6></h6></b></td> 
-                                    <td><b><h6><?php echo '₱',number_format($currYr2_sbtotal, 2 ); ?></h6></b></td> 
-                                    <td><b><h6></h6></b></td> 
-                                    <td><b><h6></h6></b></td> 
+                                <tr class="text-center subtotal-head"> 
+                                    <th colspan="2">SUB-TOTAL</th> 
+                                    <th>
+                                        <?php if ($prev_year_sub_total > 0) {
+                                            echo '₱',number_format($prev_year_sub_total, 2);
+                                        } else { echo '-'; } ?>
+                                    </th> 
+                                    <th>
+                                        <?php if ($curr_year_sub_total_1 > 0) {
+                                            echo '₱',number_format($curr_year_sub_total_1, 2);
+                                        } else { echo '-'; } ?>
+                                    </th>
+                                    <th>
+                                        <?php if ($curr_year_sub_total_2 > 0) {
+                                            echo '₱',number_format($curr_year_sub_total_2, 2);
+                                        } else { echo '-'; } ?>
+                                    </th>
+                                    <th>
+                                        <?php if ($total_curr_year_sub_total > 0) {
+                                            echo '₱',number_format($total_curr_year_sub_total, 2);
+                                        } else { echo '-'; } ?>
+                                    </th>
+                                    <th class="subtotal" id="subtotal<?php echo $ExC['EXPCLASS_ID']; ?>">-</th>
                                 </tr>
                             <?php 
-                                $prevYr_grndtotal = $prevYr_grndtotal + $prevYr_sbtotal; $prevYr_sbtotal = 0 ;
-                                $currYr2_grndtotal = $currYr2_grndtotal + $currYr2_sbtotal; $currYr2_sbtotal = 0 ;
-                                $nxtYr_grndtotal = $nxtYr_grndtotal + $nxtYr_sbtotal; $nxtYr_sbtotal = 0 ;
+                                $prev_year_grand_total += $prev_year_sub_total;
+                                $curr_year_grand_total_1 += $curr_year_sub_total_1;
+                                $curr_year_grand_total_2 += $curr_year_sub_total_2;
+                                $total_curr_year_grand_total += $total_curr_year_sub_total;
                             } ?>
-                            <tr> 
-                                <td colspan="2"><b><h6>GRAND-TOTAL</h6></b></td> 
-                                <td><b><h6><?php echo '₱',number_format($prevYr_grndtotal, 2 ); ?></h6></b></td> 
-                                <td><b><h6></h6></b></td> 
-                                <td><b><h6><?php echo '₱',number_format($currYr2_grndtotal, 2 ); ?></h6></b></td> 
-                                <td><b><h6></h6></b></td> 
-                                <td><b><h6><?php echo '₱',number_format($nxtYr_grndtotal, 2 ); ?></h6></b></td> 
+                            <tr class="text-center grandtotal-head"> 
+                                <th colspan="2">GRAND-TOTAL</th> 
+                                <th>
+                                    <?php if ($prev_year_grand_total > 0) {
+                                        echo '₱',number_format($prev_year_grand_total, 2);
+                                    } else { echo '-'; } ?>
+                                </th>
+                                <th>
+                                    <?php if ($curr_year_grand_total_1 > 0) {
+                                        echo '₱',number_format($curr_year_grand_total_1, 2);
+                                    } else { echo '-'; } ?>
+                                </th>
+                                <th>
+                                    <?php if ($curr_year_grand_total_2 > 0) {
+                                        echo '₱',number_format($curr_year_grand_total_2, 2);
+                                    } else { echo '-'; } ?>
+                                </th>
+                                <th>
+                                    <?php if ($total_curr_year_grand_total > 0) {
+                                        echo '₱',number_format($total_curr_year_grand_total, 2);
+                                    } else { echo '-'; } ?>
+                                </th>
+                                <th id="grand_total">-</th>
                             </tr>
                         </tbody>
                     </table>
@@ -113,9 +193,9 @@
                                 <label>Prepared by:</label>
                                 <br />
                                 <br />
-                                <h5 class = "text-center"><?php echo $deptDetails['deptHead']; ?></h5>
+                                <h5 class = "text-center"><?php echo $uprofile['USR_FNAME'],' ',$uprofile['USR_MNAME'],' ',$uprofile['USR_LNAME']; ?></h5>
                                 <h6 class = "text-center">
-                                    <?php if ($deptDetails['DPT_ID'] == 1011) { 
+                                    <?php if ($this->session->userdata('dept') == 1011) { 
                                         echo 'Municipal Mayor';
                                     } else {
                                         echo 'Department Head';
@@ -128,7 +208,7 @@
                                 <label>Reviewed by:</label>
                                 <br />
                                 <br />
-                                <h5 class = "text-center"><?php echo $bhead['deptHead'] ?></h5>
+                                <h5 class = "text-center"><?php echo $bhead['USR_FNAME'],' ',$bhead['USR_MNAME'],' ',$bhead['USR_LNAME']; ?></h5>
                                 <h6 class = "text-center">Mun. Budget Officer</h6>
                             </div>
                         </div>
@@ -137,14 +217,14 @@
                                 <label>Approved by:</label>
                                 <br />
                                 <br />
-                                <h5 class = "text-center"><?php echo $mayor['deptHead'] ?></h5>
+                                <h5 class = "text-center"><?php echo $mayor['USR_FNAME'],' ',$mayor['USR_MNAME'],' ',$mayor['USR_LNAME']; ?></h5>
                                 <h6 class = "text-center">Municipal Mayor</h6>
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" name="preparedBy" value="<?php echo $deptDetails['deptHead'] ?>">
-                    <input type="hidden" name="reviewedBy" value="<?php echo $bhead['deptHead'] ?>">
-                    <input type="hidden" name="approvedBy" value="<?php echo $mayor['deptHead'] ?>">
+                    <input type="hidden" name="preparedBy" value="<?php echo $uprofile['USR_FNAME'],' ',$uprofile['USR_MNAME'],' ',$uprofile['USR_LNAME']; ?>">
+                    <input type="hidden" name="reviewedBy" value="<?php echo $bhead['USR_FNAME'],' ',$bhead['USR_MNAME'],' ',$bhead['USR_LNAME']; ?>">
+                    <input type="hidden" name="approvedBy" value="<?php echo $mayor['USR_FNAME'],' ',$mayor['USR_MNAME'],' ',$mayor['USR_LNAME']; ?>">
                 <?php echo form_close(); ?>
             </div>
         </div>

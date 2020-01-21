@@ -7,13 +7,14 @@
             
             if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "SUPERUSER") {
+            } else if($this->session->userdata('roleCode') != 0 && $this->session->userdata('roleCode') != 3) {
                 redirect('Login/Logout');
             }
         }
 
         public function index()
         {
+            $data['highlights'] = 'Expenditure';
             $data['content'] = 'Pages/Superuser_view/Expenditure';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
 

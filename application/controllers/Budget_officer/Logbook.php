@@ -5,9 +5,10 @@
 
 			if(!$this->session->userdata('logged_in')) {
                 $this->load->view('Pages/Login');
-            } else if($this->session->userdata('level') != "BUDGET OFFICER 1" && $this->session->userdata('level') != "BUDGET OFFICER 2") {
+            } else if($this->session->userdata('roleCode') != 2) {
                 redirect('Login/Logout');
-            }
+            }           
+			$this->ui_model->clear_fcache($this->session->userdata('id'));
 	    }
 
 		public function index()
@@ -30,6 +31,16 @@
 			$data['content'] = "Pages/Budget_officer_view/logs_view";
             $this->load->view('Pages/Budget_officer_view/deskapp/layout', $data);
 		}
+
+		public function view_supplementations($year)
+        {
+            $data['highlights'] = 'logbook';
+            $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
+
+            $data['supps'] = $this->logbook_model->read_supplementations($year);
+		    $data['content'] = 'Pages/Budget_officer_view/Logbook/view_supplementations';
+            $this->load->view('Pages/Budget_officer_view/deskapp/layout', $data);
+        }
 
 		// public function ObrLogsDetail($obr_id)
 		// {

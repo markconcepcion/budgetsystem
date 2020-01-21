@@ -5,25 +5,15 @@
             parent::__construct();
             if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "DEPARTMENT HEAD" 
-                    && $this->session->userdata('level') != "BH_DEPTHEAD") {
+            } else if($this->session->userdata('roleCode') != 1 && $this->session->userdata('roleCode') != 3) {
                 redirect('Login/Logout');
             }
+            date_default_timezone_set('Asia/Manila');
         }
 
         public function index()
         {
             $deptID = $this->session->userdata('dept');
-
-            $data['bhprofile'] = $this->ui_model->getBH();
-            // $data['obrs'] = $this->ui_model->obrNotif($this->session->userdata('dept'));
-
-            // foreach ($data['obrs'] as $value) {
-            //     if($value['OBR_STATUS'] === "APPROVED") { $data['APPROVED'] += 1; }
-            //         elseif($value['OBR_STATUS'] === "CHECKED") { $data['CHECKED'] += 1; }
-            //             elseif($value['OBR_STATUS'] === "PENDING") { $data['PENDING'] += 1; }
-            //                 else { $data['DECLINED'] += 1; }
-            // }
 
             $data['obrPending'] = $this->ui_model->getObr_dept($deptID, "PENDING", date('Y'));
             $data['obrChecked'] = $this->ui_model->getObr_dept($deptID, "CHECKED", date('Y'));

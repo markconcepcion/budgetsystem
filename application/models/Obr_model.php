@@ -4,6 +4,7 @@
         function __construct()
         {
             $this->load->database();
+            date_default_timezone_set('Asia/Manila');
         }
         
         public function createOBR($obr_id, $lb_id, $signID)
@@ -20,26 +21,12 @@
 
             return $this->db->insert('obligation_request', $data);
         }
-
-        public function create_obr($obrID, $logID, $signID)
-        {
-            $data = array(
-                'OBR_ID' => $obr_id,
-                'OBR_DATE' => date('Y-m-d'),
-                'LOGBOOK_LB_ID' => $lb_id,
-                'USER_USR_ID' => $this->session->userdata('id'),
-                'OBR_STATUS' => "PENDING",
-                'OBR_PAYEE' => $this->input->post('obr_payee'),
-                'signID' => $signID
-            );
-            return $this->db->insert('obligation_request', $data);
-        }
-
-        public function createOBR_Expenditure($obr_id)
+        
+        public function createOBR_Expenditure($obr_id, $part_amount)
         {
             $data = array(
                 'PART_PARTICULARS' => $this->input->post('obr_part'),
-                'PART_AMOUNT' => $this->input->post('obr_amount'),
+                'PART_AMOUNT' => $part_amount,
                 'OBLIGATION_REQUEST_OBR_id' => $obr_id
             );
 
@@ -74,20 +61,24 @@
            return $query->row_array();
         }
 
-        public function readOBRs($level, $order)
+        public function readOBRs($roleID, $order, $year)
         {
-            if ($level === "BUDGET HEAD") {
-                $query = $this->db->query("SELECT * FROM obligation_request
-                    JOIN user ON user.USR_ID=obligation_request.USER_USR_ID
-                    JOIN department ON department.DPT_ID=user.DEPARTMENT_DPT_ID
-                    WHERE OBR_STATUS = 'PENDING' OR OBR_STATUS = 'CHECKED'
-                    ORDER BY OBR_APPROVED_DATE $order, OBR_ID $order");
+            if ($roleID == 5) {
+                $query = $this->db->query("SELECT * FROM obligation_request obr
+                    JOIN user u ON u.USR_ID=obr.USER_USR_ID
+                    JOIN dept_user du ON du.USR_ID=u.USR_ID
+                    JOIN department d ON d.DPT_ID=du.DPT_ID
+                    WHERE obr.OBR_STATUS = 'CHECKED'
+                    AND YEAR(obr.OBR_DATE) = $year
+                    ORDER BY obr.OBR_APPROVED_DATE $order");
             } else {
-                $query = $this->db->query("SELECT * FROM obligation_request
-                    JOIN user ON user.USR_ID=obligation_request.USER_USR_ID
-                    JOIN department ON department.DPT_ID=user.DEPARTMENT_DPT_ID
-                    WHERE OBR_STATUS = 'PENDING'
-                    ORDER BY OBR_ID $order");
+                $query = $this->db->query("SELECT * FROM obligation_request obr
+                    JOIN user u ON u.USR_ID=obr.USER_USR_ID
+                    JOIN dept_user du ON du.USR_ID=u.USR_ID
+                    JOIN department d ON d.DPT_ID=du.DPT_ID
+                    WHERE obr.OBR_STATUS = 'PENDING'
+                    AND YEAR(obr.OBR_DATE) = $year
+                    ORDER BY obr.OBR_ID $order");
             } return $query->result_array();
         }
 
@@ -98,6 +89,7 @@
                 JOIN user ON user.USR_ID=mbo_control.USER_USR_ID
                 JOIN particular ON particular.OBLIGATION_REQUEST_OBR_ID=obligation_request.OBR_ID
                 JOIN expenditure ON expenditure.EXPENDITURE_id=particular.EXPENDITURE_EXPENDITURE_id
+                JOIN expenditure_class ON expenditure_class.EXPCLASS_ID=expenditure.EXPENDITURE_CLASS_EXPCLASS_ID
                 WHERE OBR_ID = $obr_id");
             return $query->row_array();
         }
@@ -105,6 +97,7 @@
         public function readObrInfo($obr_id)
         {
             $query = $this->db->query("SELECT *, a.DEPARTMENT_DPT_ID as deptID FROM obligation_request
+                left JOIN signature s ON s.signID=obligation_request.signID
                 left JOIN mbo_control ON mbo_control.OBLIGATION_REQUEST_OBR_ID=obligation_request.OBR_ID
                 left JOIN user a ON a.USR_ID=obligation_request.USER_USR_ID
                 left JOIN user b ON b.USR_ID=mbo_control.USER_USR_ID
@@ -161,6 +154,7 @@
             $data = array(
                 'OBR_NO' => null,
                 'OBR_APPROVED_DATE' => null,
+                'obr_tempRemark' => $this->input->post('remarks'),
                 'obrViewStatus' => '0',
                 'OBR_STATUS' => 'PENDING'
             );

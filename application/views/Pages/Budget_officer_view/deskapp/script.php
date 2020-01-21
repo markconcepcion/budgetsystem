@@ -17,7 +17,7 @@
 	<?php if ($content == 'Pages/Budget_officer_view/Obr_details_view' ) { ?>
         <a class="btn btn-warning float backbtn" href="<?php echo base_url('Budget_officer/Obr/removeStat/'.$Obr_details['OBR_ID']); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>
 	<?php } else { ?>
-		$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" href="<?php echo base_url('Budget_officer/'.$highlights); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
+		$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" onclick="history.go(-1);return false;"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
 	<?php } ?>	
 </script>
 <!-- FOR NOTEBOOK SCRIPT @ Selecting Expenditures by Class -->
@@ -93,16 +93,20 @@
 			var real_ltc = $('#real-ltc').val();
 			var quarter = $('#quarter').val();
 			var ltc = $('#ltc').val();
+			var className = $.trim($('#exp-class option:selected').html());
 			var ex_name = $('#'+ex_id).text();
 			var amt_approp = $('#amt-approp'+ex_id).val();
 			var total_rel = $('#total-rel'+ex_id).val();
 			var prev_allot = (amt_approp/4)*(quarter-1);
 			var qtr_allot = (amt_approp/4);
 			var total_allot = prev_allot+qtr_allot;
-			var rem_bal = total_allot-total_rel;
+			var augmentation = $('#augment_amt'+ex_id).val();
+			var augment_amt = parseInt((augmentation).replace(/,/g, ''));
+			var rem_bal = total_allot-total_rel+augment_amt;
 			var bal_approp = rem_bal-ltc;
+			
 
-			$('#exp-mbo').val(ex_name);
+			$('#exp-mbo').val(className);
 			$('#mbo-amt-approp').val('₱'+real_amt_approp);
 			$('#mbo-prev-allot').val('₱'+prev_allot.toLocaleString());
 			$('#mbo-qtr-allot').val('₱'+qtr_allot.toLocaleString());
@@ -111,6 +115,7 @@
 			$('#mbo-ltc').val('₱'+real_ltc);
 			$('#mbo-bal-approp').val('₱'+bal_approp.toLocaleString());
 			$('#mbo-bal-approp-dummy').val(bal_approp);
+			$('#aug_amt').html(augmentation);
 
 			//FOR ADD_APPROP (JUST IN CASE)
 			$('#mbo-amt-approp-dummy').val(amt_approp);
@@ -119,8 +124,17 @@
 		});
 
 		$('#mbo-add-approp').keyup(function(){
+			var val = $(this).val();
+			var add_approp = val.replace(/,/g, '');
+			if(isNaN(add_approp)){
+				alert("numbers only");
+				$(this).val(0);
+			} else {
+				var msg = new Intl.NumberFormat({ style : 'decimal', currency: 'PHP' }).format(add_approp);
+				$(this).val(msg);
+			}
+
 			var amt_approp = $('#mbo-amt-approp-dummy').val();
-			var add_approp = $(this).val();
 			var ltc = $('#ltc').val();
 			var total_approp = (+amt_approp) + (+add_approp);
 			var rem_bal = $('#mbo-rem-bal-dummy').val();

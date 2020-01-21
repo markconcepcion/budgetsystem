@@ -5,17 +5,127 @@
             $this->load->database();
         }
 
+        public function read_lbpstat($id)
+        {
+            return $this->db->query("SELECT FRM_STATUS FROM LBP_FORM WHERE FRM_ID = $id")->row()->FRM_STATUS;
+        }
+
 // BUDGET HEAD -------- BUDGET HEAD -------- BUDGET HEAD -------- BUDGET HEAD -------- BUDGET HEAD -------- BUDGET HEAD --------BUDGET HEAD -------- BUDGET HEAD --------
-        
+        public function read_previous_year_actual_expenditure($prev_year)
+        {
+            return $this->db->query("SELECT p.EXPENDITURE_EXPENDITURE_id, SUM(p.PART_AMOUNT) as PART_AMOUNT FROM particular p
+                                    JOIN obligation_request obr ON obr.OBR_ID=p.OBLIGATION_REQUEST_OBR_ID
+                                    AND obr.obrNoYear = $prev_year
+                                    AND obr.OBR_STATUS = 'APPROVED'
+                                    GROUP BY P.EXPENDITURE_EXPENDITURE_id")->result_array();
+        }
+
+        public function read_current_year_actual_expenditure($year)
+        {
+            return $this->db->query("SELECT p.EXPENDITURE_EXPENDITURE_id, SUM(p.PART_AMOUNT) as PART_AMOUNT FROM particular p
+                                    JOIN obligation_request obr ON obr.OBR_ID=p.OBLIGATION_REQUEST_OBR_ID
+                                    AND obr.obrNoYear = $year
+                                    AND obr.OBR_STATUS = 'APPROVED'
+                                    AND month(obr.OBR_DATE) < 7
+                                    GROUP BY P.EXPENDITURE_EXPENDITURE_id")->result_array();
+        }
+
+        public function read_current_year_estimate_expenditure($year)
+        {
+            $query = $this->db->query("SELECT lbp_exp.*, SUM(lbp_exp.LBP_EXP_AMOUNT) AS EXP_AMOUNT FROM expenditure e
+                                    JOIN lbp_expenditure lbp_exp ON lbp_exp.EXPENDITURE_EXPENDITURE_id=e.EXPENDITURE_id
+                                    JOIN lbp_form lbp ON lbp.FRM_ID=lbp_exp.LBP_FORM_FRM_ID
+                                    WHERE lbp.FRM_YEAR = $year
+                                    AND lbp.FRM_STATUS = 'FINALIZED'
+                                    GROUP BY e.EXPENDITURE_id  
+                                    ORDER BY e.EXPENDITURE_id ASC");
+            return $query->result_array();
+        }
+
+        public function read_next_year_estimate_expenditure($year)
+        {
+            $query = $this->db->query("SELECT lbp_exp.*, SUM(lbp_exp.LBP_EXP_AMOUNT) AS EXP_AMOUNT FROM expenditure e
+                                    JOIN lbp_expenditure lbp_exp ON lbp_exp.EXPENDITURE_EXPENDITURE_id=e.EXPENDITURE_id
+                                    JOIN lbp_form lbp ON lbp.FRM_ID=lbp_exp.LBP_FORM_FRM_ID
+                                    WHERE lbp.FRM_YEAR = $year
+                                    AND lbp.FRM_STATUS = 'FINALIZED'
+                                    GROUP BY e.EXPENDITURE_id  
+                                    ORDER BY e.EXPENDITURE_id ASC");
+            return $query->result_array();
+        }
+
+
+        public function read_previous_year_actual_expenditure_dept($prev_year, $dept_id)
+        {
+            return $this->db->query("SELECT p.EXPENDITURE_EXPENDITURE_id, SUM(p.PART_AMOUNT) as PART_AMOUNT FROM particular p
+                                    JOIN obligation_request obr ON obr.OBR_ID=p.OBLIGATION_REQUEST_OBR_ID
+                                    JOIN user u ON u.USR_ID=obr.USER_USR_ID
+                                    JOIN dept_user du ON du.USR_ID=u.USR_ID
+                                    AND obr.obrNoYear = $prev_year
+                                    AND du.DPT_ID = $dept_id
+                                    AND obr.OBR_STATUS = 'APPROVED'
+                                    GROUP BY P.EXPENDITURE_EXPENDITURE_id")->result_array();
+        }
+
+        public function read_current_year_actual_expenditure_dept($year, $dept_id)
+        {
+            return $this->db->query("SELECT p.EXPENDITURE_EXPENDITURE_id, SUM(p.PART_AMOUNT) as PART_AMOUNT FROM particular p
+                                    JOIN obligation_request obr ON obr.OBR_ID=p.OBLIGATION_REQUEST_OBR_ID
+                                    JOIN user u ON u.USR_ID=obr.USER_USR_ID
+                                    JOIN dept_user du ON du.USR_ID=u.USR_ID
+                                    AND obr.obrNoYear = $year
+                                    AND du.DPT_ID = $dept_id
+                                    AND obr.OBR_STATUS = 'APPROVED'
+                                    AND month(obr.OBR_DATE) < 7
+                                    GROUP BY P.EXPENDITURE_EXPENDITURE_id")->result_array();
+        }
+
+        public function read_current_year_estimate_expenditure_dept($year, $dept_id)
+        {
+            $query = $this->db->query("SELECT lbp_exp.*, SUM(lbp_exp.LBP_EXP_AMOUNT) AS EXP_AMOUNT FROM expenditure e
+                                    JOIN lbp_expenditure lbp_exp ON lbp_exp.EXPENDITURE_EXPENDITURE_id=e.EXPENDITURE_id
+                                    JOIN lbp_form lbp ON lbp.FRM_ID=lbp_exp.LBP_FORM_FRM_ID
+                                    JOIN user u ON u.USR_ID=lbp.USER_USR_ID
+                                    JOIN dept_user du ON du.USR_ID=u.USR_ID
+                                    WHERE lbp.FRM_YEAR = $year
+                                    AND du.DPT_ID = $dept_id
+                                    AND lbp.FRM_STATUS = 'FINALIZED'
+                                    GROUP BY e.EXPENDITURE_id  
+                                    ORDER BY e.EXPENDITURE_id ASC");
+            return $query->result_array();
+        }
+
+        public function read_next_year_estimate_expenditure_dept($year, $dept_id)
+        {
+            $query = $this->db->query("SELECT lbp_exp.*, SUM(lbp_exp.LBP_EXP_AMOUNT) AS EXP_AMOUNT FROM expenditure e
+                                    JOIN lbp_expenditure lbp_exp ON lbp_exp.EXPENDITURE_EXPENDITURE_id=e.EXPENDITURE_id
+                                    JOIN lbp_form lbp ON lbp.FRM_ID=lbp_exp.LBP_FORM_FRM_ID
+                                    JOIN user u ON u.USR_ID=lbp.USER_USR_ID
+                                    JOIN dept_user du ON du.USR_ID=u.USR_ID
+                                    WHERE lbp.FRM_YEAR = $year
+                                    AND du.DPT_ID = $dept_id
+                                    AND lbp.FRM_STATUS = 'FINALIZED'
+                                    GROUP BY e.EXPENDITURE_id  
+                                    ORDER BY e.EXPENDITURE_id ASC");
+            return $query->result_array();
+        }
+
+
+
+
+
+
+
+
         public function readLBPList($yr)
         { // Lbp/Lbp = GET LIST OF LBP BY YEAR
-            $query = $this->db->query("SELECT * FROM department
-                JOIN user ON user.DEPARTMENT_DPT_ID=department.DPT_ID
-                JOIN lbp_form ON lbp_form.USER_USR_ID=user.USR_ID
-                WHERE USR_POST != 'SUPERUSER' AND NOT USR_POST LIKE '%BUDGET%'  
-                AND USR_STATUS = 'ACTIVE'
+            $query = $this->db->query("SELECT * FROM department d
+                join dept_user du on du.DPT_ID = d.DPT_ID
+                JOIN user u ON u.USR_ID=du.USR_ID
+                JOIN lbp_form ON lbp_form.USER_USR_ID=u.USR_ID
                 AND DPT_STATUS = 'ACTIVE'
-                AND FRM_YEAR = $yr");
+                AND FRM_YEAR = $yr
+                group by d.DPT_ID");
 
             return $query->result_array();
         }
@@ -23,8 +133,9 @@
         public function readLbp_proposed($yr)
         {
             $query = $this->db->query("SELECT * FROM lbp_form
-                JOIN user ON user.USR_ID=lbp_form.USER_USR_ID
-                JOIN department ON department.DPT_ID=user.DEPARTMENT_DPT_ID
+                JOIN user u ON u.USR_ID=lbp_form.USER_USR_ID
+                JOIN dept_user du ON du.USR_ID=u.USR_ID
+                JOIN department d ON d.DPT_ID=du.DPT_ID
                 WHERE FRM_STATUS = 'PROPOSED' AND FRM_YEAR = $yr");
             return $query->result_array();
         }
@@ -40,6 +151,7 @@
                 $query = $this->db->query("SELECT * FROM department
                 JOIN user ON user.DEPARTMENT_DPT_ID=department.DPT_ID
                 JOIN lbp_form ON lbp_form.USER_USR_ID=user.USR_ID
+                JOIN signature ON signature.signID=lbp_form.signID
                 WHERE FRM_ID = $Lbp_id");
             return $query->row_array();
         }
@@ -53,8 +165,13 @@
 
         public function readLbp2($Lbp_id)
         { // Lbp/Lbp2 = get LBP2 allocated amount for expenditures (lbp_exp-lbp_form) by it's id
-            $query = $this->db->query("SELECT * FROM lbp_expenditure
-                LEFT JOIN lbp_form ON lbp_form.FRM_ID=lbp_expenditure.LBP_FORM_FRM_ID  
+            $query = $this->db->query("SELECT *, (SELECT IFNULL(SUM(amount),0) from augmentation a 
+                                                  WHERE a.exp_id = e.EXPENDITURE_id
+                                                  AND a.dept_id = u.DEPARTMENT_DPT_ID) AS augment_amt
+                FROM lbp_expenditure le
+                LEFT JOIN lbp_form lbp ON lbp.FRM_ID=le.LBP_FORM_FRM_ID  
+                LEFT JOIN user u ON u.USR_ID=lbp.USER_USR_ID
+                LEFT JOIN expenditure e ON e.EXPENDITURE_id=le.EXPENDITURE_EXPENDITURE_id  
                 WHERE FRM_ID = $Lbp_id");
             return $query->result_array();
         }
@@ -69,7 +186,7 @@
                 $data = array();
                 if ($Exp_id[$i] != null && $Exp_amt[$i] != null && $Lbp_exp_id[$i] != null) {
                     $data = array(
-                        'LBP_EXP_AMOUNT' => $Exp_amt[$i]
+                        'LBP_EXP_AMOUNT' => str_replace(',', '', $Exp_amt[$i])
                     );
                     $this->db->where('LBP_EXP_ID', $Lbp_exp_id[$i]);
                     $this->db->where('EXPENDITURE_EXPENDITURE_id', $Exp_id[$i]);
@@ -90,7 +207,7 @@
                 if ($Exp_id[$i] != null && $Exp_amt[$i] != null && $Lbp_exp_id[$i] != null) {
                     $data[] = array(
                         'LBP_EXP_ID' => $Lbp_exp_id[$i],
-                        'LBP_EXP_AMOUNT' => $Exp_amt[$i],
+                        'LBP_EXP_AMOUNT' => str_replace(',', '', $Exp_amt[$i]),
                         'EXPENDITURE_EXPENDITURE_id' => $Exp_id[$i]
                     );
                 }
@@ -139,7 +256,23 @@
                     $data[] = array(
                         'EXPENDITURE_EXPENDITURE_id' => $Exps_id[$i],
                         'LBP_FORM_FRM_ID' => $lbp_id,
-                        'LBP_EXP_AMOUNT' => $Exps_amt[$i]
+                        'LBP_EXP_AMOUNT' => str_replace(',', '', $Exps_amt[$i])
+                    );
+                }
+            } $this->db->insert_batch('lbp_expenditure', $data);
+        }
+
+        public function addLbp2_exps($lbp_id)
+        {
+            $Exps_id = $this->input->post('Exps_id[]');
+            $data = array();
+ 
+            for ($i=0; $i < count($Exps_id); $i++) {
+                if ($Exps_id[$i] != null) {
+                    $data[] = array(
+                        'EXPENDITURE_EXPENDITURE_id' => $Exps_id[$i],
+                        'LBP_FORM_FRM_ID' => $lbp_id,
+                        'LBP_EXP_AMOUNT' => 0
                     );
                 }
             } $this->db->insert_batch('lbp_expenditure', $data);
@@ -159,8 +292,9 @@
                 $this->db->select('FRM_ID');
                 $this->db->from('LBP_FORM');
                 $this->db->join('user', 'lbp_form.USER_USR_ID=user.USR_ID');
-                $this->db->join('department', 'user.DEPARTMENT_DPT_ID=department.DPT_ID');
-                $this->db->where('DPT_ID', $Dpt_id);
+                $this->db->join('dept_user', 'dept_user.USR_ID=user.USR_ID');
+                $this->db->join('department', 'department.DPT_ID=dept_user.DPT_ID');
+                $this->db->where('department.DPT_ID', $Dpt_id);
                 $this->db->where('FRM_YEAR', $Yr);
                 $query = $this->db->get();
                 return $query->row()->FRM_ID ?? 0;
@@ -169,41 +303,16 @@
             $this->db->select('FRM_ID');
             $this->db->from('LBP_FORM');
             $this->db->join('user', 'lbp_form.USER_USR_ID=user.USR_ID');
-            $this->db->join('department', 'user.DEPARTMENT_DPT_ID=department.DPT_ID');
-            $this->db->where('DPT_ID', $Dpt_id);
+            $this->db->join('dept_user', 'dept_user.USR_ID=user.USR_ID');
+            $this->db->join('department', 'department.DPT_ID=dept_user.DPT_ID');
+            $this->db->where('department.DPT_ID', $Dpt_id);
             $this->db->where('FRM_YEAR', $Yr);
             $this->db->where('FRM_STATUS', $status);
             $query = $this->db->get();
             return $query->row()->FRM_ID ?? 0;
+            // $this->db->join('department', 'user.DEPARTMENT_DPT_ID=department.DPT_ID');
         }
         
-        
-
-       
-
-        // public function updateLBP2($lbp_id)
-        // {
-        //     $exp_id = $this->input->post('exp_id[]');
-        //     $amount = $this->input->post('amount[]');
-
-        //     $data = array();
- 
-        //     for ($i=0; $i < count($exp_id); $i++) {
-        //         if ($exp_id[$i] != null && $amount[$i] != null) {
-        //             $data = array(
-        //                 'LBP_EXP_AMOUNT' => $amount[$i]
-        //             );
-        //             $this->db->where('LBP_FORM_FRM_ID', $lbp_id);
-        //             $this->db->where('EXPENDITURE_EXPENDITURE_id', $exp_id[$i]);
-        //             $this->db->update('lbp_expenditure', $data);
-        //         }
-        //     }
-
-        //     return true;
-        // }
-        // $data = array( 'DPT_NAME' => $this->input->post('dept_name') );
-		// 	$this->db->where('DPT_ID', $this->input->post('dept_id'));
-		// 	return $this->db->update('department', $data);	
         public function read_AmtApprop($lbp_id, $year, $exp_id = FALSE)
         {   
             if($exp_id === FALSE) {
@@ -254,4 +363,11 @@
 
             return $query->result_array();
         }
+
+        public function delete_lbp2($lbp_id)
+        {
+            $this->db->query("DELETE FROM lbp_expenditure WHERE LBP_FORM_FRM_ID = $lbp_id");
+            $this->db->query("DELETE FROM lbp_form WHERE FRM_ID = $lbp_id");
+            return true;
+        }   
     }

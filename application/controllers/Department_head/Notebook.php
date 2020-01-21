@@ -5,10 +5,10 @@
             parent::__construct();
             if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "DEPARTMENT HEAD"
-                    && $this->session->userdata('level') != "BH_DEPTHEAD") {
+            } else if($this->session->userdata('roleCode') != 1 && $this->session->userdata('roleCode') != 3) {
                 redirect('Login/Logout');
             }
+            date_default_timezone_set('Asia/Manila');
         }
 
         public function index()
@@ -16,7 +16,6 @@
             $data['highlights'] = 'notebook';
 
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
-            $data['bhprofile'] = $this->ui_model->getBH();
 
             //GETTING EXPENDITURE AND EXPEDITURES CLASS IN THE LBP2
             $currYr = $this->input->post('currYr'); // GET YEAR FROM INPUT
@@ -34,7 +33,7 @@
                 $data['content'] = "Pages/Department_head_view/Notebook_view";
                 $this->load->view('Pages/Department_head_view/deskapp/layout', $data);
             } else {
-                $data['message'] = "You still haven't submitted an LBP Proposal or<br>Your proposed budget is still pending.";
+                $data['message'] = "Your Department doesn't have an allocated budget for this year.";
                 $data['content'] = "Pages/blank_view";
                 $this->load->view('Pages/Department_head_view/deskapp/layout', $data);
             }
@@ -45,7 +44,6 @@
             $data['highlights'] = 'notebook';
             $data['content'] = "Pages/Department_head_view/Notebook_exp_view";
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
-            $data['bhprofile'] = $this->ui_model->getBH();
 
             //GETTING EXPENDITURE AND EXPEDITURES CLASS IN THE LBP2
             $currYr = $this->input->post('currYr'); // GET YEAR FROM INPUT

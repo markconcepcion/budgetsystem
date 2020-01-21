@@ -7,6 +7,7 @@
                     <?php foreach ($Lbp_exps as $lbp_exp) { ?>
                         <input value="<?php echo $lbp_exp['LBP_EXP_AMOUNT'] ?>" id="amt-approp<?php echo $lbp_exp['EXPENDITURE_EXPENDITURE_id']?>" hidden>
                         <input value="<?php echo number_format($lbp_exp['LBP_EXP_AMOUNT'],2); ?>" id="real-amt-approp<?php echo $lbp_exp['EXPENDITURE_EXPENDITURE_id'];?>" hidden>
+                        <input value="<?php echo number_format($lbp_exp['augment_amt'],2); ?>" id="augment_amt<?php echo $lbp_exp['EXPENDITURE_EXPENDITURE_id'];?>" hidden>
                     <?php } 
                         foreach ($Exps_temp as $temp) {
                             foreach ($obr_exps as $obr) {
@@ -28,7 +29,7 @@
                                 <option selected="">* * * CLICK HERE FIRST</option>
                                 <?php foreach ($Exp_classes as $exclass) { ?>
                                     <option value="<?php echo $exclass['EXPCLASS_ID']; ?>">
-                                        <?php echo $exclass['EXPCLASS_NAME']; ?>
+                                        <?php echo ucwords(strtolower($exclass['EXPCLASS_NAME'])); ?>
                                     </option>
                                 <?php } ?>
                             </select>
@@ -68,6 +69,10 @@
                                 <div class="col-sm-12 col-md-6" style="padding-right:0px;">AMOUNT:</div>
                                 <div class="col-sm-12 col-md-6" style="padding-left:0px;"><?php echo '₱'.number_format($Obr_details['PART_AMOUNT'], 2); ?></div>
                             </div>
+                            <div class="form-group row">
+                                <div class="col-sm-12 col-md-6" style="padding-right:0px;">AUGMENTATION AMOUNT:</div>
+                                <div class="col-sm-12 col-md-6" style="padding-left:0px;"><span>₱</span><span id="aug_amt">0</span></div>
+                            </div>
                         </div>
 
                         <div class="col-sm-12 col-md-7 box-shadow" style="padding:15px;">
@@ -97,7 +102,7 @@
                             <div class="form-group row" style="margin-bottom:0;">
                                 <label class="col-md-3 col-sm-12 label-input">Add Approp.&nbsp;</label>
                                 <div class="col-md-4 col-sm-12">
-                                    <input type="number" class="line-input" id="mbo-add-approp" name="add_approp">
+                                    <input type="text" class="line-input" id="mbo-add-approp" name="add_approp">
                                 </div>
                                 <div class="col-md-5 col-sm-12">
                                     <input type="text" class="line-input" id = "mbo-total-approp" readonly>
@@ -148,7 +153,7 @@
                             <div class="form-group row" style="margin-bottom:0;">
                                 <label class="col-md-3 col-sm-12 label-input">Remarks:</label>
                                 <div class="col-md-9 col-sm-12 text-center">
-                                    <input type="text" class="line-input" name="remarks">
+                                    <input type="text" class="line-input" name="remarks" value="<?php echo $Obr_details['obr_tempRemark']; ?>">
                                 </div>
                             </div>
                             <div class="form-group row" style="margin-bottom:0;">
@@ -165,7 +170,7 @@
                     </div>
 
                     <div class="text-right" style="padding-top:13px;">
-                        <button type="button" id="obr-reject-button" class="btn btn-secondary" value="DECLINED">REJECT</button>
+                        <button type="button" id="obr-reject-button" class="btn btn-danger" style="border-radius:0" value="DECLINED">REJECT</button>
                         <button type="button" id="obr-check-button" class="btn btn-warning">APPROVE</button>
                         <button type="submit" id="submit-accept-obr" name="obr_check_btn" value="CHECKED" hidden>APPROVE</button>
                         <button type="submit" id="submit-reject-obr" name="obr_check_btn" value="DECLINED" hidden>REJECT</button>

@@ -6,7 +6,7 @@
 			$this->load->database();
         }
 
-        public function createMBO($obr_id, $cn_id)
+        public function createMBO($obr_id, $cn_id, $amount)
         {
             $data = array( 
                 'MBO_NO' => $this->input->post('mbo_no'),
@@ -15,7 +15,7 @@
                 'USER_USR_ID' => $this->session->userdata('id'),
                 'CONTROL_NOTEBOOK_CTRL_NTB_ID' => $cn_id,
                 'MBO_REMARKS' => $this->input->post('remarks'),
-                'MBO_TMP' => $this->input->post('add_approp'),
+                'MBO_TMP' => $amount,
                 'MBO_INITIAL' => $this->input->post('initial')
             );
 

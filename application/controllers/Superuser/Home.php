@@ -1,21 +1,27 @@
 <?php
     class Home extends CI_Controller
-    {
-        function __construct() {
+    { //temp
+        function __construct()
+		{
             parent::__construct();
             if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "SUPERUSER") {
+            } else if($this->session->userdata('roleCode') != 0 && $this->session->userdata('roleCode') != 3) {
                 redirect('Login/Logout');
             }
-            $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
         }
-
-        public function index()
+        
+        public function index($date = false)
         {
-		    $data['content'] = 'Pages/Superuser_view/Homepage';
+            $data['highlights'] = 'Home';
+            $data['content'] = 'Pages/Superuser_view/Homepage';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
+            
+            if($date === false){
+                $date = date('Y-m-d');
+            }
+
+            $data['logs'] = $this->log_model->readLogs($date);
             $this->load->view('Pages/Superuser_view/deskapp/layout', $data);
         }
     }
-    

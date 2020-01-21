@@ -12,6 +12,11 @@
     table.lbpHeader th {
         border: 0px;
     }
+    .table th, .table td { padding: 2px;
+        font-size: 14px ! important;
+    }
+    .subtotal-head{ background-color:#564e2829!important; }
+    .grandtotal-head{ background-color:#a5a5a5!important; }
 </style>
 <style type="text/css" media="screen"></style>
 <style type="text/css" media="print">
@@ -23,11 +28,23 @@
     }
 </style>
 
-<?php $val1 = 0; $val2 = 0; $val3 = 0; ?>
+<?php 
+    $prev_year_sub_total = 0; 
+    $prev_year_grand_total = 0;
+    $curr_year_sub_total_1 = 0;
+    $curr_year_grand_total_1 = 0;
+    $curr_year_sub_total_2 = 0;
+    $curr_year_grand_total_2 = 0;
+    $total_curr_year_sub_total = 0;
+    $total_curr_year_grand_total = 0;
+    $next_year_sub_total = 0;
+    $next_year_grand_total = 0;
+?>
+
 <body>
     <div class="bar text-right toHide" style="height:auto;">
-        <a href="<?php echo base_url('budget_officer/Lbp'); ?>"><button class="btn btn-warning"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Back</button></a>
-        <a href="<?php echo base_url(); ?>"><button class="btn btn-warning"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Home</button></a>
+        <a onclick="history.go(-1);return false;"><button class="btn btn-warning"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Back</button></a>
+        <a href="<?php echo base_url('BO'); ?>"><button class="btn btn-warning"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Home</button></a>
         <button type="button" class="btn btn-warning" id="print-btn"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;Print</button>
     </div>
     
@@ -60,117 +77,157 @@
                 <tr>
                     <th rowspan = "2">Object of Expenditure</th>
                     <th rowspan = "2" class = "text-center">Account<br />Code</th>
-                    <th rowspan = "2" class = "text-center">Past Year<br /><?php echo (date('Y')-1); ?><br />(Actual)</th>
-                    <th rowspan = "1" colspan = "3" class = "text-center">Current Year <?php echo date('Y'); ?></th>
-                    <th rowspan = "2" class = "text-center">Budget<br />Year <?php echo (date('Y')+1); ?><br />Estimate</th>
+                    <th rowspan = "2" class = "text-center">Past Year<br /><?php echo ($year-2); ?><br />(Actual)</th>
+                    <th rowspan = "1" colspan = "3" class = "text-center">Current Year <?php echo ($year-1); ?></th>
+                    <th rowspan = "2" class = "text-center">Budget<br />Year <?php echo $year; ?><br />Estimate</th>
                 </tr>
                 <tr>
                     <th rowspan = "1">1st Semester<br />(Actual)</th>
                     <th rowspan = "1">2st Semester<br />(Estimated)</th>
                     <th rowspan = "1">(Total)</th>
                 </tr>
-                <tr>
-                    <th>PERSONAL SERVICES</th>
-                    <th></th><th></th><th></th><th></th><th></th><th></th>
-                </tr>
             </thead>
             <tbody>
-                <?php foreach ($exps as $key) { if ($key['EXPCLASS_ID'] == 1) { ?>
-                    <tr >
-                        <td><input value="<?php echo $key['EXPENDITURE_id']; ?>" name="exp_id[]" hidden=""  ><?php echo $key['EXP_NAME'] ?></td>
-                        <td><?php echo $key['EXP_ACCT_CODE'] ?></td>
-                        <td></td><td></td><td></td><td></td>
-                        <td id="amt<?php echo $key['EXPENDITURE_id']; ?>" class="text-left">
-                            <?php foreach ($lbp_exp as $val) { 
-                                if ($val['EXPENDITURE_id'] == $key['EXPENDITURE_id']) {
-                                    $val1 += $val['LBP_EXP_AMOUNT'];
-                                    echo '₱',number_format($val['LBP_EXP_AMOUNT'], 2);
-                                } 
-                            } ?>
-                        </td>
-                    </tr>
-                <?php } } ?>
-                
-                <tr>
-                    <th>SUB-TOTAL</th>
-                    <th></th><th></th><th></th><th></th><th></th><th><?php echo '₱',number_format($val1, 2); ?></th>
-                </tr>
-                
-                <tr>
-                    <th>MAINTENANCE AND OTHER<br />OPERATING EXPENSES:</th>
-                    <th></th><th></th><th></th><th></th><th></th><th></th>
-                </tr>
+                <?php foreach ($expenditure_classes as $exp_class) { 
+                    $prev_year_sub_total=0;
+                    $curr_year_sub_total_1=0;
+                    $curr_year_sub_total_2=0;
+                    $total_curr_year_sub_total=0;
+                    $next_year_sub_total=0;
+                ?>
 
-                <?php foreach ($exps as $key) { if ($key['EXPCLASS_ID'] == 2) { ?>
+                    <!-- DISPLAY ALL LBP EXPENDITURE CLASSES -->
                     <tr>
-                        <td><input value="<?php echo $key['EXPENDITURE_id']; ?>" name="exp_id[]" hidden=""  ><?php echo $key['EXP_NAME'] ?></td>
-                        <td><?php echo $key['EXP_ACCT_CODE'] ?></td>
-                        
-                        <td class="t-align">
-                            <?php foreach ($prev_year as $py) { 
-                                if ($py['EXPENDITURE_id'] == $key['EXPENDITURE_id']) {
-                                    echo '₱',number_format($py['LBP_EXP_AMOUNT'], 2);
-                                } 
-                            } ?>
-                        </td>
-                        
-                        <td></td>
-
-                        <td id="amt<?php echo $key['EXPENDITURE_id']; ?>" class="t-align">
-                            <?php foreach ($lbp_exp as $val) { 
-                                if ($val['EXPENDITURE_id'] == $key['EXPENDITURE_id']) {
-                                    $val2 += $val['LBP_EXP_AMOUNT'];
-                                    echo '₱',number_format($val['LBP_EXP_AMOUNT'], 2);
-                                } 
-                            } ?>
-                        </td>
-
-                        <td></td>
-                        
-                        <td class="t-align">
-                            <?php foreach ($next_year as $ny) { 
-                                if ($ny['EXPENDITURE_id'] == $key['EXPENDITURE_id']) {
-                                    echo '₱',number_format($ny['LBP_EXP_AMOUNT'], 2);
-                                } 
-                            } ?>
-                        </td>
+                        <th colspan="7"><?php echo $exp_class['EXPCLASS_NAME']; ?></th>
                     </tr>
-                <?php } } ?>
 
-                <tr>
-                    <th>SUB-TOTAL</th>
-                    <th></th><th></th><th></th><th></th><th></th><th><?php echo '₱',number_format($val2, 2); ?></th>
-                </tr>
-                
-                <tr>
-                    <th>MAINTENANCE AND OTHER<br />OPERATING EXPENSES:</th>
-                    <th></th><th></th><th></th><th></th><th></th><th></th>
-                </tr>
+                    <?php foreach ($expenditures as $exps) {
+                        if ($exp_class['EXPCLASS_ID'] == $exps['EXPENDITURE_CLASS_EXPCLASS_ID']) { ?>
+                            <tr>
+                                <!-- EXPENDITURE NAME AND ACCOUNT CODE -->
+                                <td style="padding-left:15px;"><?php echo $exps['EXP_NAME'] ?></td>
+                                <td><?php echo $exps['EXP_ACCT_CODE'] ?></td>
 
-                <?php foreach ($exps as $key) { if ($key['EXPCLASS_ID'] == 3) { ?>
-                    <tr>
-                        <td><input value="<?php echo $key['EXPENDITURE_id']; ?>" name="exp_id[]" hidden=""  ><?php echo $key['EXP_NAME'] ?></td>
-                        <td><?php echo $key['EXP_ACCT_CODE'] ?></td>
-                        <td></td><td></td><td></td><td></td>
-                        <td id="amt<?php echo $key['EXPENDITURE_id']; ?>" class="t-align">
-                            <?php foreach ($lbp_exp as $val) { 
-                                if ($val['EXPENDITURE_id'] == $key['EXPENDITURE_id']) {
-                                    $val3 += $val['LBP_EXP_AMOUNT'];
-                                    echo '₱',number_format($val['LBP_EXP_AMOUNT'], 2);
-                                } 
-                            } ?>
-                        </td>
+                                <!-- ACTUAL PREVIOUS YEAR EXPENDITURE -->
+                                <td>
+                                    <?php foreach ($prev_year as $prev) { 
+                                        if ($prev['EXPENDITURE_EXPENDITURE_id'] == $exps['EXPENDITURE_id']) {
+                                            $prev_year_sub_total += $prev['PART_AMOUNT'];
+                                            echo '₱  ',number_format($prev['PART_AMOUNT'],2);
+                                        }
+                                    } ?>
+                                </td>
+
+                                <!-- ACTUAL CURRENT YEAR EXPENDITURE(1ST SEM) -->
+                                <td>
+                                    <?php $act_sem=0; foreach ($curr_year_1 as $first) { 
+                                        if ($first['EXPENDITURE_EXPENDITURE_id'] == $exps['EXPENDITURE_id']) {
+                                            $curr_year_sub_total_1 += $first['PART_AMOUNT'];
+                                            $act_sem = $first['PART_AMOUNT'];
+                                            echo '₱  ',number_format($first['PART_AMOUNT'],2);
+                                        }
+                                    } ?>
+                                </td>
+                                
+                                <!-- TOTAL CURRENT YEAR ESTIMATED EXPENDITURE(2ND SEM) -->
+                                <td>
+                                    <?php foreach ($curr_year_2 as $cy2) {
+                                        if ($cy2['EXPENDITURE_EXPENDITURE_id'] == $exps['EXPENDITURE_id']) {
+                                            $curr_year_sub_total_2 += ($cy2['EXP_AMOUNT']-$act_sem);
+                                            echo '₱  ',number_format(($cy2['EXP_AMOUNT']-$act_sem),2);
+                                        }
+                                    } ?>
+                                </td>
+                                
+                                <!-- TOTAL CURRENT YEAR EXPENDITURE -->
+                                <td>
+                                    <?php foreach ($curr_year_2 as $sec) { 
+                                        if ($sec['EXPENDITURE_EXPENDITURE_id'] == $exps['EXPENDITURE_id']) {
+                                            $total_curr_year_sub_total += $sec['EXP_AMOUNT'];
+                                            echo '₱  ',number_format($sec['EXP_AMOUNT'],2);
+                                        }
+                                    } ?>
+                                </td>
+
+                                <!-- TOTAL NEXT YEAR ESTIMATED EXPENDITURE -->
+                                <td>
+                                    <?php foreach ($next_year as $next) { 
+                                        if ($next['EXPENDITURE_EXPENDITURE_id'] == $exps['EXPENDITURE_id']) {
+                                            $next_year_sub_total += $next['EXP_AMOUNT'];
+                                            echo '₱  ',number_format($next['EXP_AMOUNT'],2);
+                                        }
+                                    } ?>
+                                </td>
+                                
+                            </tr>
+                        <?php }
+                    } ?>
+
+                    <!-- SUBTOTAL OF EVERY LBP EXPENDITURE CLASSES -->
+                    <tr class="text-center subtotal-head">
+                        <th colspan="2">SUB-TOTAL</th>
+                        <th>
+                            <?php if ($prev_year_sub_total > 0) {
+                                echo '₱',number_format($prev_year_sub_total, 2);
+                            } else { echo '-'; }  ?>
+                        </th> 
+                        <th>
+                            <?php if ($curr_year_sub_total_1 > 0) {
+                                echo '₱',number_format($curr_year_sub_total_1, 2);
+                            } else { echo '-'; }  ?>
+                        </th>
+                        <th>
+                            <?php if ($curr_year_sub_total_2 > 0) {
+                                echo '₱',number_format($curr_year_sub_total_2, 2);
+                            } else { echo '-'; }  ?>
+                        </th>
+                        <th>
+                            <?php if ($total_curr_year_sub_total > 0) {
+                                echo '₱',number_format($total_curr_year_sub_total, 2);
+                            } else { echo '-'; }  ?>
+                        </th>
+                        <th>
+                            <?php if ($next_year_sub_total > 0) {
+                                echo '₱',number_format($next_year_sub_total, 2);
+                            } else { echo '-'; }  ?>
+                        </th>
                     </tr>
-                <?php } } ?>
 
-                <tr>
-                    <th>SUB-TOTAL</th>
-                    <th></th><th></th><th></th><th></th><th></th><th><?php echo '₱',number_format($val3, 2); ?></th>
-                </tr>
+                <?php 
+                    $prev_year_grand_total += $prev_year_sub_total;
+                    $curr_year_grand_total_1 += $curr_year_sub_total_1;
+                    $curr_year_grand_total_2 += $curr_year_sub_total_2;
+                    $total_curr_year_grand_total += $total_curr_year_sub_total;
+                    $next_year_grand_total += $next_year_sub_total;
+                } ?>
                 
-                <tr>
-                    <th>GRAND-TOTAL</th>
-                    <th></th><th></th><th></th><th></th><th></th><th><?php $total = $val1+$val2+$val3; echo '₱',number_format($total, 2); ?></th>
+                <tr class="text-center grandtotal-head">
+                    <th colspan="2">GRAND-TOTAL</th>
+                    <th>
+                        <?php if ($prev_year_grand_total > 0) {
+                            echo '₱',number_format($prev_year_grand_total, 2);
+                        } else { echo '-'; }  ?>
+                    </th>
+                    <th>
+                        <?php if ($curr_year_grand_total_1 > 0) {
+                            echo '₱',number_format($curr_year_grand_total_1, 2);
+                        } else { echo '-'; }  ?>
+                    </th>
+                    <th>
+                        <?php if ($curr_year_grand_total_2 > 0) {
+                            echo '₱',number_format($curr_year_grand_total_2, 2);
+                        } else { echo '-'; }  ?>
+                    </th>
+                    <th>
+                        <?php if ($total_curr_year_grand_total > 0) {
+                            echo '₱',number_format($total_curr_year_grand_total, 2);
+                        } else { echo '-'; }  ?>
+                    </th>
+                    <th>
+                        <?php if ($next_year_grand_total > 0) {
+                            echo '₱',number_format($next_year_grand_total, 2);
+                        } else { echo '-'; }  ?>
+                    </th>
                 </tr>
             </tbody>
         </table>
@@ -183,8 +240,8 @@
                             <label>Prepared by:</label>
                             <br />
                             <br />
-                            <h5 class = "text-center">HON. ANTONIO H. BACULIO</h5>
-                            <h6 class = "text-center">Municipal Mayor</h6>
+                            <h5 class = "text-center"><?php echo $sign['signPrepared']; ?></h5>
+                            <h6 class = "text-center">Mun. Budget Officer</h6>
                         </div>
                     </td>
             
@@ -193,7 +250,7 @@
                             <label>Reviewed by:</label>
                             <br />
                             <br />
-                            <h5 class = "text-center">MARIELYD A. FERRER, CPA</h5>
+                            <h5 class = "text-center"><?php echo $sign['signReviewed']; ?></h5>
                             <h6 class = "text-center">Mun. Budget Officer</h6>
                         </div>
                     </td>
@@ -204,7 +261,7 @@
                             <label>Approved by:</label>
                             <br />
                             <br />
-                            <h5 class = "text-center">HON. ANTONIO H. BACULIO</h5>
+                            <h5 class = "text-center"><?php echo $sign['signApproved']; ?></h5>
                             <h6 class = "text-center">Municipal Mayor</h6>
                         </div>
                     </td>

@@ -25,7 +25,6 @@
                                 <th class="btn-secondary btn-sm notes">
                                     <i class="fa fa-sticky-note" aria-hidden="true"></i>
                                     NOTE: Click on the black buttons to show Expenditures
-                                     
                                 </th>
                             </tr></thead>
                         </table>

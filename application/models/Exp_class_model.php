@@ -10,7 +10,51 @@
         {
             $data = array ( 'EXPCLASS_NAME' =>  $this->input->post('class_name') );
             return $this->db->insert('expenditure_class', $data);
-        }
+		}
+		
+		//NEW - DEC 06 2019 - jana's Laptop
+        public function read_lbp_expenditure_class($year)
+        {
+            $query = $this->db->query("SELECT ec.* FROM expenditure_class ec
+									JOIN expenditure e ON e.EXPENDITURE_CLASS_EXPCLASS_ID=ec.EXPCLASS_ID
+									JOIN lbp_expenditure lbp_exp ON lbp_exp.EXPENDITURE_EXPENDITURE_id=e.EXPENDITURE_id
+									JOIN lbp_form lbp ON lbp.FRM_ID=lbp_exp.LBP_FORM_FRM_ID
+									WHERE lbp.FRM_YEAR >= ($year-2) AND lbp.FRM_YEAR <= ($year)  
+									AND lbp.FRM_STATUS = 'FINALIZED'  
+									GROUP BY ec.EXPCLASS_ID
+									ORDER BY ec.EXPCLASS_ID ASC");
+            return $query->result_array();
+		}
+		
+		//NEW - DEC 07 2019 - jana's Laptop
+        public function read_lbp_expenditure_class_byDept($year, $deptID)
+        {
+            $query = $this->db->query("SELECT ec.* FROM expenditure_class ec
+									JOIN expenditure e ON e.EXPENDITURE_CLASS_EXPCLASS_ID=ec.EXPCLASS_ID
+									JOIN lbp_expenditure lbp_exp ON lbp_exp.EXPENDITURE_EXPENDITURE_id=e.EXPENDITURE_id
+									JOIN lbp_form lbp ON lbp.FRM_ID=lbp_exp.LBP_FORM_FRM_ID
+									JOIN user u ON u.USR_ID=lbp.USER_USR_ID
+									JOIN dept_user du ON du.USR_ID=u.USR_ID
+									WHERE lbp.FRM_YEAR >= ($year) AND lbp.FRM_YEAR <= ($year+2)  
+									AND lbp.FRM_STATUS = 'FINALIZED'
+									AND du.DPT_ID = $deptID
+									GROUP BY ec.EXPCLASS_ID
+									ORDER BY ec.EXPCLASS_ID ASC");
+			return $query->result_array();
+		}
+
+		//NEW - DEC 07 2019 - jana's Laptop
+        public function read_lbp_expenditure_class_id($lbp_id)
+        {
+            $query = $this->db->query("SELECT ec.* FROM expenditure_class ec
+									JOIN expenditure e ON e.EXPENDITURE_CLASS_EXPCLASS_ID=ec.EXPCLASS_ID
+									JOIN lbp_expenditure lbp_exp ON lbp_exp.EXPENDITURE_EXPENDITURE_id=e.EXPENDITURE_id
+									JOIN lbp_form lbp ON lbp.FRM_ID=lbp_exp.LBP_FORM_FRM_ID
+									WHERE lbp.FRM_ID = $lbp_id  
+									GROUP BY ec.EXPCLASS_ID
+									ORDER BY ec.EXPCLASS_ID ASC");
+			return $query->result_array();
+		}
 
 		public function getMin_Class()
 		{

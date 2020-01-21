@@ -21,6 +21,8 @@
 			background: -webkit-linear-gradient(top, #3c3c3c 0%, #222222 100%); 
 			min-height: 550px;
 		}
+		.year-dropdown > .dropdown-toggle::after{color:white !important;}
+		.year-dropdown > .dropdown-menu-right { min-width: 0px !important; width: 85px !important;}
 		
 		.hide{ display:none; }
 	

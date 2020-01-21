@@ -2,13 +2,14 @@
 	<div class="bar">
 		<a href="<?php echo base_url('Department_head/Home'); ?>">
 			<img src="<?php echo base_url('assets/jimage/LGUBO.png'); ?>" class="logo">
-			<h1 class="sb-head text-orange"><b><?php echo ucwords(strtoupper($uprofile['DPT_NAME'])); ?></b></h1>
+			<h1 class="sb-head text-orange"><b>LGU-Budget Office</b></h1>
 		</a>
 	</div>
 	
 	<div class="menu-block customscroll" id="sidebar">
 		<div class="title sidebar-menu" style="text-align:center; padding-bottom:0px;">
-			<h5 style="color: lightgrey;">DEPARTMENT HEAD</h5>
+			<h5 style="color: lightgrey;"><?php echo ucwords(strtoupper($uprofile['DPT_NAME'])); ?></h5>
+			<h6 style="color: lightgrey;">(DEPARTMENT HEAD)</h6> 
 		</div>
 		<div class="sidebar-menu" id="sidebar">
 			<ul id="accordion-menu">
@@ -19,7 +20,7 @@
 					</a>
 				</li>						
 				<li>
-					<a href="<?php echo base_url('Department_head/Lbp'); ?>" class="dropdown-toggle no-arrow <?php if($highlights === 'lbp') { echo 'active'; } ?>">
+					<a href="<?php echo base_url('DH/LBP/'.$this->session->userdata('dept')); ?>" class="dropdown-toggle no-arrow <?php if($highlights === 'lbp') { echo 'active'; } ?>">
 						<i class="fa fa-list" aria-hidden="true"></i>
 						<span>SUBMIT LBP</span>
 					</a>

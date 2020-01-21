@@ -16,6 +16,11 @@
             return $query->result_array();
         }
 
+        public function clear_fcache($user_id)
+        {
+            $this->db->query("UPDATE obligation_request SET obrViewStatus = 0 where obrViewStatus = $user_id");
+        }
+
         public function submitted_obrNotif($day)
         {
             $query = $this->db->query("SELECT * FROM obligation_request 
@@ -40,22 +45,6 @@
                 AND OBR_STATUS = 'ON PROCESS'
                 ORDER BY OBR_DATE DESC");
             return $query->result_array();
-        }
-
-        public function getBH()
-        {
-            $query = $this->db->query("SELECT * FROM user 
-                WHERE USR_POST = 'BUDGET HEAD'
-                AND USR_STATUS = 'ACTIVE'");
-            return $query->row_array();
-        }
-
-        public function getAdmin()
-        {
-            $query = $this->db->query("SELECT * FROM user 
-                WHERE USR_POST = 'SUPERUSER'
-                AND USR_STATUS = 'ACTIVE'");
-            return $query->row_array();
         }
 
         public function getSignature($deptID)

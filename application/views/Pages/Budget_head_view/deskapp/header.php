@@ -12,13 +12,13 @@
 		<div class="dropdown">
 			<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
 				<span class="user-icon orange"><i class="fa fa-user-o orange"></i></span>
-				<span class="user-name orange"><?php echo $uprofile['USR_FNAME'],' ',$uprofile['USR_LNAME']; ?></span>
+				<span class="user-name orange"><?php echo $uprofile['USR_FNAME'],' ',$uprofile['USR_MNAME'],' ',$uprofile['USR_LNAME']; ?></span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right box-shadow">
 				<a class="dropdown-item" href="<?php echo base_url('Budget_head/Profile')?>"><i class="fa fa-info-circle" aria-hidden="true"></i>Profile Information</a>
-				<a class="dropdown-item" href="<?php echo base_url('Budget_head/Profile/logStaff')?>"><i class="fa fa-user-o" aria-hidden="true"></i>Login as B.Officer</a>
-				<a class="dropdown-item" href="<?php echo base_url('Budget_head/Profile/logDeptHead')?>"><i class="fa fa-user-o" aria-hidden="true"></i>Login as Department</a>
-				<a class="dropdown-item" href="<?php echo base_url('Budget_head/Profile/logAdmin')?>"><i class="fa fa-user-circle-o" aria-hidden="true"></i>Login as Admin</a>
+				<a class="dropdown-item" href="<?php echo base_url('BO/VIEW_OBR/'.date('Y').'/'.'DESC')?>"><i class="fa fa-user-o" aria-hidden="true"></i>Login as B.Officer</a>
+				<a class="dropdown-item" href="<?php echo base_url('DH')?>"><i class="fa fa-user-o" aria-hidden="true"></i>Login as Department</a>
+				<a class="dropdown-item" href="<?php echo base_url('Superuser/Home')?>"><i class="fa fa-user-circle-o" aria-hidden="true"></i>Login as Admin</a>
                 <a class="dropdown-item" data-toggle="modal" data-target="#logout-modal" href=""><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a>
 			</div>
 		</div>

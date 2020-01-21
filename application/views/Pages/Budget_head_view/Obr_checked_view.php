@@ -7,7 +7,7 @@
     foreach ($obr_exp as $obrexp) {
         $total_release += $obrexp['PART_AMOUNT'];
     }
-    $remain_bal = ($total_allot-$total_release) + $obr_details['MBO_TMP'];
+    $remain_bal = ($total_allot-$total_release) + $obr_details['MBO_TMP'] + $lbp_exp['augment_amt'];
     $bal_approp = $remain_bal-$obr_details['PART_AMOUNT'];
 ?>
 
@@ -47,18 +47,22 @@
                             <div class="col-sm-12 col-md-6" style="padding-right:0px;">AMOUNT:</div>
                             <div class="col-sm-12 col-md-6" style="padding-left:0px;"><?php echo '₱ '.number_format($obr_details['PART_AMOUNT'], 2); ?></div>
                         </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 col-md-6" style="padding-right:0px;">AUGMENTED AMOUNT:</div>
+                            <div class="col-sm-12 col-md-6" style="padding-left:0px;"><?php echo '₱ '.number_format($lbp_exp['augment_amt'], 2); ?></div>
+                        </div>
                     </div>
                     <div class="col-sm-12 col-md-7 box-shadow" style="padding:15px;">
                         <div class="form-group row" style="margin-bottom:0;">
                             <label class="col-md-6 col-sm-12 label-input">Mun. Budget Office Control No.&nbsp;</label>
                             <div class="col-md-6 col-sm-12">
-                                <input name="mbo_no" class="line-input" value="<?php echo $obr_details['MBO_ID'].'-'.$obr_details['mboIDYear']; ?>" disabled>
+                                <input name="mbo_no" class="line-input" value="<?php echo $obr_details['MBO_NO'].'-'.$obr_details['mboIDYear']; ?>" disabled>
                             </div>
                         </div>
                         <div class="form-group row" style="margin-bottom:0;">
                             <label class="col-md-3 col-sm-12 label-input">Exp. Class&nbsp;</label>
                             <div class="col-md-9 col-sm-12">
-                                <input id="exp-mbo" class="line-input" value="<?php echo $obr_details['EXP_NAME']; ?>" disabled>
+                                <input id="exp-mbo" class="line-input" value="<?php echo $obr_details['EXPCLASS_NAME']; ?>" disabled>
                             </div>
                         </div>
                         <div class="form-group row" style="margin-bottom:0;">
@@ -140,7 +144,7 @@
                 </div>
                 
                 <div class="text-right" style="padding-top:13px;">
-                    <button type="submit" class="btn btn-secondary" value="DECLINE" name="btnVal">DECLINE</button>
+                    <button type="submit" class="btn btn-secondary" value="DECLINE" name="btnVal">RETURN</button>
                     <button type="submit" class="btn btn-warning" value="APPROVE" name="btnVal">APPROVE</button>
                 </div>
             </div>

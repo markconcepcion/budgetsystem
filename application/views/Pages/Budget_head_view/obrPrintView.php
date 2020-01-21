@@ -49,7 +49,7 @@
 <style type="text/css" media="print">
     /* @page {size:landscape}  */ 
     @media print {
-        @page {size: A4; max-height:100%; max-width:100%}
+        @page {size: A4; max-height:100%; max-width:100%; margin: custom;}
         body{ width:100%; height:100%; }    
         .toHide, .toHide * {display:none !important;}
     }
@@ -225,16 +225,16 @@
 
         <tr>
             <td colspan = "1" style = "border: 1px solid black" class = "text-center"><br />Signature:</td>
-            <td colspan = "5" style = "border: 1px solid black"><br /><br /> <input readonly style = "margin-bottom: 2%; border: 1px solid white"></td>
+            <td colspan = "5" style = "border: 1px solid black"><br /><br /><br /><br /></td>
             <td colspan = "1" style = "border: 1px solid black" class = "text-center"><br />Signature:</td>
             <td colspan = "5" style = "border: 1px solid black"><br /><br /></td>
         </tr>
 
         <tr>
             <td colspan = "1" style = "border: 1px solid black" class = "text-left">Printed<br /> Name:</td>
-            <td colspan = "5" style = "border: 1px solid black" class = "text-center"><?php echo $mayor['assign_name']; ?></td>
+            <td colspan = "5" style = "border: 1px solid black" class = "text-center"><?php echo $obrInfo['signApproved']; ?></td>
             <td colspan = "1" style = "border: 1px solid black" class = "text-left">Printed<br /> Name:</td>
-            <td colspan = "5" style = "border: 1px solid black" class = "text-center"><?php echo $budgetHead['assign_name']; ?></td>
+            <td colspan = "5" style = "border: 1px solid black" class = "text-center"><?php echo $obrInfo['signReviewed']; ?></td>
         </tr>
 
         <tr>
@@ -246,9 +246,9 @@
         
         <tr>
             <td colspan = "1" style = "border: 1px solid black" class = "text-left">Date:</td>
-            <td colspan = "5" style = "border: 1px solid black" class = "text-center"> <input readonly style = "margin-bottom: 2%; border: 1px solid white" value = ""></td>
+            <td colspan = "5" style = "border: 1px solid black" class = "text-center"><br /><br /></td>
             <td colspan = "1" style = "border: 1px solid black" class = "text-left">Date:</td>
-            <td colspan = "5" style = "border: 1px solid black" class = "text-center"> <input readonly style = "margin-bottom: 2%; border: 1px solid white" value = ""></td>
+            <td colspan = "5" style = "border: 1px solid black" class = "text-center"></td>
         </tr>
     </tbody>
 </table>

@@ -18,10 +18,13 @@
 		<div class="dropdown">
 			<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
 				<span class="user-icon orange"><i class="fa fa-user-o orange"></i></span>
-				<span class="user-name orange"><?php echo $this->session->userdata('user_name');?> <?php echo $this->session->userdata('Emp_mName');?> <?php echo $this->session->userdata('Emp_faName');?></span>
+				<span class="user-name orange"><?php echo $uprofile['USR_FNAME'],' ',$uprofile['USR_MNAME'],' ',$uprofile['USR_LNAME']; ?></span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right box-shadow">
 				<a class="dropdown-item" href="<?php echo base_url('Budget_officer/Profile')?>"><i class="fa fa-user-md" aria-hidden="true"></i>Profile</a>
+				<?php if ($this->session->userdata('roleCode') == 3) { ?>
+					<a class="dropdown-item" href="<?php echo base_url('BH')?>"><i class="fa fa-user" aria-hidden="true"></i> Login as Budget Head</a>
+				<?php } ?>
 				<a class="dropdown-item" href="<?php echo base_url('Login/Logout')?>"><i class="fa fa-sign-out" aria-hidden="true"></i> Log Out</a>
 			</div>
 		</div>

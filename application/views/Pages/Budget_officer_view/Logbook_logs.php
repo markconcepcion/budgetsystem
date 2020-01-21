@@ -45,7 +45,7 @@
                             <?php foreach ($logs as $l) { if ($l['MBO_ID'] != null) {?>
                                 <tr>
                                     <td class="table-plus"><?php echo $l['OBR_NO'].'-19' ?></td>
-                                    <td><?php if ($l['MBO_ID'] != NULL) { echo $l['MBO_ID'].'-'.(date('Y')-2000); } ?></td>
+                                    <td><?php if ($l['MBO_ID'] != NULL) { echo $l['MBO_NO'].'-'.(date('Y')-2000); } ?></td>
                                     <td><?php echo $l['PART_PARTICULARS'] ?></td>
                                     <td><?php echo $l['OBR_DATE']; ?></td>
                                     <td><?php echo $l['DEPARTMENT_DPT_ID']; ?></td>

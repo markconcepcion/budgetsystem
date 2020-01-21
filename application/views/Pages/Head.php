@@ -21,7 +21,7 @@
     h1.sb-head {
         font-size: 15px;
         margin-left: 28%;
-        margin-top: 17px;
+        margin-top: 35px;
     }
     
     #sidebar, .left-side-bar { 

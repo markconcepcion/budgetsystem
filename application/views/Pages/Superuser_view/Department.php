@@ -28,32 +28,50 @@
                                             <th scope="col">Code</th>
                                             <th scope="col">Department Name</th>
                                             <th scope="col">Department Head</th>
-                                            <!-- <th scope="col">Department Head</th> -->
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $i=1; foreach ($dept_list as $key) { 
-                                            // if (($key['USR_POST'] != "BUDGET OFFICER") && ($key['USR_POST'] != "SUPERUSER") && ($key['USR_STATUS'] === "ACTIVE") ) { ?>
-                                                <tr>
-                                                    <th scope="row"><?php echo $i; $i++; ?></th>
-                                                    <td><?php echo $key['DPT_ID']; ?></td>
-                                                    <td><?php echo $key['DPT_NAME']; ?></td>
-                                                    <td><?php echo $key['deptHead']; ?></td>
-                                                    <!-- <td><?php echo $key['USR_FNAME'].' '.$key['USR_MNAME'].' '.$key['USR_LNAME']; ?></td> -->
-                                                    <td><button type="button" class="edit-dept btn btn-secondary btn-sm" 
-                                                            data-toggle="modal" data-target="#edit_dept" 
-                                                            data-id="<?php echo $key['DPT_ID']; ?>"
-                                                            data-head="<?php echo $key['deptHead']; ?>"
-                                                            data-name="<?php echo $key['DPT_NAME']; ?>">Edit</button>
-				                                        <a class="deact-dept-button" data-id="<?php echo $key['DPT_ID']; ?>" 
-                                                            data-toggle="modal" data-target="#deact-dept-modal" href="">
-                                                            <button class="btn btn-warning btn-sm">
-                                                            <i class="" aria-hidden="true"></i>Deactivate</button></a>
-                                                    </td>
-                                                </tr>
-                                            <?php // }
-                                        } ?>
+                                        <?php $i=1; foreach ($dept_list as $key) {
+                                            if ($key['DPT_ID'] == 1071) 
+                                            {
+                                                if ($key['role_id'] == 5) 
+                                                { ?>
+                                                    <tr>
+                                                        <th scope="row"><?php echo $i; $i++; ?></th>
+                                                        <td><?php echo $key['DPT_ID']; ?></td>
+                                                        <td><?php echo $key['DPT_NAME']; ?></td>
+                                                        <td><?php echo $key['USR_FNAME'].' '.$key['USR_MNAME'].' '.$key['USR_LNAME']; ?></td>
+                                                        <td>
+                                                            <button type="button" value="<?php echo $key['DPT_ID']; ?>" class="edit-dpt-btn btn btn-secondary btn-sm" 
+                                                            data-toggle="modal" data-target="#edit_dept" data-name="<?php echo $key['DPT_NAME']; ?>">
+                                                                Edit
+                                                            </button>
+                                                            <a class="deact-dept-button" data-id="<?php echo $key['DPT_ID']; ?>" 
+                                                                data-toggle="modal" data-target="#deact-dept-modal" href="">
+                                                                <button class="btn btn-warning btn-sm">
+                                                                <i class="" aria-hidden="true"></i>Deactivate</button></a>
+                                                        </td>
+                                                    </tr>
+                                                <?php }
+                                            } else { ?>
+                                            <tr>
+                                                <th scope="row"><?php echo $i; $i++; ?></th>
+                                                <td><?php echo $key['DPT_ID']; ?></td>
+                                                <td><?php echo $key['DPT_NAME']; ?></td>
+                                                <td><?php echo $key['USR_FNAME'].' '.$key['USR_MNAME'].' '.$key['USR_LNAME']; ?></td>
+                                                <td>
+                                                    <button type="button" value="<?php echo $key['DPT_ID']; ?>" class="edit-dpt-btn btn btn-secondary btn-sm" 
+                                                        data-toggle="modal" data-target="#edit_dept" data-name="<?php echo $key['DPT_NAME']; ?>">
+                                                        Edit
+                                                    </button>
+                                                    <a class="deact-dept-button" data-id="<?php echo $key['DPT_ID']; ?>" 
+                                                        data-toggle="modal" data-target="#deact-dept-modal" href="">
+                                                        <button class="btn btn-warning btn-sm">
+                                                        <i class="" aria-hidden="true"></i>Deactivate</button></a>
+                                                </td>
+                                            </tr>
+                                        <?php } } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -92,22 +110,44 @@
                         <div class="tab-pane fade" id="profile5" role="tabpanel">
                             <div class="pd-20">
                                 <?php echo form_open('Superuser/Department/addDept'); ?>
+                                    <div class="form-group">
+                                        <h3>Department Information</h3>
+                                    </div>
                                     <div class="form-group row">
                                         <label class="col-sm-12 col-md-2 col-form-label">Department Code</label>
                                         <div class="col-sm-12 col-md-10">
-                                            <input class="form-control" type="number" name="dept_code" placeholder="Click Here to Type Department Code">
+                                            <input class="form-control" type="number" name="dept_code" placeholder="Click Here to Type Department Code" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-12 col-md-2 col-form-label">Department Name</label>
                                         <div class="col-sm-12 col-md-10">
-                                            <input class="form-control" type="text" name="dept_name" placeholder="Click Here to Type Department Name">
+                                            <input class="form-control" type="text" name="dept_name" placeholder="Click Here to Type Department Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h3>Department Head Information</h3>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-12 col-md-1 col-form-label">Name</label>
+                                        <div class="col-sm-12 col-md-4">
+                                            <input class="form-control" type="text" name="fname" placeholder="Enter First Name Here" required>
+                                        </div>
+                                        <div class="col-sm-12 col-md-3">
+                                            <input class="form-control" type="text" name="mname" placeholder="Enter Middle Name Here" required>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4">
+                                            <input class="form-control" type="text" name="lname" placeholder="Enter Last Name Here" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-12 col-md-2 col-form-label">Department Head</label>
-                                        <div class="col-sm-12 col-md-10">
-                                            <input class="form-control" type="text" name="dept_head" placeholder="Click Here to Type Department Head">
+                                        <label class="col-sm-12 col-md-2 col-form-label">Username</label>
+                                        <div class="col-sm-12 col-md-4">
+                                            <input class="form-control" type="text" name="username" placeholder="Enter Username Here" required>
+                                        </div>
+                                        <label class="col-sm-12 col-md-2 col-form-label">Password</label>
+                                        <div class="col-sm-12 col-md-4">
+                                            <input class="form-control" type="password" name="password" placeholder="Enter Password Here" required>
                                         </div>
                                     </div>
                                     <div class="form-group text-right">
@@ -120,4 +160,4 @@
                 </div>
             </div>
         </div>
-
+        <?php $this->load->view('Modals/ADMIN/edit_dept_modal'); ?>

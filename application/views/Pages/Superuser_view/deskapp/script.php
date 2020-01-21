@@ -64,13 +64,21 @@
 			$('#bhead-input').removeAttr("readonly");
 		});
 
-		$('.edit-dept').on('click', function(){
-			$('#dept-id').val($(this).data('id'));
-			$('#dept-code').val($(this).data('id'));
+		$('.edit-dpt-btn').on('click', function(){
+			$('#dept-id').val($(this).val());
 			$('#dept-name').val($(this).data('name'));
-			$('#dept-head').val($(this).data('head'));
 		});
 
+		$('.search_log_btn').on('click', function() {
+			var val = $('#log_date_inp').val();
+			if(val == '') {
+				alert("Pick A Date!");
+			} else {
+				window.location.href = '<?php echo base_url('Superuser/Home/index/')?>'+val;
+				// $('.dreAppend').append('<a id="search_log_btn_hd" href="<?php echo base_url('Superuser/Admin/')?>'+val+'">'+val+'</a>');
+				// $('#search_log_btn_hd').click();
+			}
+		});
 		$(".code1Limit").keyup(function(){
 			var val = $(this).val();
 
@@ -117,13 +125,16 @@
 
 		$('#select-post').on('change', function() {
 			var post = $(this).val();
-			if ((post == "BUDGET HEAD") || (post == "BUDGET OFFICER 1") || (post == "BUDGET OFFICER 2") ){
+			var dept = $('#select-dept').val();
+
+			if (post >= 3){
 				$('.dpt-list').hide();
 				$('#select-dept').val(null);
 				$('#auto-select').val("1071");
 				$('#auto-select').text("Municipal Budget Office");
 			} else {
 				$('.dpt-list').show();
+				$('.dpt1071').hide();
 				$('#auto-select').val(null);
 				$('#auto-select').text(null);
 			}

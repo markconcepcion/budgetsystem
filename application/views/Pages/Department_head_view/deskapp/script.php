@@ -14,7 +14,7 @@
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
 <script>
-	$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" href="<?php echo base_url('Department_head/'.$highlights); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
+	$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" onclick="history.go(-1);return false;"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
 </script>
 
 <script>
@@ -53,7 +53,6 @@
 	});
 </script>
 
-
 <script> // POP UPS 
 	$('document').ready(function(){
 		<?php if($this->session->flashdata('edit_success')): ?>
@@ -77,7 +76,33 @@
 	$(function(){ // TOGGLE EXPENDITURE DIV
 		$('.show-exps-btn').on('click', function(){
 			var val = $(this).val();
+
+			<?php if ($hide != null) {
+				foreach ($exps as $e) { ?>
+					$('.div<?php echo $e['EXPENDITURE_id']; ?>').removeClass('show'+val);
+				<?php }
+			} ?>
+
 			$('.show'+val).toggle();
+		});
+	});
+</script>
+<script>
+	$(function(){
+		$('.del-exp-btn').on('click', function(){
+			var val = $(this).val();
+			var name = $('#exp_name'+val).text();
+			var bool = confirm("Delete Confirmation: "+name+" \nOnce Deleted, retrieval is not possible\nAre you Sure??");
+			if (bool) {
+				$.ajax({
+					url:"<?php echo base_url();?>DH/DEL/LBP2_EXP/"+val,
+					type:'post',
+					data:{'new':val},
+					success:function(data){
+						location.reload()
+					}
+				});
+			}
 		});
 	});
 </script>
@@ -85,23 +110,70 @@
 	$(function(){
 		// UPDATE LBP2 BY REMOVING DISABLE
 		$('#edit-lbp2-btn').on('click', function(){
-			$('.exp-amt').hide();
-			$('.lbp-input-disabled').removeClass('hide');
+			$('.lbp-input-disabled').removeAttr('disabled');
 			$('.lbp-input-disabled').addClass('bg-gray');
 			$('#edit-lbp2-btn').hide();
+			$('#addremove-btn').hide();
 			$('#submit-edit-lbp2-btn').show();
 		});
 	});
 </script>
 
+<script>
+	$(function() {
+		$('#obr_amt').keyup(function(e){
+			var val = $(this).val();
+			var temp = val.replace(/,/g, '');
+			if(isNaN(temp)){
+				alert("numbers only");
+				$('#obr_amt').val(0);
+			} else {
+				var msg = new Intl.NumberFormat({ style : 'decimal', currency: 'PHP' }).format(temp);
+				$('#obr_amt').val(msg);
+			}
+		});
 
+		$(function() {
+			$('.submit-lbp2-input').keyup(function() {
+				var val = $(this).val();
+				var temp = val.replace(/,/g, '');
 
+				var id = $(this).data('id');
+				var name = $(this).data('name');
 
+				if(isNaN(temp)){
+					alert("numbers only");
+					$(this).val(0);
+				} else {
+					//VARIABLE NEEDED IN COMPUTING SUB AND GRAND TOTAL
+					var subtotal = 0;
+					var grandtotal = 0;
 
+					//ASSIGNING VALUE TO SELECTED INPUT
+					var msg = new Intl.NumberFormat({ style : 'decimal', currency: 'PHP' }).format(temp);
+					$(this).val(msg);
 
+					//FOR COMPUTING THE SUBTOTAL
+					$('.'+name).each(function(){
+						var temp_sub = parseInt(($(this).val()).replace(/,/g, ''));
+						subtotal += temp_sub;
+					});
 
+					var final = new Intl.NumberFormat('ja-JP', { style : 'decimal', currency: 'PHP' }).format(subtotal);
+					$('#subtotal'+id).text('₱ '+final);
 
-
+					//FOR COMPUTING THE GRAND_TOTAL
+					$('.submit-lbp2-input').each(function() {
+						var temp_grand = parseInt(($(this).val()).replace(/,/g, ''));
+						grandtotal += temp_grand;
+					});
+					var fin_gt = new Intl.NumberFormat('ja-JP', { style : 'decimal', currency: 'PHP' }).format(grandtotal);
+					$('#grand_total').text('₱ '+fin_gt);
+				}
+			});
+		})
+	});
+</script>
 
 
 <!-- FOR NOTEBOOK SCRIPT @ Selecting Expenditures by Class -->
@@ -132,41 +204,6 @@
 			$('#rej').show();
 		});
   });
-</script>
-
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('#req_amt').on('change', function(){
-			var temp = $(this).val();
-			if (temp <= 0) {
-				alert("Amount cannot be 0 or less than 0");
-        $(this).val(null);
-			}
-		});
-
-		$('#req_part').on('change', function(){
-			var temp_part = $(this).val();
-			if (temp_part == "") {
-				alert("Particular cannot be empty");
-        $(this).val(null);
-			}
-		});
-
-		$('#req_payee').on('change', function(){
-			var temp_pay = $(this).val();
-			if (temp_pay == "") {
-				alert("Payee cannot be empty");
-        $(this).val(null);
-			}
-		});
-	});
-</script>
-
-<script>
-	$(function(){
-		var content = <?php echo $content; ?>;
-		console.log(content);
-	})
 </script>
 
 <script>

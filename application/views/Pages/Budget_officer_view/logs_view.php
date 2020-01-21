@@ -12,8 +12,11 @@
         <div class="min-height-200px">
 			<div class="pd-20 bg-white border-radius-4 box-shadow mb-30 primaryscroll">
                 <div class="row">
-				    <h4 class="col-sm-12 col-md-5" style="padding-top:10px;"><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;LOGS</h4>
-                    <ul class="nav nav-pills justify-content-end col-sm-12 col-md-7" role="tablist" style="padding-right:16px;">
+				    <h4 class="col-sm-12 col-md-4" style="padding-top:10px;"><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;LOGS</h4>
+                    <div class="form-group text-center col-sm-12 col-md-4" style="margin-bottom: 0px;">
+                        <a href="<?php echo base_url('BO/supp_view/'.date('Y')); ?>" class="btn btn-secondary">View Supplementations</a>
+                    </div>
+                    <ul class="nav nav-pills justify-content-end col-sm-12 col-md-4" role="tablist" style="padding-right:16px;">
                         <li class="nav-item">
                             <a class="nav-link text-blue" data-toggle="tab" href="#reject" role="tab" aria-selected="true">Rejected</a>
                         </li>
@@ -42,16 +45,32 @@
                             <tbody>
                                 <?php foreach ($logs as $log) { ?>
                                     <tr>
-                                        <td class="text-center"<?php if ($log['OBR_STATUS'] === 'DECLINED'){ echo 'style="background-color:#ff9900" >'; ?>
+                                        <td class="text-center"<?php if ($log['OBR_STATUS'] === 'DECLINED'){ echo 'style="background-color:#ff3333" >'; ?>
                                             <i class="fa fa-close" aria-hidden="true"></i>
                                         <?php } else { echo 'style="background-color:#4CAF50" >'; ?>
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         <?php } ?></td>
-                                        <td><?php echo $log['OBR_NO'].'-'.$log['obrNoYear']; ?></td>
-                                        <td><?php echo $log['MBO_ID'].'-'.$log['mboIDYear']; ?></td>
-                                        <td><?php echo $log['PART_PARTICULARS']; ?></td>
-                                        <td><?php echo $log['OBR_DATE']; ?></td>
-                                        <td><?php echo $log['DEPARTMENT_DPT_ID']; ?></td>
+                                        
+                                        <td <?php if ($log['OBR_STATUS'] === 'DECLINED'){ echo 'style="color:#ff3333"'; }?>>
+                                            <?php echo $log['OBR_NO'].'-'.$log['obrNoYear']; ?>
+                                        </td>
+                                        
+                                        <td <?php if ($log['OBR_STATUS'] === 'DECLINED'){ echo 'style="color:#ff3333"'; }?>>
+                                            <?php echo $log['MBO_NO'].'-'.$log['mboIDYear']; ?>
+                                        </td>
+                                        
+                                        <td <?php if ($log['OBR_STATUS'] === 'DECLINED'){ echo 'style="color:#ff3333"'; }?>>
+                                            <?php echo $log['PART_PARTICULARS']; ?>
+                                        </td>
+                                        
+                                        <td <?php if ($log['OBR_STATUS'] === 'DECLINED'){ echo 'style="color:#ff3333"'; }?>>
+                                            <?php echo $log['OBR_DATE']; ?>
+                                        </td>
+                                        
+                                        <td <?php if ($log['OBR_STATUS'] === 'DECLINED'){ echo 'style="color:#ff3333"'; }?>>
+                                            <?php echo $log['DPT_NAME']; ?>
+                                        </td>
+                                        
                                         <td>
                                             <a href="<?php echo base_url('Budget_officer/Obr/obrPrint/'.$log['OBR_ID']); ?>">
                                                 <button type="button" class="btn btn-secondary btn-sm" style="width:100%">
@@ -84,10 +103,10 @@
                                     <tr>
                                         <td class="text-center" style="background-color:#4CAF50"><i class="fa fa-check" aria-hidden="true"></i></td>
                                         <td><?php echo $log['OBR_NO'].'-'.$log['obrNoYear']; ?></td>
-                                        <td><?php echo $log['MBO_ID'].'-'.$log['mboIDYear']; ?></td>
+                                        <td><?php echo $log['MBO_NO'].'-'.$log['mboIDYear']; ?></td>
                                         <td><?php echo $log['PART_PARTICULARS']; ?></td>
                                         <td><?php echo $log['OBR_DATE']; ?></td>
-                                        <td><?php echo $log['DEPARTMENT_DPT_ID']; ?></td>
+                                        <td><?php echo $log['DPT_NAME']; ?></td>
                                         <td>
                                             <a href="<?php echo base_url('Budget_officer/Obr/obrPrint/'.$log['OBR_ID']); ?>">
                                                 <button type="button" class="btn btn-secondary btn-sm" style="width:100%">
@@ -118,13 +137,13 @@
                                 <?php foreach ($logs as $log) { ?>
                                     <?php if ($log['OBR_STATUS'] === 'DECLINED') { ?>
                                         <tr>
-                                        <td class="text-center" style="background-color:#ff9900"><i class="fa fa-close" aria-hidden="true"></i></td>
-                                        <td><?php echo $log['OBR_NO'].'-'.$log['obrNoYear']; ?></td>
-                                        <td><?php echo $log['MBO_ID'].'-'.$log['mboIDYear']; ?></td>
-                                        <td><?php echo $log['PART_PARTICULARS']; ?></td>
-                                        <td><?php echo $log['OBR_DATE']; ?></td>
-                                        <td><?php echo $log['DEPARTMENT_DPT_ID']; ?></td>
-                                        <td><a href="<?php echo base_url('Budget_officer/Obr/obrPrint/'.$log['OBR_ID']); ?>"><button type="button" class="btn btn-secondary btn-sm" style="width:100%"><i class="fa fa-view"></i>View ObR</button></a></td>
+                                        <td class="text-center" style="background-color:#ff3333"><i class="fa fa-close" aria-hidden="true"></i></td>
+                                        <td style="color:#ff3333"><?php echo $log['OBR_NO'].'-'.$log['obrNoYear']; ?></td>
+                                        <td style="color:#ff3333"><?php echo $log['MBO_NO'].'-'.$log['mboIDYear']; ?></td>
+                                        <td style="color:#ff3333"><?php echo $log['PART_PARTICULARS']; ?></td>
+                                        <td style="color:#ff3333"><?php echo $log['OBR_DATE']; ?></td>
+                                        <td style="color:#ff3333"><?php echo $log['DPT_NAME']; ?></td>
+                                        <td style="color:#ff3333"><a href="<?php echo base_url('Budget_officer/Obr/obrPrint/'.$log['OBR_ID']); ?>"><button type="button" class="btn btn-secondary btn-sm" style="width:100%"><i class="fa fa-view"></i>View ObR</button></a></td>
                                     </tr>
                                 <?php } } ?>
                             </tbody>

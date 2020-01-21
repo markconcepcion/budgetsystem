@@ -6,36 +6,33 @@
 
             if(!$this->session->userdata('logged_in')) {
 				Redirect('Login');
-            } else if($this->session->userdata('level') != "BUDGET OFFICER 1" 
-                    && $this->session->userdata('level') != "BUDGET OFFICER 2" 
-                    && $this->session->userdata('level') != "BH_STAFF") 
-            {
+            } else if($this->session->userdata('roleCode') < 2) {
                 redirect('Login/Logout');
             }
-
+            
             date_default_timezone_set('Asia/Manila');
+            $this->ui_model->clear_fcache($this->session->userdata('id'));
         }
         
-        public function index() {
+        public function view_pending_obr($year, $order) {
             $data['highlights'] = 'obr';
+            $data['order'] = $order;
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
-            $order = $this->input->post('order'); $data['order_by'] = $this->input->post('order_by');
-            if ($order === null) { $order = "ASC"; $data['order_by'] = "SORT DESCENDINGLY"; }
-            $data['obrs'] = $this->obr_model->readOBRs($this->session->userdata('level'), $order);
-
+            $data['obrs'] = $this->obr_model->readOBRs($this->session->userdata('level'), $order, $year);
+            
             $data['content'] = 'Pages/Budget_officer_view/obr_view';
             $this->load->view('Pages/Budget_officer_view/deskapp/layout', $data);
         }
         
         public function Obr_details($obr_id) { // DISPALY OBR DETAILS AND LBP EXPENDITURES  
             $checkViewStat =  $this->obr_model->readObr($obr_id);
-            if ($checkViewStat['obrViewStatus'] == '1') {
+            if ($checkViewStat['obrViewStatus'] > 0) {
                 $this->session->set_flashdata('edit_failed', 'On The Process');
-                redirect('Budget_officer/Obr');
+                redirect('BO/VIEW_OBR/'.date('Y').'/DESC');
             }
             
             $data['highlights'] = 'obr';
-            $this->obr_model->isView($obr_id, '1');
+            $this->obr_model->isView($obr_id, $this->session->userdata('id'));
 
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['dpt_id'] = $this->input->post('dpt_id');
@@ -52,15 +49,12 @@
             $data['obr_exps'] = $this->obr_model->readObrs_approved($Exps_id, $this->input->post('dpt_id'), date('Y'));
 
             // GET RECENT MBO NO AND OBR NO
-            $obr_no = $this->obr_model->readObr_No($this->session->userdata('level'), date('Y')); 
-            $mbo_no = $this->mbo_model->readMbo_No($this->session->userdata('level'), date('Y')); 
-            $data['obr_no'] = $this->no_explode($obr_no);
-            $data['mbo_no'] = $this->no_explode($mbo_no);
+            $data['obr_no'] = $this->obr_model->readObr_No($this->session->userdata('level'), date('Y'))+1; 
+            $data['mbo_no'] = $this->mbo_model->readMbo_No($this->session->userdata('level'), date('Y'))+1; 
             
             $data['Obr_details'] = $this->obr_model->readObr($obr_id); // FETCH OBR DATA BY USING ID
             $data['quarter'] = $this->getQuarter(date('m')); // CURRENT QUARTER
-
-            $data['content'] = 'Pages/Budget_officer_view/Obr_details_view';
+            $data['content'] = 'Pages/Budget_officer_view/obr_details_view';
             $this->load->view('Pages/Budget_officer_view/deskapp/layout', $data);
         }
 
@@ -74,20 +68,27 @@
             if ($this->input->post('obr_check_btn') === "DECLINED") {
                 $this->obr_model->updateParticular($obr_id);
                 $this->obr_model->updateObr($obr_id);
+                $transac = "Rejected an ObR";
             } else {
+                $amount=0;
                 $cn_id = $this->controlnb_model->readNotebook(date('Y'), $this->input->post('dpt_id'));
-
+                if ($this->input->post('add_approp') > 0) {
+                    $temp = $this->input->post('add_approp');
+                    $amount = str_replace(',', '', $temp);
+                }
                 $this->obr_model->updateParticular($obr_id);
                 $this->obr_model->updateObr($obr_id);
-                $this->mbo_model->createMBO($obr_id, $cn_id);
-            } redirect('Budget_officer/Obr');
+                $this->mbo_model->createMBO($obr_id, $cn_id, $amount);
+                $transac = "Accepted an ObR";
+            } 
+            //log transac
+            $this->log_model->log($this->session->userdata('userID'), $transac);
+            redirect('BO/VIEW_OBR/'.date('Y').'/DESC');
         }
 
         public function obrPrint($obrID)
         {
             $data['highlights'] = 'obr';
-            $data['mayor'] = $this->ui_model->getMayor();
-            $data['budgetHead'] = $this->ui_model->getBudgetHead();
             $data['obrInfo'] = $this->obr_model->readObrInfo($obrID);
 
             $obrInfo = $data['obrInfo'];

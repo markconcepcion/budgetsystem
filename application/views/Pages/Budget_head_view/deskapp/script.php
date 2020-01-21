@@ -13,13 +13,143 @@
 <script src="<?php echo base_url()?>assets/src/plugins/datatables/media/js/button/vfs_fonts.js"></script>
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
 <script src="<?php echo base_url()?>assets/src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+<script>
+	Highcharts.chart('chart4', {
+		chart: {
+			type: 'column',
+			borderWidth: 1.5
+			
+		},
+		title: {
+			text: 'Chart Representation of Remaining Allocated Budget of Expenditure Class of Every Department'
+		},
+		// subtitle: {
+		// 	text: 'Source: WorldClimate.com'
+		// },
+		xAxis: {
+			categories: <?php echo $categories; ?>,
+			crosshair: true
+		},
+		yAxis: {
+			min: 0,
+			title: {
+				text: 'Remaining Balance (₱)'
+			}
+		},
+		tooltip: {
+			headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+			pointFormat: '<tr>'+
+							'<td style="color:{series.color};padding:5">{series.name}: </td>' +
+							'<td><b>₱</b></td>' +
+							'<td style="padding:0;text-align:right;"><b>{point.y:,.2f}</b></td>'+
+						'</tr>',
+			footerFormat: '</table>',
+			shared: true,
+			useHTML: true
+		},
+		plotOptions: {
+			column: {
+				pointPadding: 0.2,
+				borderWidth: 0
+			}
+		},
+		series: <?php echo $series; ?>
+	});
 
+	$(function() {
+		$('#augment_amt').keyup(function(){
+			var val = $(this).val();
+			var temp = val.replace(/,/g, '');
+			if(isNaN(temp)){
+				alert("numbers only");
+				$(this).val(0);
+			} else {
+				var msg = new Intl.NumberFormat({ style : 'decimal', currency: 'PHP' }).format(temp);
+				$(this).val(msg);
+			}
+		});
+	});
+
+
+	$(function(){
+		$('.select_class').on('change', function() {
+			var class_id = $(this).val();
+			$('.expenditure').hide();
+			$('.select_exp').val(' ');
+			$('.class'+class_id).show();
+
+			if ($('.select_dept').val() == '') {
+				console.log('false');
+			} else {
+				var classID = $(this).val();
+				var deptID = $('.select_dept').val();
+				var amt = document.getElementById('amt').value;
+				$.ajax({
+					url:'<?php echo base_url();?>Budget_head/Home/get_augment_amount/'+classID+'/'+deptID,
+					type:'post',
+					data:{'new':amt},
+					success:function(data){
+						$('#amt').html(new Intl.NumberFormat({ style : 'decimal', currency: 'PHP' }).format(data));
+						$('#limit_amt').val(data);
+					}
+				});
+			}
+		});
+
+		$('.select_dept').on('change', function(){
+			if ($('.select_class').val() == '') {
+				console.log('false');
+			} else {
+				var classID = $('.select_class').val();
+				var deptID = $(this).val();
+				var amt = document.getElementById('amt').value;
+				$.ajax({
+					url:'<?php echo base_url();?>Budget_head/Home/get_augment_amount/'+classID+'/'+deptID,
+					type:'post',
+					data:{'new':amt},
+					success:function(data){
+						$('#amt').html(new Intl.NumberFormat({ style : 'decimal', currency: 'PHP' }).format(data).toLocaleString());
+						$('#limit_amt').val(data);
+					}
+				});
+			}
+		});
+	});
+
+	$(function(){
+		$('#check-aug-btn').on('click', function(){
+			var max = $('#limit_amt').val();augment_amt
+			var val = parseInt(($('#augment_amt').val()).replace(/,/g, ''))
+			if (val < 1) {
+				alert("Amount is zero!");
+			} else {
+				if (val > max) {
+					alert("Amount exceeds limit!");
+				} else {
+					$('#augment-btn').click();
+				}
+			}
+		});
+	});
+</script>
+
+<!-- FOR NOTEBOOK SCRIPT @ Selecting Expenditures by Class -->
+<script>
+	$(function(){
+		//FOR OBR CHECKING
+		$('#exp-class').on('change', function() {
+			var exclass_id = $(this).val();
+			$('.idExC').hide();
+			$('.'+exclass_id).show();
+		});
+	});
+</script>
 
 <script>
 	<?php if ($content == 'Pages/Budget_head_view/Obr_details_view' ) { ?>
         <a class="btn btn-warning float backbtn" href="<?php echo base_url('Budget_head/Obr/removeStat/'.$Obr_details['OBR_ID']); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>
 	<?php } else { ?>
-		$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" href="<?php echo base_url('Budget_head/'.$highlights); ?>"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
+		$('.min-height-200px').prepend('<a class="btn btn-warning float backbtn" onclick="history.go(-1);return false;"><i class="icon-copy fa fa-arrow-left" aria-hidden="true"></i></a>');
 	<?php } ?>
 </script>
 <script> // EDIT PROFILE AND TOGGLE SIDEBAR 
@@ -48,103 +178,12 @@
 		});
 	});
 </script>
-<script> // THIS SCRIPT IS FOR OBR DETAILS CHECKING
-	$(function(){
-		//FOR OBR CHECKING
-		$('#exp-class').on('change', function() {
-			var exclass_id = $(this).val();
-			$('.idExC').hide();
-			$('.'+exclass_id).show();
-		});
-	});
-	
-	$(function() { // COMPUTING ALL MBO REQUIREMENTS
-		$('#exp').on('change', function() {
-			var ex_id = $(this).val();
-			var real_amt_approp = $('#real-amt-approp'+ex_id).val();
-			var real_ltc = $('#real-ltc').val();
-			var quarter = $('#quarter').val();
-			var ltc = $('#ltc').val();
-			var ex_name = $('#'+ex_id).text();
-			var amt_approp = $('#amt-approp'+ex_id).val();
-			var total_rel = $('#total-rel'+ex_id).val();
-			var prev_allot = (amt_approp/4)*(quarter-1);
-			var qtr_allot = (amt_approp/4);
-			var total_allot = prev_allot+qtr_allot;
-			var rem_bal = total_allot-total_rel;
-			var bal_approp = rem_bal-ltc;
 
-			$('#exp-mbo').val(ex_name);
-			$('#mbo-amt-approp').val('₱'+real_amt_approp);
-			$('#mbo-prev-allot').val('₱'+prev_allot.toLocaleString());
-			$('#mbo-qtr-allot').val('₱'+qtr_allot.toLocaleString());
-			$('#mbo-total-allot').val('₱'+total_allot.toLocaleString());
-			$('#mbo-rem-bal').val('₱'+rem_bal.toLocaleString());
-			$('#mbo-ltc').val('₱'+real_ltc);
-			$('#mbo-bal-approp').val('₱'+bal_approp.toLocaleString());
-			$('#mbo-bal-approp-dummy').val(bal_approp);
-
-			//FOR ADD_APPROP (JUST IN CASE)
-			$('#mbo-amt-approp-dummy').val(amt_approp);
-			$('#mbo-rem-bal-dummy').val(rem_bal);
-
-		});
-
-		$('#mbo-add-approp').keyup(function(){
-			var amt_approp = $('#mbo-amt-approp-dummy').val();
-			var add_approp = $(this).val();
-			var ltc = $('#ltc').val();
-			var total_approp = (+amt_approp) + (+add_approp);
-			var rem_bal = $('#mbo-rem-bal-dummy').val();
-
-			var total_rem_bal = (+add_approp) + (+rem_bal);
-			var total_bal_approp = (+total_rem_bal) - ltc;
-
-			$('#mbo-total-approp').val('₱ '+total_approp.toLocaleString());
-			$('#mbo-rem-bal').val('₱'+total_rem_bal.toLocaleString());
-			$('#mbo-bal-approp').val('₱'+total_bal_approp.toLocaleString());
-			$('#mbo-bal-approp-dummy').val(total_bal_approp);
-		});
-	});
-
-	$(function() {
-		$('#obr-reject-btn').on('click', function(){
-			var val = $('#mbo-bal-approp-dummy').val();
-			if (val=="") {
-				$('#alert-popup-h4').text('Expenditure not found.');
-				$('#alert-popup').modal('show');
-			} else {
-				$('#obr-status-h4').text('Reject Obr?');
-				$('#obr-status-modal').modal('show');
-				$('#obr-status-btn').on('click', function(){
-					$('#submit-reject-obr').click();
-				});
-			}
-		});
-		$('#obr-check-btn').on('click', function(){
-			var val = $('#mbo-bal-approp-dummy').val();
-			if (val<0) {
-				$('#alert-popup-h4').text('Insufficient Budget.');
-				$('#alert-popup').modal('show');
-			} else if (val=="") {
-				$('#alert-popup-h4').text('Expenditure not found.');
-				$('#alert-popup').modal('show');
-			} else {
-				$('#obr-status-h4').text('Approve Obr?');
-				$('#obr-status-modal').modal('show');
-				$('#obr-status-btn').on('click', function(){
-					$('#submit-accept-obr').click();
-				});
-			}
-		});
-	});
-</script>
 <script> //LBP2 FUNCTIONS
 	$(function(){
 		// UPDATE LBP2 BY REMOVING DISABLE
 		$('#update-lbp2-btn').on('click', function(){
-			$('.exp-amt').hide();
-			$('.lbp-input-disabled').removeClass('hide');
+			$('.lbp-input-disabled').removeAttr('disabled');
 			$('.lbp-input-disabled').addClass('bg-gray');
 			$('#update-lbp2-btn').hide();
 			$('#confirm-approve-lbp2-btn').show();
@@ -155,7 +194,48 @@
 			$('#approve-lbp2-btn').click();
 		});
 	});
+
+	$(function() {
+		$('.submit-lbp2-input').keyup(function() {
+			var val = $(this).val();
+			var temp = val.replace(/,/g, '');
+
+			var id = $(this).data('id');
+			var name = $(this).data('name');
+
+			if(isNaN(temp)){
+				alert("numbers only");
+				$(this).val(0);
+			} else {
+				//VARIABLE NEEDED IN COMPUTING SUB AND GRAND TOTAL
+				var subtotal = 0;
+				var grandtotal = 0;
+
+				//ASSIGNING VALUE TO SELECTED INPUT
+				var msg = new Intl.NumberFormat({ style : 'decimal', currency: 'PHP' }).format(temp);
+				$(this).val(msg);
+
+				//FOR COMPUTING THE SUBTOTAL
+				$('.'+name).each(function(){
+					var temp_sub = parseInt(($(this).val()).replace(/,/g, ''));
+					subtotal += temp_sub;
+				});
+
+				var final = new Intl.NumberFormat('ja-JP', { style : 'decimal', currency: 'PHP' }).format(subtotal);
+				$('#subtotal'+id).text('₱ '+final);
+
+				//FOR COMPUTING THE GRAND_TOTAL
+				$('.submit-lbp2-input').each(function() {
+					var temp_grand = parseInt(($(this).val()).replace(/,/g, ''));
+					grandtotal += temp_grand;
+				});
+				var fin_gt = new Intl.NumberFormat('ja-JP', { style : 'decimal', currency: 'PHP' }).format(grandtotal);
+				$('#grand_total').text('₱ '+fin_gt);
+			}
+		});
+	})
 </script>
+
 <script> // FOR POPUP MESSAGE
 	$('document').ready(function(){
 		<?php if($this->session->flashdata('edit_success')): ?>

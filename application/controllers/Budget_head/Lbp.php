@@ -6,69 +6,58 @@
 			parent::__construct();
 	        if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "BUDGET HEAD") {
+            } else if($this->session->userdata('roleID') < 5) {
                 redirect('Login/Logout');
             }
             date_default_timezone_set('Asia/Manila');
         }
 
-        public function index() //LBP - DISPLAY LIST OF LBP
+        public function view_lbp($year) //LBP - DISPLAY LIST OF LBP
         {
             $data['highlights'] = 'lbp';
             $data['content'] = 'Pages/Budget_head_view/Lbp_view';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
             $data['Lbp_yrs'] = $this->lbp_model->readLbpyrs(); //LBP_MODEL
-            $data['lbp_yr'] = $this->input->post('lbp_yr');
+            $data['lbp_yr'] = $year;
             if ($data['lbp_yr'] === null) { $data['lbp_yr'] = date('Y'); }
             
+            
             $data['LIST'] = $this->lbp_model->readLBPList($data['lbp_yr']); //LBP_MODEL
+            $data['row_num'] = count($data['LIST']);
             $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
         }
-
-        public function Lbp1() // GET LBP 1
+        
+        public function print_lbp_1($year)
         {
-            $data['highlights'] = 'lbp';
-            $data['dept'] = "Consolidated LBP 1";
-            $data['content'] = 'Pages/Budget_head_view/Lbp1_view';
-            $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
+            $data['year'] = $year;
+            $data['sign'] = $this->sign_model->read_budgetSignature();
+			$data['expenditures'] = $this->exp_model->read_lbp_expenditure($year); // get all exp of past-present-next year
+            $data['expenditure_classes'] = $this->exp_class_model->read_lbp_expenditure_class($year); // get all exp class of past-present-next year
 
-            $data['year'] = $this->input->post('year');
-			$data['exps'] = $this->exp_model->readExpenditure();
-            $data['lbp_exp'] = $this->lbp_model->readLBP2_exp($data['year']); 
-			$this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
-        }
-
-        public function printLBP1()
-        {
-            $data['dept'] = "Consolidated LBP 1";
-            $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
-
-            $data['year'] = $this->input->post('year');
-			$data['exps'] = $this->exp_model->readExpenditure();
-            $data['lbp_exp'] = $this->lbp_model->readLBP2_exp($data['year']);
-            
+            $data['prev_year'] = $this->lbp_model->read_previous_year_actual_expenditure(($year-2));
+            $data['curr_year_1'] = $this->lbp_model->read_current_year_actual_expenditure($year-1);
+            $data['curr_year_2'] = $this->lbp_model->read_current_year_estimate_expenditure($year-1);
+            $data['next_year'] = $this->lbp_model->read_next_year_estimate_expenditure(($year));
             
 			$this->load->view('Pages/Budget_head_view/deskapp/head', $data);
 			$this->load->view('Pages/Budget_head_view/printLBP1View', $data);
 			$this->load->view('Pages/Budget_head_view/deskapp/script', $data);
         }
 
-        public function printLBP2($Lbp_id)
+        public function print_lbp_2($Lbp_id)
         {
-            $data['content'] = 'Pages/Budget_officer_view/Lbp2_view';
-            $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
-
             $data['Lbp2_det'] = $this->lbp_model->readLbp($Lbp_id);
-            $data['Lbp_exps'] = $this->lbp_model->readLbp2($Lbp_id);
-            $Exp_id = "";
-            foreach ($data['Lbp_exps'] as $ids) { $Exp_id = $Exp_id.$ids['EXPENDITURE_EXPENDITURE_id'].','; }
-            $Exps_id = substr_replace($Exp_id ,"",-1);
+            $temp = $data['Lbp2_det']; 
+            $deptID = $temp['DPT_ID'];
+            $year = $temp['FRM_YEAR'];
 
-            $data['Exps'] = $this->exp_model->readExps($Exps_id);
-            $data['Exp_classes'] = $this->exp_class_model->readExpClasses($Exps_id);
+            $data['Exps'] = $this->exp_model->read_lbp_expenditure_byDept($year, $deptID);
+            $data['Exp_classes'] = $this->exp_class_model->read_lbp_expenditure_class_byDept($year, $deptID);
 
-            $data['mayor'] = $this->ui_model->getMayor();
-            $data['budgetHead'] = $this->ui_model->getBudgetHead();
+            $data['prev_year'] = $this->lbp_model->read_previous_year_actual_expenditure_dept(($year-2), $deptID);
+            $data['curr_year_1'] = $this->lbp_model->read_current_year_actual_expenditure_dept(($year-1), $deptID);
+            $data['curr_year_2'] = $this->lbp_model->read_current_year_estimate_expenditure_dept(($year-1), $deptID);
+            $data['next_year'] = $this->lbp_model->read_next_year_estimate_expenditure_dept(($year), $deptID);
             
             
 			$this->load->view('Pages/Budget_head_view/deskapp/head', $data);
@@ -76,29 +65,53 @@
 			$this->load->view('Pages/Budget_head_view/deskapp/script', $data);
         }
 
-        public function Lbp2($Lbp_id) // GET LBP 2
+        public function view_lbp_2($Lbp_id) // GET LBP 2
         {
             $data['highlights'] = 'lbp';
             $data['content'] = 'Pages/Budget_head_view/Lbp2_view';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
 
             $data['Lbp2_det'] = $this->lbp_model->readLbp($Lbp_id);
-            $data['Lbp_exps'] = $this->lbp_model->readLbp2($Lbp_id);
-            $Exp_id = "";
-            foreach ($data['Lbp_exps'] as $ids) { $Exp_id = $Exp_id.$ids['EXPENDITURE_EXPENDITURE_id'].','; }
-            $Exps_id = substr_replace($Exp_id ,"",-1);
+            $temp = $data['Lbp2_det']; 
+            $deptID = $temp['DPT_ID'];
+            $year = $temp['FRM_YEAR'];
 
-            $data['Exps'] = $this->exp_model->readExps($Exps_id);
-            $data['Exp_classes'] = $this->exp_class_model->readExpClasses($Exps_id);
+            $data['Exps'] = $this->exp_model->read_lbp_expenditure_id($Lbp_id);
+            $data['Exp_classes'] = $this->exp_class_model->read_lbp_expenditure_class_id($Lbp_id);
+
+            $data['prev_year'] = $this->lbp_model->read_previous_year_actual_expenditure_dept(($year-2), $deptID);
+            $data['curr_year_1'] = $this->lbp_model->read_current_year_actual_expenditure_dept($year-1, $deptID);
+            $data['curr_year_2'] = $this->lbp_model->read_current_year_estimate_expenditure_dept($year-1, $deptID);
+            $data['Lbp_exps'] = $this->lbp_model->readLbp2($Lbp_id);
+
+            
             
             $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
         }
 
         public function Lbp2_approve($Lbp_id)
         {
-            $this->lbp_model->updateLbp2();
-            $this->lbp_model->updateLbp2_stat($Lbp_id);
-            redirect('Budget_head/Lbp/Lbp2/'.$Lbp_id);       
+
+            $cont = 1;
+            $Exps_amt = $this->input->post('Exp_amt[]');
+            for ($i=0; $i < count($Exps_amt); $i++) {
+                if ($Exps_amt[$i] != null) {
+                    if(str_replace(',', '', $Exps_amt[$i]) < 1){
+                        $cont = 0;
+                        $this->session->set_flashdata('edit_failed', 'Even one expenditure can not be zero!');
+                        redirect('BH_viewLBP2/'.$Lbp_id);
+                        break;
+                    }
+                }
+            }   
+
+            if($cont == 1){
+                $this->lbp_model->updateLbp2();
+                $this->session->set_flashdata('edit_success', 'Approved!');
+                $this->lbp_model->updateLbp2_stat($Lbp_id);
+                redirect('BH_printLBP2/'.$Lbp_id);      
+            }
+             
         }
 
     }

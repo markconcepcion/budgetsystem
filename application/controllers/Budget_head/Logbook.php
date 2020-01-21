@@ -5,25 +5,29 @@
 			
 			if(!$this->session->userdata('logged_in')) {
                 $this->load->view('Pages/Login');
-            } if($this->session->userdata('level') != "BUDGET HEAD") {
+            } if($this->session->userdata('roleID') < 5) {
                 redirect('Login/Logout');
-            }
+			}
+			date_default_timezone_set('Asia/Manila');
 	    }
 
-		public function index()
+		public function readLogs($year)
 		{	
             $data['highlights'] = 'logbook';
 			$data['content'] = "Pages/Budget_head_view/Logbook_view";
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
-
-			$data['logbook'] = $this->logbook_model->readLogbook(date('Y')); // CHECK IF LOGBOOK FOR THIS YEAR EXIST
-			if ($data['logbook'] == null) { $this->logbook_model->createLogbook(date('Y')); } // CREATE LOGBOOK FOR NEW YEAR
-			// SET YEAR
-			$yr = $this->input->post('yr');
-			if($yr === null){ $yr = date('Y'); } 
-
-			$data['logs'] = $this->logbook_model->readLogs($yr); // GET OBR AS LOGS APPROVED AND DECLINED
+			$data['logs'] = $this->logbook_model->readLogs($year); // GET OBR AS LOGS APPROVED AND DECLINED
 			
             $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
 		}
+
+		public function view_supplementations($year)
+        {
+            $data['highlights'] = 'logbook';
+            $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
+
+            $data['supps'] = $this->logbook_model->read_supplementations($year);
+		    $data['content'] = 'Pages/Budget_head_view/Logbook/view_supplementations';
+            $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
+        }
 	}

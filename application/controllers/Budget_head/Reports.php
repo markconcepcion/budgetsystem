@@ -6,31 +6,31 @@
 			parent::__construct();
 	        if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "BUDGET HEAD") {
+            } else if($this->session->userdata('roleID') < 3) {
                 redirect('Login/Logout');
             }
         }
 
         //list of all reports
-        public function index()
+        public function viewReports($year)
         {
             $data['highlights'] = 'report';
             $data['content'] = 'Pages/Budget_head_view/Reports_list_view';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
 
             $data['yrs'] = $this->logbook_model->readLogbook(); 
-            $data['yr'] = $this->input->post('yr'); 
-            if($data['yr']===null){ $data['yr']=date('Y'); }
-            
+            $data['yr'] = $year;
             $data['dpts'] = $this->dept_model->readDpts();
 
-            $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
+            if($this->session->userdata('roleCode') == 2) {
+                $this->load->view('Pages/Budget_officer_view/deskapp/layout', $data);
+            } else {
+                $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
+            }
         }
 
-        public function consolidatedQuarter()
+        public function consolidatedQuarter($quarter, $year)
         {
-            $year = $this->input->post('year');
-            $quarter = $this->input->post('quarter');
             $from=0; $to=0;
 
             if ($quarter == 1) { $from = 1; $to = 3; } 
@@ -40,7 +40,10 @@
 
             $data['annual_budget'] = $this->report_model->readLBP1($year); // GET ACTUAL CONSOLIDATED BUDGET 
             $data['quarter_obr'] = $this->report_model->readExps($year, $from, $to);
-
+            $data['quarter_supp'] = $this->report_model->report_supplement($year, $from, $to);
+            $data['quarter_aug'] = $this->report_model->report_augment($year, $from, $to);
+            
+            $data['year'] = $year;
 
             $data['lbps_exps'] = $this->report_model->readLBP1($this->input->post('yr')); // GET ACTUAL CONSOLIDATED BUDGET 
             $exp_id = "";
@@ -58,14 +61,15 @@
             $this->load->view('Pages/Budget_head_view/deskapp/script');
         }
 
-        public function consolidatedAnnual()
+        public function consolidatedAnnual($year)
         {
-            $year = $this->input->post('year');
             $from=1; $to=12;
 
             $data['annual_budget'] = $this->report_model->readLBP1($year); // GET ACTUAL CONSOLIDATED BUDGET 
             $data['quarter_obr'] = $this->report_model->readExps($year, $from, $to);
-
+            $data['quarter_supp'] = $this->report_model->report_supplement($year, $from, $to);
+            $data['quarter_aug'] = $this->report_model->report_augment($year, $from, $to);
+            $data['year'] = $year;
 
             $data['lbps_exps'] = $this->report_model->readLBP1($this->input->post('yr')); // GET ACTUAL CONSOLIDATED BUDGET 
             $exp_id = "";
@@ -83,14 +87,15 @@
             $this->load->view('Pages/Budget_head_view/deskapp/script');
         }
 
-        public function departmentAnnual()
+        public function departmentAnnual($year, $deptID)
         {
-            $year = $this->input->post('year');
-            $deptID = $this->input->post('dpt_id');
             $from=1; $to=12;
-
+            $data['year'] = $year;
+            
             $data['annual_budget'] = $this->report_model->readActualBudget($deptID, $year); // GET ACTUAL CONSOLIDATED BUDGET 
-            $data['annual_obr'] = $this->report_model->readObligations($deptID, $year);
+            $data['quarter_obr'] = $this->report_model->readObligations($deptID, $year);
+            $data['quarter_supp'] = $this->report_model->report_supplement($year, $deptID, $from, $to);
+            $data['quarter_aug'] = $this->report_model->report_augment($year, $deptID, $from, $to);
 
 
             $data['lbps_exps'] = $this->report_model->readLBP1($this->input->post('yr')); // GET ACTUAL CONSOLIDATED BUDGET 
@@ -109,12 +114,9 @@
             $this->load->view('Pages/Budget_head_view/deskapp/script');
         }
 
-        public function departmentQuarter()
+        public function departmentQuarter($quarter, $year, $deptID)
         {
-            $year = $this->input->post('year');
-
-            $quarter = $this->input->post('quarter');
-            $deptID = $this->input->post('dpt_id');
+            $data['year'] = $year;
             $from=0; $to=0;
 
             if ($quarter == 1) { $from = 1; $to = 3; } 
@@ -124,6 +126,9 @@
 
             $data['annual_budget'] = $this->report_model->readLBP1($year); // GET ACTUAL CONSOLIDATED BUDGET 
             $data['quarter_obr'] = $this->report_model->read_actualObr_dptID($deptID, $year, $from, $to);
+            $data['quarter_supp'] = $this->report_model->report_supplement($year, $deptID, $from, $to);
+            $data['quarter_aug'] = $this->report_model->report_augment($year, $deptID, $from, $to);
+            
 
             $data['lbps_exps'] = $this->report_model->readLBP1($this->input->post('yr')); // GET ACTUAL CONSOLIDATED BUDGET 
             $exp_id = "";

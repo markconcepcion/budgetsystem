@@ -30,21 +30,17 @@
                                     </thead>
                                     <tbody>
                                         <?php $i=1; foreach ($acc_list as $key) { 
-                                            if ($key['USR_POST'] != "SUPERUSER" && $key['USR_POST'] != "BH_STAFF" && $key['USR_POST'] != "BH_DEPTHEAD") { ?>
+                                            if ($key['role_id'] != 1) { ?>
                                             <tr>
                                                 <th scope="row"><?php echo $i; $i++; ?></th>
                                                 <td><?php echo $key['USR_FNAME'],' ',$key['USR_LNAME']; ?></td>
                                                 <td><?php echo $key['DPT_NAME']; ?></td>
-                                                <td><?php echo $key['USR_POST']; ?></td>
+                                                <td><?php if ($key['role_code'] == 2) { echo "BUDGET OFFICER"; } else { echo $key['role_desc']; } ?></td>
                                                 <td> 
                                                     <a href="<?php echo base_url('Superuser/Account/resetAcct/'.$key['USR_ID'].'/'.$key['USR_FNAME'].'/'.$key['DEPARTMENT_DPT_ID']); ?>">
                                                         <button type="button" class="edit-dept btn btn-secondary btn-sm">Reset</button>
                                                     </a>
-                                                    <?php if ($key['USR_POST'] === "BUDGET HEAD") { ?>
-                                                        <a href="<?php echo base_url('Superuser/Account/bh_deacct/'.$key['USR_ID']); ?>"><button type="button" class="btn btn-warning btn-sm">Deactivate</button></a>
-                                                    <?php } else { ?>
-                                                        <a href="<?php echo base_url('Superuser/Account/de_acct/'.$key['USR_ID']); ?>"><button type="button" class="btn btn-warning btn-sm">Deactivate</button></a>
-                                                    <?php } ?>
+                                                    <a href="<?php echo base_url('Superuser/Account/de_acct/'.$key['USR_ID']); ?>"><button type="button" class="btn btn-warning btn-sm">Deactivate</button></a>
                                                 </td>
                                             </tr>
                                         <?php } } ?>
@@ -67,12 +63,12 @@
                                     </thead>
                                     <tbody>
                                         <?php $i=1; foreach ($inactiveAccts as $acct) { 
-                                            if ($acct['USR_POST'] != "BH_STAFF" && $acct['USR_POST'] != "BH_DEPTHEAD") { ?>
+                                            if ($acct['role_id'] != 1) { ?>
                                             <tr>
                                                 <th scope="row"><?php echo $i; $i++; ?></th>
                                                 <td><?php echo $acct['USR_FNAME'],' ',$acct['USR_LNAME']; ?></td>
                                                 <td><?php echo $acct['DPT_NAME']; ?></td>
-                                                <td><?php echo $acct['USR_POST']; ?></td>
+                                                <td><?php if ($acct['role_code'] == 2) { echo "BUDGET OFFICER"; } else { echo $acct['role_desc']; } ?></td>
                                                 <td>
                                                     <a href="<?php echo base_url('Superuser/Account/activateAcct/'.$acct['USR_ID']); ?>">
                                                         <button type="button" class="btn btn-warning btn-sm">Activate</button>
@@ -123,10 +119,10 @@
                                         <div class="col-sm-12 col-md-10">
                                             <select class="custom-select col-12" name="upost" id="select-post"  required="">
                                                 <option selected=""></option>
-                                                <option value="BUDGET HEAD">BUDGET HEAD</option>
-                                                <option value="BUDGET OFFICER 1">BUDGET OFFICER 1</option>
-                                                <option value="BUDGET OFFICER 2">BUDGET OFFICER 2</option>
-                                                <option value="DEPARTMENT HEAD">DEPARTMENT HEAD</option>
+                                                <option value="2">DEPARTMENT HEAD</option>
+                                                <option value="3">BUDGET OFFICER 1</option>
+                                                <option value="4">BUDGET OFFICER 2</option>
+                                                <option value="5">BUDGET HEAD</option>
                                             </select>
                                         </div>
                                     </div>
@@ -135,9 +131,9 @@
                                         <div class="col-sm-12 col-md-10">
                                             <select class="custom-select col-12" name="udept" id="select-dept" required="">
                                                 <option id="auto-select" selected=""></option>
-                                                <?php foreach ($dept_list as $key) { if ($key['USR_ID'] === NULL) { ?>
-                                                    <option class="dpt-list" value="<?php echo $key['DPT_ID']; ?>"><?php echo $key['DPT_NAME']; ?></option>
-                                                <?php } } ?>
+                                                <?php foreach ($dept_list as $key) { ?>
+                                                    <option class="dpt-list dpt<?php echo $key['DPT_ID']; ?>" value="<?php echo $key['DPT_ID']; ?>"><?php echo $key['DPT_NAME']; ?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>

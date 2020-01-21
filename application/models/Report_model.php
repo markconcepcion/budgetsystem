@@ -28,6 +28,43 @@
             $query = $this->db->get();  
             return $query->row_array();
         }
+        public function report_supplement($year, $from, $to)
+        {
+            return $this->db->query("SELECT SUM(mbo.MBO_TMP) AS MBO_TMP, p.EXPENDITURE_EXPENDITURE_id FROM mbo_control mbo
+                    LEFT JOIN obligation_request obr ON obr.OBR_ID=mbo.OBLIGATION_REQUEST_OBR_ID
+                    LEFT JOIN particular p ON p.OBLIGATION_REQUEST_OBR_ID=obr.OBR_ID
+                    WHERE YEAR(OBR_DATE) = $year
+                    and month(obr.OBR_DATE) >= $from && month(obr.OBR_DATE) <= $to
+                    GROUP BY p.EXPENDITURE_EXPENDITURE_id")->result_array();
+        }
+        public function report_augment($year, $from, $to)
+        {
+            return $this->db->query("SELECT au.exp_id, SUM(au.amount) AS amount FROM augmentation au
+                WHERE YEAR(au.augmented_date) = $year
+                AND MONTH(augmented_date) >= $from && MONTH(augmented_date) <= $to          
+                GROUP BY au.exp_id")->result_array();
+        }
+
+        public function report_supplement_dept($year, $deptID, $from, $to)
+        {
+            return $this->db->query("SELECT SUM(mbo.MBO_TMP) AS MBO_TMP, p.EXPENDITURE_EXPENDITURE_id FROM mbo_control mbo
+                    LEFT JOIN obligation_request obr ON obr.OBR_ID=mbo.OBLIGATION_REQUEST_OBR_ID
+                    LEFT JOIN user u ON u.USR_ID=obr.USER_USR_ID
+                    LEFT JOIN particular p ON p.OBLIGATION_REQUEST_OBR_ID=obr.OBR_ID
+                    WHERE YEAR(OBR_DATE) = $year
+                    and u.DEPARTMENT_DPT_ID = $deptID
+                    and month(obr.OBR_DATE) >= $from && month(obr.OBR_DATE) <= $to
+                    GROUP BY p.EXPENDITURE_EXPENDITURE_id")->result_array();
+        }
+
+        public function report_augment_dept($year,$deptID, $from, $to)
+        {
+            return $this->db->query("SELECT au.exp_id, SUM(au.amount) AS amount FROM augmentation au
+                WHERE YEAR(au.augmented_date) = $year
+                AND au.dept_id = $deptID
+                AND MONTH(augmented_date) >= $from && MONTH(augmented_date) <= $to          
+                GROUP BY au.exp_id")->result_array();
+        }
 
         public function readExpenditure()
         {

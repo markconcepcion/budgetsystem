@@ -10,16 +10,19 @@
 			parent::__construct();
 			if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "SUPERUSER") {
+            } else if($this->session->userdata('roleCode') != 0 && $this->session->userdata('roleCode') != 3) {
                 redirect('Login/Logout');
             }
 		}
 
 		public function index(){
+			$data['highlights'] = 'Department';
 			$data['content'] = 'Pages/Superuser_view/Department';
 			$data['dept_list'] = $this->dept_model->readDepartment(); 
 			$data['inactiveDepts'] = $this->dept_model->readInactiveDepartments();
-            $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
+			$data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
+			$data['sign'] = $this->sign_model->read_signature_id(1);
+			
             $this->load->view('Pages/Superuser_view/deskapp/layout', $data);
 		}
 
@@ -27,7 +30,11 @@
 		{
 			$this->form_validation->set_rules('dept_name', 'Department Name', 'required');
 			$this->form_validation->set_rules('dept_code', 'Department Code', 'required');
-			$this->form_validation->set_rules('dept_head', 'Department Head', 'required');
+			$this->form_validation->set_rules('fname', 'Department Name', 'required');
+			$this->form_validation->set_rules('mname', 'Department Code', 'required');
+			$this->form_validation->set_rules('lname', 'Department Name', 'required');
+			$this->form_validation->set_rules('username', 'Department Code', 'required');
+			$this->form_validation->set_rules('password', 'Department Code', 'required');
 
 			if($this->form_validation->run() === FALSE){
 				$this->session->set_flashdata('edit_success', 'Error! Incomplete Data');
@@ -37,16 +44,15 @@
 					$this->session->set_flashdata('edit_failed', 'Department Code Already Exists!');
 					redirect('Superuser/Department');
 				}
-				$this->dept_model->createDept();
+				$deptID = $this->dept_model->createDept();
+				$this->controlnb_model->create_deptNotebook($deptID);
                 $this->session->set_flashdata('edit_success', 'Department Successfully Added.');
 				redirect('Superuser/Department');
 			}
 		}
 
 		public function editDept(){
-			$this->form_validation->set_rules('dept-code', 'Department Code', 'required');
 			$this->form_validation->set_rules('dept-name', 'Department Name', 'required');
-			$this->form_validation->set_rules('dept-head', 'Department Head', 'required');
 
 			if($this->form_validation->run() === FALSE){
                 $this->session->set_flashdata('edit_success', 'Error! Incomplete Data.');

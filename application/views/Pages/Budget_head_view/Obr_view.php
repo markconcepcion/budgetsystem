@@ -4,20 +4,17 @@
             <div class="pd-20 bg-white border-radius-4 box-shadow mb-30 primaryscroll">
                 <div class="float" style="width: 96.5%;padding-right:28px;">
                     <div class="text-right">
-                        <?php echo form_open('budget_head/Obr'); 
-                            if ($order_by === "SORT ASCENDINGLY") { ?>
-                                <input name="order" value="ASC" hidden><input name="order_by" value="SORT DESCENDINGLY" hidden>
-                                <button class="btn btn-warning">
-                                    <i class="icon-copy fa fa-sort-amount-asc" aria-hidden="true"></i>
-                                    <?php echo $order_by; ?>
-                                </button>
-                            <?php } else { ?>
-                                <input name="order" value="DESC" hidden><input name="order_by" value="SORT ASCENDINGLY" hidden>
-                                <button class="btn btn-warning">
-                                    <i class="icon-copy fa fa-sort-amount-desc" aria-hidden="true"></i>
-                                    <?php echo $order_by; ?>
-                                </button>
-                        <?php } echo form_close();?>
+                        <?php if ($order === "DESC") { ?>
+                            <a href="<?php echo base_url('BH/VIEW_OBR/'.date('Y').'/'.'ASC'); ?>"><button class="btn btn-warning">
+                                <i class="icon-copy fa fa-sort-amount-asc" aria-hidden="true"></i>
+                                SORT ASCENDINGLY
+                            </button></a>
+                        <?php } else { ?>
+                            <a href="<?php echo base_url('BH/VIEW_OBR/'.date('Y').'/'.'DESC'); ?>"><button class="btn btn-warning">
+                                <i class="icon-copy fa fa-sort-amount-desc" aria-hidden="true"></i>
+                                SORT DESCENDINGLY
+                            </button></a>
+                        <?php }?>
                     </div>
                 </div>
                 <table class="table table-bordered table-sm" style="margin-top:50px;">

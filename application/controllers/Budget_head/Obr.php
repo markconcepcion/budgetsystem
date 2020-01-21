@@ -4,20 +4,21 @@
             parent::__construct();
             if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "BUDGET HEAD") {
+            } else if($this->session->userdata('roleID') < 5) {
                 redirect('Login/Logout');
             }
             date_default_timezone_set('Asia/Manila');
         }
         
-        public function index() {   
-            $data['highlights'] = 'obr';
-            $order = $this->input->post('order'); $data['order_by'] = $this->input->post('order_by');
-            if ($order === null) { $order = "ASC"; $data['order_by'] = "SORT DESCENDINGLY"; }
-
-            $data['content'] = 'Pages/Budget_head_view/Obr_view';
+        public function view_checked_obr($year, $order) {   
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
-            $data['Obrs'] = $this->obr_model->readOBRs($this->session->userdata('level'), $order); //FETCH ALL OBRs THAT IS PENDING AND CHECKED BY BO
+            $data['highlights'] = 'obr';
+            $data['order'] = $order;
+
+            //FETCH ALL OBRs THAT IS PENDING AND CHECKED BY BO
+            $data['Obrs'] = $this->obr_model->readOBRs($this->session->userdata('roleID'), $order, $year); 
+            
+            $data['content'] = 'Pages/Budget_head_view/Obr_view';
             $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
         }
 
@@ -33,44 +34,7 @@
         public function removeStat($obr_id)
         {
             $this->obr_model->isView($obr_id, '0');
-            redirect('Budget_head/Obr');
-        }
-        
-        // DISPALY OBR DETAILS AND LBP EXPENDITURES - PENDING
-        public function Obr_details($obr_id) {
-            $checkViewStat =  $this->obr_model->readObr($obr_id);
-            if ($checkViewStat['obrViewStatus'] == '1') {
-                $this->session->set_flashdata('edit_failed', 'On The Process');
-                redirect('Budget_head/Obr');
-            }
-
-            $data['highlights'] = 'obr';
-            $this->obr_model->isView($obr_id, '1');
-
-            
-            $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
-            $data['dpt_id'] = $this->input->post('dpt_id');
-            
-            $lbp_id = $this->lbp_model->readLbp2_id($this->input->post('dpt_id'), date('Y'), "FINALIZED"); //GET LBP2 ID
-            $data['Lbp_exps'] = $this->lbp_model->readLbp2($lbp_id); // GET EXPENDITURES USING LBP2 ID
-
-            $Exp_id = ""; // SET A NULL VALUE
-            foreach ($data['Lbp_exps'] as $ids) { $Exp_id = $Exp_id.$ids['EXPENDITURE_EXPENDITURE_id'].','; } // COMPILE ALL EXP ID THAT CORRESPONDS WITH LBP_EXP
-            $Exps_id = substr_replace($Exp_id ,"",-1); // REMOVE LAST COMMNA 
-            $data['Exp_classes'] = $this->exp_class_model->readExpClasses($Exps_id); //USE COMPLIDE IDS TO GET EXPENDITURES CLASS
-            $data['Exps'] = $this->exp_model->readExps($Exps_id); //USE COMPLIDE IDS TO GET EXPENDITURES CLASS
-            $data['Exps_temp'] = $this->exp_model->readExps_null($Exps_id); //USE COMPLIDE IDS TO GET EXPENDITURES CLASS
-            $data['obr_exps'] = $this->obr_model->readObrs_approved($Exps_id, $this->input->post('dpt_id'), date('Y'));
-
-            // GET RECENT MBO NO AND OBR NO
-            $data['obr_no'] = $this->obr_model->readObr_No($this->session->userdata('level'), date('Y')) + 1; 
-            $data['mbo_no'] = $this->mbo_model->readMbo_No($this->session->userdata('level'), date('Y')) + 1;
-            
-            $data['Obr_details'] = $this->obr_model->readObr($obr_id); // FETCH OBR DATA BY USING ID
-            $data['quarter'] = $this->getQuarter(date('m')); // CURRENT QUARTER
-            
-            $data['content'] = 'Pages/Budget_head_view/Obr_details_view';
-            $this->load->view('Pages/Budget_head_view/deskapp/layout', $data);
+            redirect('BH/VIEW_OBR/'.date('Y').'/DESC');
         }
 
         // CHECK OBR WETHER TO BE ACCEPTED OR DECLINED
@@ -84,7 +48,8 @@
                 $this->obr_model->updateParticular($obr_id);
                 $this->obr_model->updateObr($obr_id);
                 $this->mbo_model->createMBO($obr_id, $cn_id);
-            } redirect('Budget_head/Obr');
+            } redirect('BH/VIEW_OBR/'.date('Y').'/DESC');
+           
         }
 
         public function Obr_details_checked($obr_id) {
@@ -118,7 +83,7 @@
                 $this->obr_model->updateApproval($obr_id);
             }
             
-            redirect('Budget_head/Obr');
+            redirect('BH/VIEW_OBR/'.date('Y').'/DESC');
         }
 
          // MACRO FUNCTIONS
@@ -137,8 +102,6 @@
         public function obrPrint($obrID)
         {
             $data['highlights'] = 'obr';
-            $data['mayor'] = $this->ui_model->getMayor();
-            $data['budgetHead'] = $this->ui_model->getBudgetHead();
             $data['obrInfo'] = $this->obr_model->readObrInfo($obrID);
 
             $obrInfo = $data['obrInfo'];

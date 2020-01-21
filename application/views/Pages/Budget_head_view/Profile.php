@@ -25,13 +25,14 @@
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Username</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control editable" type="text" name="uname" value="<?php echo $uprofile['USR_USERNAME']; ?>" readonly="">
+                            <input class="form-control editable" type="text" name="uname" value="<?php echo $uprofile['user_name']; ?>" readonly="">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Position</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" value="<?php echo $uprofile['USR_POST']; ?>" readonly="">
+                            <input class="form-control" type="text" readonly="" 
+                            value="<?php if($uprofile['role_code'] != 2) { echo $uprofile['role_desc']; } else { echo "BUDGET OFFICER"; }?>">
                         </div>
                     </div>
                     <div class="form-group text-right">

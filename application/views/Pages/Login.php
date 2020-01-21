@@ -131,11 +131,10 @@
             <h1><b>Budget Office</b></h1>
             <?php echo form_open('Login/Login'); ?>
                 <p>Username</p>
-                <input type="text" name="Username" placeholder="Enter Username">
+                <input type="text" name="Username" placeholder="Enter Username" required>
                 <p>Password</p>
-                <input type="password" name="Password" placeholder="Enter Password">
+                <input type="password" name="Password" placeholder="Enter Password" required>
                 <input type="submit" name="" value="Login">
-                <a href="HOME.html">Forget Password?</a><br>
             <?php echo form_close(); ?>
         </div>
         <?php $this->load->view('Modals/login_modal'); ?>

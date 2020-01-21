@@ -6,9 +6,10 @@
 			parent::__construct();
 	        if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "BUDGET OFFICER 1" && $this->session->userdata('level') != "BUDGET OFFICER 2") {
+            } else if($this->session->userdata('roleCode') != 2) {
                 redirect('Login/Logout');
             }
+            $this->ui_model->clear_fcache($this->session->userdata('id'));
         }
 
         //list of all reports

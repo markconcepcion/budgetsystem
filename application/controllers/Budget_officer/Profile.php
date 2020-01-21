@@ -10,7 +10,10 @@
             parent::__construct();
             if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
+            } else if($this->session->userdata('roleCode') < 2) {
+                redirect('Login/Logout');
             }
+            $this->ui_model->clear_fcache($this->session->userdata('id'));            
 		}
 
         public function index()
@@ -32,11 +35,9 @@
                 $this->session->set_flashdata('edit_failed', 'New Password Does Not Matched');
                 redirect('Budget_officer/Profile');
 			} else {
-                $validate = $this->user_model->validate_oldpass($this->input->post('old_pass'));
+                $validate = $this->user_model->validate_oldpass($id, $this->input->post('old_pass'));
 
                 if($validate->num_rows() > 0) {
-                    $data  = $validate->row_array();
-                    $id = $data['USR_ID'];
                     
                     $this->user_model->updatePass($id, $this->input->post('new_pass'));
                     $this->session->set_flashdata('edit_success', 'Password Successfully Changed');

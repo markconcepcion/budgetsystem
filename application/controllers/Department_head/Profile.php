@@ -10,10 +10,10 @@
             parent::__construct();
             if(!$this->session->userdata('logged_in')) {
 				redirect('Login');
-            } else if($this->session->userdata('level') != "DEPARTMENT HEAD"
-                    && $this->session->userdata('level') != "BH_DEPTHEAD") {
+            } else if($this->session->userdata('roleCode') != 1 && $this->session->userdata('roleCode') != 3) {
                 redirect('Login/Logout');
             }
+            date_default_timezone_set('Asia/Manila');
 		}
 
         public function index()
@@ -21,7 +21,6 @@
             $data['highlights'] = 'profile';
             $data['content'] = 'Pages/Department_head_view/Profile';
             $data['uprofile'] = $this->user_model->fetchUsers($this->session->userdata('id'));
-            $data['bhprofile'] = $this->ui_model->getBH();
             $this->load->view('Pages/Department_head_view/deskapp/layout', $data);
         }
         
@@ -35,12 +34,9 @@
                 $this->session->set_flashdata('edit_failed', 'New Password Does Not Matched');
                 redirect('Deparment_head/Profile');
 			} else {
-                $validate = $this->user_model->validate_oldpass($this->input->post('old_pass'));
+                $validate = $this->user_model->validate_oldpass($id, $this->input->post('old_pass'));
 
                 if($validate->num_rows() > 0) {
-                    $data  = $validate->row_array();
-                    $id = $data['USR_ID'];
-                    
                     $this->user_model->updatePass($id, $this->input->post('new_pass'));
                     $this->session->set_flashdata('edit_success', 'Password Successfully Changed');
                     redirect('Department_head/Profile');

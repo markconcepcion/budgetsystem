@@ -15,7 +15,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right box-shadow" x-placement="bottom-end" style="display: none; position: absolute; transform: translate3d(616px, 33px, 0px); top: 0px; left: 0px; will-change: transform; border-bottom: 5px solid rgb(152, 107, 218) !important;">
                             <?php foreach ($yrs as $yr_list) { ?>
-                                <a class="dropdown-item" href=""><?php echo $yr_list['LB_YEAR']; ?></a>
+                                <a class="dropdown-item" href="<?php echo base_url('BH/REPORT/'.$yr_list['LB_YEAR']); ?>"><?php echo $yr_list['LB_YEAR']; ?></a>
                             <?php } ?>
                         </div>
                     </div>
@@ -34,85 +34,50 @@
                     <tbody>
                         <tr>
                             <td class="text-center"><b>Consolidated</b></td>
-                            <td>
-                                <?php echo form_open('Budget_head/Reports/consolidatedQuarter'); ?>
-                                    <input name="quarter" value="1" hidden>
-                                    <input name="year" value="<?php echo $yr; ?>" hidden>
-                                    <button type="submit" class="btn btn-warning btn-sm">View</button>
-                                <?php echo form_close(); ?>
+                            <td><a href="<?php echo base_url('BH/REPORT/CQ/1/'.$yr); ?>">
+                                    <button class="btn btn-warning btn-sm">View</button>
+                                </a>
                             </td>
-                            <td>
-                                <?php echo form_open('Budget_head/Reports/consolidatedQuarter'); ?>
-                                    <input name="quarter" value="2" hidden>
-                                    <input name="year" value="<?php echo $yr; ?>" hidden>
-                                    <button type="submit" class="btn btn-warning btn-sm">View</button>
-                                <?php echo form_close(); ?>
+                            <td><a href="<?php echo base_url('BH/REPORT/CQ/2/'.$yr); ?>">
+                                    <button class="btn btn-warning btn-sm">View</button>
+                                </a>
                             </td>
-                            <td>
-                                <?php echo form_open('Budget_head/Reports/consolidatedQuarter'); ?>
-                                    <input name="quarter" value="3" hidden>
-                                    <input name="year" value="<?php echo $yr; ?>" hidden>
-                                    <button type="submit" class="btn btn-warning btn-sm">View</button>
-                                <?php echo form_close(); ?>
+                            <td><a href="<?php echo base_url('BH/REPORT/CQ/3/'.$yr); ?>">
+                                    <button class="btn btn-warning btn-sm">View</button>
+                                </a>
                             </td>
-                            <td>
-                                <?php echo form_open('Budget_head/Reports/consolidatedQuarter'); ?>
-                                    <input name="quarter" value="4" hidden>
-                                    <input name="year" value="<?php echo $yr; ?>" hidden>
-                                    <button type="submit" class="btn btn-warning btn-sm">View</button>
-                                <?php echo form_close(); ?>
+                            <td><a href="<?php echo base_url('BH/REPORT/CQ/4/'.$yr); ?>">
+                                    <button class="btn btn-warning btn-sm">View</button>
+                                </a>
                             </td>
-                            <td>
-                                <?php echo form_open('Budget_head/Reports/consolidatedAnnual'); ?>
-                                    <input name="quarter" value="annual" hidden>
-                                    <input name="year" value="<?php echo $yr; ?>" hidden>
-                                    <button type="submit" class="btn btn-warning btn-sm">View</button>
-                                <?php echo form_close(); ?>
+                            <td><a href="<?php echo base_url('BH/REPORT/CA/'.$yr); ?>">
+                                    <button class="btn btn-warning btn-sm">View</button>
+                                </a>
                             </td>
                         </tr>
                         <?php foreach ($dpts as $dpt) { 
                             if ($dpt['DPT_ID'] != 1111) { ?>
                                 <tr>
                                     <td><?php echo $dpt['DPT_ID'].' - '.$dpt['DPT_NAME']; ?></td>
-                                    <td>
-                                        <?php echo form_open('Budget_head/Reports/departmentQuarter'); ?>
-                                            <input name="quarter" value="1" hidden>
-                                            <input name="year" value="<?php echo $yr; ?>" hidden>
-                                            <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
-                                            <button type="submit" class="btn btn-secondary btn-sm">View</button>
-                                        <?php echo form_close(); ?>
+                                    <td><a href="<?php echo base_url('BH/REPORT/DQ/1/'.$yr.'/'.$dpt['DPT_ID']); ?>">
+                                            <button class="btn btn-secondary btn-sm">View</button>
+                                        </a>
                                     </td>
-                                    <td>
-                                        <?php echo form_open('Budget_head/Reports/departmentQuarter'); ?>
-                                            <input name="quarter" value="2" hidden>
-                                            <input name="year" value="<?php echo $yr; ?>" hidden>
-                                            <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
-                                            <button type="submit" class="btn btn-secondary btn-sm">View</button>
-                                        <?php echo form_close(); ?>
+                                    <td><a href="<?php echo base_url('BH/REPORT/DQ/2/'.$yr.'/'.$dpt['DPT_ID']); ?>">
+                                            <button class="btn btn-secondary btn-sm">View</button>
+                                        </a>
                                     </td>
-                                    <td>
-                                        <?php echo form_open('Budget_head/Reports/departmentQuarter'); ?>
-                                            <input name="quarter" value="3" hidden>
-                                            <input name="year" value="<?php echo $yr; ?>" hidden>
-                                            <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
-                                            <button type="submit" class="btn btn-secondary btn-sm">View</button>
-                                        <?php echo form_close(); ?>
+                                    <td><a href="<?php echo base_url('BH/REPORT/DQ/3/'.$yr.'/'.$dpt['DPT_ID']); ?>">
+                                            <button class="btn btn-secondary btn-sm">View</button>
+                                        </a>
                                     </td>
-                                    <td>
-                                        <?php echo form_open('Budget_head/Reports/departmentQuarter'); ?>
-                                            <input name="quarter" value="4" hidden>
-                                            <input name="year" value="<?php echo $yr; ?>" hidden>
-                                            <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
-                                            <button type="submit" class="btn btn-secondary btn-sm">View</button>
-                                        <?php echo form_close(); ?>
+                                    <td><a href="<?php echo base_url('BH/REPORT/DQ/4/'.$yr.'/'.$dpt['DPT_ID']); ?>">
+                                            <button class="btn btn-secondary btn-sm">View</button>
+                                        </a>
                                     </td>
-                                    <td>
-                                        <?php echo form_open('Budget_head/Reports/departmentAnnual'); ?>
-                                            <input name="quarter" value="annual" hidden>
-                                            <input name="year" value="<?php echo $yr; ?>" hidden>
-                                            <input name="dpt_id" value="<?php echo $dpt['DPT_ID'];?>" hidden>
-                                            <button type="submit" class="btn btn-secondary btn-sm">View</button>
-                                        <?php echo form_close(); ?>
+                                    <td><a href="<?php echo base_url('BH/REPORT/DA/'.$yr.'/'.$dpt['DPT_ID']); ?>">
+                                        <button class="btn btn-secondary btn-sm">View</button>
+                                    </a>
                                     </td>
                                 </tr>
                             <?php } ?>

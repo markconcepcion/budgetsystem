@@ -10,10 +10,11 @@
 		<div class="dropdown">
 			<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
 				<span class="user-icon orange"><i class="fa fa-user-o orange"></i></span>
-				<span class="user-name orange"><?php echo $uprofile['USR_FNAME'],' ',$uprofile['USR_LNAME']; ?></span>
+				<span class="user-name orange"><?php echo $uprofile['USR_FNAME'],' ',$uprofile['USR_MNAME'],' ',$uprofile['USR_LNAME']; ?></span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right box-shadow">
 				<a class="dropdown-item" href="<?php echo base_url('Superuser/Profile')?>"><i class="fa fa-info-circle" aria-hidden="true"></i>Profile Information</a>
+				<a class="dropdown-item" href="<?php echo base_url('Superuser/Profile/loginHead')?>"><i class="fa fa-user" aria-hidden="true"></i> Login as Budget Head</a>
 				<a class="dropdown-item" data-toggle="modal" data-target="#logout-modal" href=""><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a>
 			</div>
 		</div>

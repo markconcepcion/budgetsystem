@@ -12,13 +12,12 @@
 		<div class="dropdown">
 			<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
 				<span class="user-icon orange"><i class="fa fa-user-o orange"></i></span>
-				<span class="user-name orange"><?php echo $uprofile['USR_FNAME'],' ',$uprofile['USR_LNAME']; ?></span>
+				<span class="user-name orange"><?php echo $uprofile['USR_FNAME'],' ',$uprofile['USR_MNAME'],' ',$uprofile['USR_LNAME']; ?></span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right box-shadow app-link">
 				<a class="dropdown-item" href="<?php echo base_url('Department_head/Profile')?>"><i class="fa fa-info-circle" aria-hidden="true"></i>Profile Information</a>
-				<?php if ($bhprofile['DEPARTMENT_DPT_ID'] === $uprofile['DEPARTMENT_DPT_ID']) { ?>
-					<a class="dropdown-item" href="<?php echo base_url('Department_head/Profile/LogBH')?>"><i class="fa fa-user-o" aria-hidden="true"></i>Login as Budget Head</a>
-					<a class="dropdown-item" href="<?php echo base_url('Department_head/Profile/LogAdmin')?>"><i class="fa fa-user-circle-o" aria-hidden="true"></i>Login as Admin</a>
+				<?php if ($this->session->userdata('roleCode') == 3) { ?>
+					<a class="dropdown-item" href="<?php echo base_url('BH')?>"><i class="fa fa-user-o" aria-hidden="true"></i>Login as Budget Head</a>
 				<?php } ?>
 				<a class="dropdown-item here" data-toggle="modal" data-target="#logout-modal" href=""><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a>
 			</div>
